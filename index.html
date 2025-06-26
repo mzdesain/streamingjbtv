@@ -7,15 +7,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>JBTV - Kajian Islam & Pengumuman</title>
 
-    <!-- Thumbnail for social media -->
     <meta property="og:title" content="JBTV - Kajian Islam & Pengumuman" />
     <meta property="og:description" content="Siaran langsung dan info kajian rutin dari JBTV." />
     <meta property="og:image" content="https://i.postimg.cc/L4bXV47w/Thumbnail-Website.png" />
-    <!-- Ganti dengan URL gambarmu -->
     <meta property="og:url" content="https://jbtv-id.netlify.app" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
@@ -85,23 +82,119 @@
             height: 100%;
             border: 0;
         }
+        
+        /* --- STYLE BARU: News Ticker V2 (Lebih Canggih) --- */
+        .news-ticker {
+            display: flex; /* Menggunakan flexbox untuk layout */
+            align-items: center; /* Menengahkan item secara vertikal */
+            background-color: #00008B	; /* Warna biru lebih gelap */
+            color: white;
+            padding: 5px 10px; /* Padding lebih ramping */
+            border-radius: 4px;
+            margin: 25px auto;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            border-top: 2px solid #00008B; /* Aksen warna */
+        }
+        
+        /* Pause on Hover */
+        .news-ticker:hover .streaming-info {
+            animation-play-state: paused;
+        }
+
+        .ticker-prefix {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            padding-right: 10px;
+            margin-right: 10px;
+            border-right: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            background-color: #e74c3c;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .live-indicator .dot {
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: blink 1.5s infinite;
+        }
+
+        .date-time-section {
+            font-weight: bold;
+            font-size: 0.85em;
+            text-align: center;
+        }
+        .date-time-section span {
+            display: block; /* Agar tanggal dan waktu di baris terpisah */
+        }
+        #live-time {
+            font-size: 1.1em;
+        }
+        
+        .marquee-section {
+            flex-grow: 1; /* Mengambil sisa ruang yang tersedia */
+            overflow: hidden; /* Penting untuk marquee */
+        }
 
         .streaming-info {
             font-size: 0.9em;
-            max-width: 700px;
-            margin: 25px auto;
-            text-align: center;
-            font-style: no italic;
+            color: white; /* Ubah warna teks agar kontras */
+            display: inline-block; 
+            padding-left: 100%; 
+            white-space: nowrap; 
+            animation: marquee 20s linear; /* Dibuat tidak infinite, dikontrol JS */
+            margin: 0; /* Reset margin default dari paragraf */
+            vertical-align: middle;
+            will-change: transform; /* Optimasi performa animasi */
+        }
+        
+        @keyframes blink {
+            50% { opacity: 0.3; }
+        }
+        
+        @keyframes marquee {
+            0%   { transform: translateX(0%); }
+            100% { transform: translateX(-100%); }
+        }
+        /* --- AKHIR STYLE NEWS TICKER --- */
+
+        .post-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
             color: #555;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-
-        h4 {
-            font-size: 1em;
-            text-align: center;
-            margin-top: -40px;
-            color: var(--color-dark);
-        }
-
+        .action-btn:hover { color: var(--color-primary); }
+        .action-btn i { font-size: 1.4em; }
+        
+        #comments-wrapper { display: none; margin-top: 20px; }
+        h4 { font-size: 1em; text-align: center; margin-top: -40px; color: var(--color-dark); }
+        
         .timeline-container {
             width: 100%;
         }
@@ -293,8 +386,6 @@
             opacity: 0.8;
         }
 
-
-        /* Tentang JBTV */
         .section-about p {
             font-size: 0.9em;
             max-width: 700px;
@@ -303,11 +394,8 @@
             font-style: normal;
             color: #555;
             font-weight: normal;
-            /* tambahkan ini jika ingin pastikan tidak bold */
         }
 
-
-        /* Footer */
         footer {
             background-color: var(--color-dark);
             color: white;
@@ -316,14 +404,12 @@
             font-size: 0.9em;
             font-style: normal;
             font-weight: normal;
-            /* tambahkan ini jika ingin pastikan tidak bold */
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Section Video -->
     <section class="section-white">
         <div class="container live-streaming-wrapper">
             <h2></h2>
@@ -334,35 +420,59 @@
                     frameborder="0" allowfullscreen></iframe>
             </div>
 
-
-            <p class="streaming-info">
-                Kami menyediakan siaran langsung dari youtube dan facebook yang bisa anda tonton di sini. Format video
-                streaming memiliki variasi kualitas dan mengikuti kecepatan internet sehingga Anda bisa nyaman dalam
-                menyimak <strong>streaming siaran JBTV.</strong> Anda juga bisa berkomentar di kolom komentar di bawah
-                ini.
-            </p>
-
-            <!-- Section Komentar -->
-            <section class="section-white">
-                <div class="container">
-                    <h2 style="font-size: 1.5em;  margin-top: -30px;"></h2>
-                    <form id="commentForm" style="margin-top: -70px;">
-                        <input type="text" id="name" placeholder="Nama Anda" required
-                            style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
-                        <textarea id="comment" placeholder="Tulis komentar..." required
-                            style="padding: 10px; width: 100%; height: 100px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
-                        <button type="submit"
-                            style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; margin-top: 20px; margin-bottom: 20px;">Kirim
-                            Komentar</button>
-                    </form>
-                    <div id="commentsList"></div>
+            <div class="news-ticker">
+                <div class="ticker-prefix">
+                    <div class="live-indicator">
+                        <span class="dot"></span>
+                        LIVE
+                    </div>
+                    <div class="date-time-section">
+                        <span id="live-date">27 Juni 2025</span>
+                        <span id="live-time">07:02:08 Wita</span>
+                    </div>
                 </div>
-            </section>
+                <div class="marquee-section">
+                    <p class="streaming-info"></p>
+                </div>
+            </div>
 
+
+            <div class="post-actions">
+                <button class="action-btn like-btn" id="likeBtn">
+                    <i class="fa-solid fa-thumbs-up"></i>
+                    <span id="likeCount">0</span>
+                </button>
+                <button class="action-btn" id="commentBtn">
+                    <i class="fa-solid fa-comment"></i>
+                    <span id="commentCount">0</span> 
+                </button>
+                <button class="action-btn" id="shareBtn">
+                    <i class="fa-solid fa-share"></i>
+                    <span></span>
+                </button>
+            </div>
+
+
+            <div id="comments-wrapper">
+                <section class="section-white">
+                    <div class="container">
+                        <h2 style="font-size: 1.5em; margin-top: -30px;"></h2>
+                        <form id="commentForm" style="margin-top: -70px;">
+                            <input type="text" id="name" placeholder="Nama Anda" required
+                                style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                            <textarea id="comment" placeholder="Tulis komentar..." required
+                                style="padding: 10px; width: 100%; height: 100px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
+                            <button type="submit"
+                                style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; margin-top: 20px; margin-bottom: 20px;">Kirim
+                                Komentar</button>
+                        </form>
+                        <div id="commentsList"></div>
+                    </div>
+                </section>
+            </div>
         </div>
     </section>
 
-    <!-- Section Jadwal Kajian -->
     <section class="section-grey">
         <div class="container">
             <h2><strong>Jadwal Kajian Rutin</h2>
@@ -458,7 +568,6 @@
         </div>
     </section>
 
-    <!-- Section Pengumuman -->
     <section class="section-white">
         <div class="container">
             <h2><strong>Pengumuman Penting</h2>
@@ -482,7 +591,6 @@
         </div>
     </section>
 
-    <!-- Section Tentang JBTV -->
     <section class="section-grey section-about">
         <div class="container">
             <h2><strong>Tentang JBTV</h2>
@@ -495,23 +603,19 @@
         </div>
     </section>
 
-    <!-- Tombol WA Melayang -->
     <div class="wa-float-container">
         <div class="wa-label">Group WA</div>
         <a href="https://chat.whatsapp.com/KIDegAern9GF0Z1wzkxoJ2" target="_blank" class="wa-float wa-ikhwan"
             title="Gabung Grup Ikhwan">
             <i class="fab fa-whatsapp"></i> Ikhwan
-</a>
+        </a>
 
-<a href="https://chat.whatsapp.com/Kmd1of6VpRi9kWxrnNXUdH" target="_blank" class="wa-float wa-akhwat"
+        <a href="https://chat.whatsapp.com/Kmd1of6VpRi9kWxrnNXUdH" target="_blank" class="wa-float wa-akhwat"
             title="Gabung Grup Akhawat">
             <i class="fab fa-whatsapp"></i> Akhwat
         </a>
     </div>
 
-
-
-    <!-- Footer -->
     <footer>
         <div class="container">
             &copy; 2025 JBTV | By: Muzanni
@@ -530,16 +634,19 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("ustadzDropdown").value = "ustad1";
-            document.getElementById("ustad1").style.display = "block";
-
+            // Dropdown Jadwal Kajian
+            if (document.getElementById("ustadzDropdown")) {
+                 document.getElementById("ustadzDropdown").value = "ustad1";
+                 document.getElementById("ustad1").style.display = "block";
+            }
+            
             // Firebase config
             const firebaseConfig = {
                 apiKey: "AIzaSyAowVtnXTVstFSc3kSBTm5tXJkEvp31V2Y",
                 authDomain: "streamingjbtv.firebaseapp.com",
                 databaseURL: "https://streamingjbtv-default-rtdb.asia-southeast1.firebasedatabase.app",
                 projectId: "streamingjbtv",
-                storageBucket: "streamingjbtv.firebasestorage.app",
+                storageBucket: "streamingjbtv.appspot.com",
                 messagingSenderId: "191301318558",
                 appId: "1:191301318558:web:f32dada7468d8a4486088f",
                 measurementId: "G-PBGDKCMQJT"
@@ -548,88 +655,142 @@
             // Inisialisasi Firebase
             firebase.initializeApp(firebaseConfig);
             const db = firebase.database();
+            
+            // --- Logika Jam & Tanggal Real-time ---
+            const liveDateEl = document.getElementById('live-date');
+            const liveTimeEl = document.getElementById('live-time');
+            const namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu"];
+            const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
+            function updateDateTime() {
+                const now = new Date();
+                const dateString = `${namaHari[now.getDay()]}, ${now.getDate()} ${namaBulan[now.getMonth()]}`;
+                const padZero = (num) => (num < 10 ? '0' + num : num);
+                const timeString = `${padZero(now.getHours())}:${padZero(now.getMinutes())}:${padZero(now.getSeconds())}`;
+                liveDateEl.textContent = dateString;
+                liveTimeEl.textContent = timeString;
+            }
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+
+            // --- Logika Beberapa Pesan Bergantian ---
+            const streamingInfoEl = document.querySelector('.streaming-info');
+            const messages = [
+                "Selamat datang di JBTV. Saksikan siaran langsung kajian Islam dan dapatkan informasi jadwal terbaru.",
+                "Kami menyediakan siaran langsung dari youtube dan facebook yang bisa anda tonton di sini. Format video streaming memiliki variasi kualitas dan mengikuti kecepatan internet sehingga Anda bisa nyaman dalam menyimak streaming siaran JBTV.",
+                "Dukung dakwah JBTV dengan donasi terbaik Anda."
+            ];
+            let currentMessageIndex = 0;
+
+            function runMarquee() {
+                streamingInfoEl.innerHTML = messages[currentMessageIndex];
+                streamingInfoEl.style.animation = 'none';
+                void streamingInfoEl.offsetWidth; // Memicu reflow browser
+                streamingInfoEl.style.animation = ''; 
+                streamingInfoEl.style.animationName = 'marquee';
+                streamingInfoEl.style.animationIterationCount = '1';
+            }
+
+            streamingInfoEl.addEventListener('animationend', () => {
+                currentMessageIndex = (currentMessageIndex + 1) % messages.length;
+                runMarquee();
+            });
+            
+            runMarquee();
+
+
+            // --- LOGIKA INTERAKSI (LIKE, KOMENTAR, SHARE) ---
+            const commentsRef = db.ref('comments');
+            const likesRef = db.ref('likes');
+            const likeBtn = document.getElementById('likeBtn');
+            const likeCountSpan = document.getElementById('likeCount');
+            const commentBtn = document.getElementById('commentBtn');
+            const commentCountSpan = document.getElementById('commentCount');
+            const shareBtn = document.getElementById('shareBtn');
+            const commentsWrapper = document.getElementById('comments-wrapper');
             const form = document.getElementById('commentForm');
             const commentsList = document.getElementById('commentsList');
             const isAdmin = window.location.search.includes('admin=true');
+            
+            // Logika Tombol Komentar & Counternya
+            commentBtn.addEventListener('click', () => {
+                const isVisible = commentsWrapper.style.display === 'block';
+                commentsWrapper.style.display = isVisible ? 'none' : 'block';
+            });
+            
+            commentsRef.on('value', (snapshot) => {
+                commentCountSpan.textContent = snapshot.numChildren();
+            });
+            
+            // Logika Tombol Suka (Tanpa Batasan)
+            likeBtn.addEventListener('click', () => {
+                likesRef.transaction((currentLikes) => (currentLikes || 0) + 1);
+            });
+            
+            likesRef.on('value', (snapshot) => {
+                likeCountSpan.textContent = snapshot.val() || 0;
+            });
+            
+            // Logika Tombol Bagikan
+            shareBtn.addEventListener('click', async () => {
+                const shareData = {
+                    title: 'JBTV - Kajian Islam & Pengumuman',
+                    text: 'Saksikan siaran langsung dan lihat jadwal kajian terbaru di JBTV!',
+                    url: window.location.href
+                };
 
+                if (navigator.share) {
+                    try { await navigator.share(shareData); } catch (err) { console.error('Gagal membagikan:', err); }
+                } else {
+                    try {
+                        await navigator.clipboard.writeText(window.location.href);
+                        alert('Tautan berhasil disalin ke clipboard!');
+                    } catch (err) { alert('Gagal menyalin link.'); }
+                }
+            });
+
+            // Logika Form & Daftar Komentar
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
                 const name = document.getElementById('name').value.trim();
                 const comment = document.getElementById('comment').value.trim();
                 if (name && comment) {
-                    db.ref('comments').push({
+                    commentsRef.push({
                         name,
                         comment,
                         timestamp: Date.now(),
-                        replies: []
                     });
                     form.reset();
                 }
             });
 
-            db.ref('comments').on('child_added', function (snapshot) {
+            commentsRef.on('child_added', function (snapshot) {
                 const data = snapshot.val();
                 const key = snapshot.key;
                 const el = document.createElement('div');
                 el.style.marginBottom = '20px';
-
                 const time = new Date(data.timestamp).toLocaleString('id-ID');
-
                 el.innerHTML = `
-  <div style="padding: 10px; background: #fff; border: 1px solid #ddd; border-radius: 6px; text-align: left;">
-    <strong>${data.name}</strong> <small style="color: gray;">(${time})</small>
-    <p style="margin: 5px 0;">${data.comment}</p>
-    ${isAdmin ? `<button onclick="deleteComment('${key}')">Hapus</button>` : ""}
-  </div>
-`;
-
+                  <div style="padding: 10px; background: #fff; border: 1px solid #ddd; border-radius: 6px; text-align: left;">
+                    <strong>${data.name}</strong> <small style="color: gray;">(${time})</small>
+                    <p style="margin: 5px 0;">${data.comment}</p>
+                    ${isAdmin ? `<button onclick="deleteComment('${key}')">Hapus</button>` : ""}
+                  </div>
+                `;
                 commentsList.prepend(el);
-
-                // tampilkan reply
-                if (data.replies) {
-                    const repliesContainer = el.querySelector(`#replies-${key}`);
-                    data.replies.forEach(reply => {
-                        const replyTime = new Date(reply.timestamp).toLocaleString('id-ID');
-                        const replyEl = document.createElement('div');
-                        replyEl.innerHTML = `
-            <div style="border-left: 2px solid #007bff; padding-left: 10px; margin-bottom: 8px;">
-              <strong>${reply.name}</strong> <small style="color: gray;">(${replyTime})</small><br>
-              ${reply.comment}
-            </div>
-          `;
-                        repliesContainer.appendChild(replyEl);
-                    });
-                }
             });
-
-            // fungsi balas komentar
-            window.replyTo = function (commentKey) {
-                const name = prompt("Nama Anda:");
-                const reply = prompt("Tulis balasan:");
-                if (name && reply) {
-                    const commentRef = db.ref('comments/' + commentKey + '/replies');
-                    commentRef.once('value', function (snapshot) {
-                        const existing = snapshot.val() || [];
-                        existing.push({
-                            name,
-                            comment: reply,
-                            timestamp: Date.now()
-                        });
-                        commentRef.set(existing);
-                    });
-                }
-            };
-
-            // fungsi hapus komentar (admin)
+            
             window.deleteComment = function (commentKey) {
                 if (confirm("Yakin ingin menghapus komentar ini?")) {
-                    db.ref('comments/' + commentKey).remove();
+                    commentsRef.child(commentKey).remove();
                 }
             };
+            
+            commentsRef.on('child_removed', function(snapshot) {
+                window.location.reload(); 
+            });
         });
     </script>
-
 </body>
 
 </html>
