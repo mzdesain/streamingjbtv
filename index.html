@@ -65,27 +65,12 @@
       border: 0;
     }
 
-    .audio-container {
-      width: 100%;
-      height: 60px;
-      margin-top: 20px;
-      overflow: hidden;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-
-    .audio-container iframe {
-      width: 100%;
-      height: 166px;
-      margin-top: -50px;
-      border: 0;
-    }
-
     .streaming-info {
+      font-size: 0.9em;
       max-width: 700px;
       margin: 25px auto;
       text-align: center;
-      font-style: italic;
+      font-style: no italic;
       color: #555;
     }
 
@@ -192,7 +177,6 @@
       }
     }
 
-    /* CUSTOM DROPDOWN STYLE */
     .timeline-dropdown-wrapper {
       display: flex;
       justify-content: center;
@@ -222,16 +206,68 @@
     .custom-dropdown:hover {
       border-color: #0056b3;
     }
+    
+    /* Tombol WhatsApp */
+.whatsapp-button {
+  display: inline-block;
+  margin: 10px;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  color: #fff;
+}
+
+.whatsapp-ikhwan {
+  background-color: #25D366;
+}
+
+.whatsapp-akhawat {
+  background-color: #128C7E;
+}
+
+.whatsapp-button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* Tentang JBTV */
+.section-about p {
+  font-size: 0.9em;
+  max-width: 700px;
+  margin: 25px auto;
+  text-align: center;
+  font-style: normal;
+  color: #555;
+  font-weight: normal; /* tambahkan ini jika ingin pastikan tidak bold */
+}
+
+
+/* Footer */
+footer {
+  background-color: var(--color-dark);
+  color: white;
+  text-align: center;
+  padding: 30px 0;
+  font-size: 0.9em;
+  font-style: normal;
+  font-weight: normal; /* tambahkan ini jika ingin pastikan tidak bold */
+}
+
+
+    
   </style>
 </head>
 <body>
 
+	<!-- Section Video -->
   <section class="section-white">
     <div class="container live-streaming-wrapper">
       <h2></h2>
       <h4></h4>
       <div class="video-container">
-        <iframe src="https://www.facebook.com/plugins/video.php?href=https://web.facebook.com/watch/?v=9957845480978225" frameborder="0" allowfullscreen></iframe>
+        <iframe src="https://www.facebook.com/plugins/video.php?href=https://web.facebook.com/jbtv17/videos/1048093734075136/" frameborder="0" allowfullscreen></iframe>
       </div>
       <p class="streaming-info">
         Kami menyediakan siaran langsung dari youtube dan facebook yang bisa anda tonton di sini. Format video streaming memiliki variasi kualitas dan mengikuti kecepatan internet sehingga Anda bisa nyaman dalam menyimak <strong>streaming siaran JBTV.</strong> Selamat menyimak dan semoga bermanfaat.
@@ -239,10 +275,11 @@
     </div>
   </section>
 
+<!-- Section Jadwal Kajian -->
   <section class="section-grey">
     <div class="container">
       <h2><strong>Jadwal Kajian Rutin</h2>
-      <center><h4>Jadwal Kajian, 25 - 30 Juni 2025</h4></center>
+      <center><h4>Jadwal Kajian, 25 Juni - 1 Juli 2025</h4></center>
 
       <div class="timeline-container">
         <div class="timeline-nav timeline-dropdown-wrapper">
@@ -259,7 +296,7 @@
               <div class="timeline-item-content">
                 <span class="timeline-tag tag-dark">Kajian Malam</span>
                 <span class="timeline-tag tag-red">Malam Ahad</span>
-                <div><span class="timeline-tag tag-green">Pondok (Masjid Jami' Nuroh Ali Al-Amir)</span></div>
+                <div><span class="timeline-tag tag-green">Masjid Jami' Nurah Ali Al-Amir</span></div>
               </div>
             </li>
             <li class="timeline-item">
@@ -334,6 +371,7 @@
     </div>
   </section>
 
+	<!-- Section Pengumuman -->
   <section class="section-white">
     <div class="container">
       <h2><strong>Pengumuman Penting</h2>
@@ -346,7 +384,7 @@
                 <span class="timeline-tag tag-dark">Tabligh Akbar</span>
                 <span class="timeline-tag tag-blue">Pemateri: Ustadz Mubarak Bamualim, Lc., M.H.I.</span>
                 <div><span class="timeline-tag tag-green">Kamis (Malam Jum'at), 26 Juni 2025 | Maghrib - Isya'</span></div>
-                <div><span class="timeline-tag tag-red">(Pondok) Masjid Jami' Nurah Ali Al-Amir</span></div>
+                <div><span class="timeline-tag tag-red">Masjid Jami' Nurah Ali Al-Amir</span></div>
               </div>
             </div>
           </div>
@@ -354,6 +392,35 @@
       </ul>
     </div>
   </section>
+  
+    <!-- Section Gabung Grup WhatsApp -->
+  <section class="section-grey">
+    <div class="container" style="text-align: center;">
+      <h2>Gabung Grup WhatsApp</h2>
+      <p>Bergabunglah dengan grup WhatsApp untuk mendapatkan update kajian terbaru:</p>
+      <div style="margin-top: 20px;">
+        <a href="https://chat.whatsapp.com/KIDegAern9GF0Z1wzkxoJ2" target="_blank" class="whatsapp-button whatsapp-ikhwan">Gabung JB TV Ikhwan</a>
+<a href="https://chat.whatsapp.com/Kmd1of6VpRi9kWxrnNXUdH" target="_blank" class="whatsapp-button whatsapp-akhawat">Gabung JB TV Akhawat</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Tentang JBTV -->
+ <section class="section-white section-about">
+    <div class="container">
+      <h2>Tentang JBTV</h2>
+      <p style="text-align: center; max-width: 700px; margin: auto;">
+        <strong>JB TV</strong>  adalah saluran media dakwah di bawah naungan Pondok Pesantren Jamaluddin Al-Manar, Bagik Nyaka. JBTV menyajikan siaran langsung dan rekaman kajian Islam secara rutin melalui berbagai platform digital. Tujuan kami adalah menyebarkan ilmu syar'i secara luas dan mudah diakses oleh umat. Kami berkomitmen untuk menghadirkan konten yang bermanfaat, terpercaya, dan sesuai dengan manhaj Ahlus Sunnah wal Jama'ah.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    &copy; 2025 JBTV. All rights reserved. | By: Muzanni
+  </div>
+</footer>
+
 
   <script>
     function openDropdownTab(evt) {
