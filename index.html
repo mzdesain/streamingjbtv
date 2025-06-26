@@ -1,444 +1,482 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>JBTV - Kajian Islam & Pengumuman</title>
-  <style>
-    :root {
-      --color-bg-white: #ffffff;
-      --color-bg-grey: #f7f7f7;
-      --color-text: #333;
-      --color-primary: #007bff;
-      --color-dark: #343a40;
-      --color-green: #28a745;
-      --color-red: #dc3545;
-      --color-blue: #17a2b8;
-      --timeline-line-color: #e0e0e0;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JBTV - Kajian Islam & Pengumuman</title>
+    <style>
+        :root {
+            --color-bg-white: #ffffff;
+            --color-bg-grey: #f7f7f7;
+            --color-text: #333;
+            --color-primary: #007bff;
+            --color-dark: #343a40;
+            --color-green: #28a745;
+            --color-red: #dc3545;
+            --color-blue: #17a2b8;
+            --timeline-line-color: #e0e0e0;
+        }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: var(--color-bg-grey);
-      color: var(--color-text);
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-bg-grey);
+            color: var(--color-text);
+        }
 
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
 
-    h2 {
-      font-size: 2.2em;
-      text-align: center;
-      margin-bottom: 40px;
-      color: var(--color-dark);
-    }
+        h2 {
+            font-size: 2.2em;
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--color-dark);
+        }
 
-    .section-white { background-color: var(--color-bg-white); }
-    .section-grey { background-color: var(--color-bg-grey); }
+        .section-white {
+            background-color: var(--color-bg-white);
+        }
 
-    .live-streaming-wrapper {
-      text-align: center;
-    }
+        .section-grey {
+            background-color: var(--color-bg-grey);
+        }
 
-    .video-container {
-      position: relative;
-      width: 100%;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
+        .live-streaming-wrapper {
+            text-align: center;
+        }
 
-    .video-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-    .streaming-info {
-      font-size: 0.9em;
-      max-width: 700px;
-      margin: 25px auto;
-      text-align: center;
-      font-style: no italic;
-      color: #555;
-    }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
 
-    h4 {
-      font-size: 1em;
-      text-align: center;
-      margin-top: -40px;
-      color: var(--color-dark);
-    }
+        .streaming-info {
+            font-size: 0.9em;
+            max-width: 700px;
+            margin: 25px auto;
+            text-align: center;
+            font-style: no italic;
+            color: #555;
+        }
 
-    .timeline-container { width: 100%; }
+        h4 {
+            font-size: 1em;
+            text-align: center;
+            margin-top: -40px;
+            color: var(--color-dark);
+        }
 
-    .timeline-content {
-      display: none;
-    }
+        .timeline-container {
+            width: 100%;
+        }
 
-    .timeline-content.active {
-      display: block;
-    }
+        .timeline-content {
+            display: none;
+        }
 
-    .timeline {
-      position: relative;
-      list-style: none;
-      padding-left: 40px;
-      margin: 0;
-    }
+        .timeline-content.active {
+            display: block;
+        }
 
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 10px;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      background-color: var(--timeline-line-color);
-      border-radius: 3px;
-    }
+        .timeline {
+            position: relative;
+            list-style: none;
+            padding-left: 40px;
+            margin: 0;
+        }
 
-    .timeline-item {
-      position: relative;
-      margin-bottom: 30px;
-    }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background-color: var(--timeline-line-color);
+            border-radius: 3px;
+        }
 
-    .timeline-item::after {
-      content: '';
-      position: absolute;
-      left: -35px;
-      top: 5px;
-      width: 13px;
-      height: 13px;
-      background-color: white;
-      border: 3px solid var(--color-primary);
-      border-radius: 50%;
-      z-index: 1;
-    }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
 
-    .timeline-item-content {
-      background-color: var(--color-bg-white);
-      padding: 20px;
-      border-radius: 8px;
-      border: 1px solid #eee;
-    }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -35px;
+            top: 5px;
+            width: 13px;
+            height: 13px;
+            background-color: white;
+            border: 3px solid var(--color-primary);
+            border-radius: 50%;
+            z-index: 1;
+        }
 
-    .timeline-tag {
-      display: inline-block;
-      padding: 5px 12px;
-      border-radius: 5px;
-      font-size: 0.9em;
-      font-weight: 600;
-      margin-right: 8px;
-      margin-bottom: 10px;
-    }
+        .timeline-item-content {
+            background-color: var(--color-bg-white);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
 
-    .tag-dark { background-color: var(--color-dark); color: white; }
-    .tag-red { background-color: var(--color-red); color: white; }
-    .tag-green { background-color: var(--color-green); color: white; margin-top: 10px; }
-    .tag-blue { background-color: var(--color-blue); color: white; }
+        .timeline-tag {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-bottom: 10px;
+        }
 
-    .pengumuman-content {
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-    }
+        .tag-dark {
+            background-color: var(--color-dark);
+            color: white;
+        }
 
-    .pengumuman-flyer {
-      width: 120px;
-      height: auto;
-      border-radius: 8px;
-      object-fit: cover;
-    }
+        .tag-red {
+            background-color: var(--color-red);
+            color: white;
+        }
 
-    .pengumuman-details {
-      flex: 1;
-    }
+        .tag-green {
+            background-color: var(--color-green);
+            color: white;
+            margin-top: 10px;
+        }
 
-    @media (max-width: 600px) {
-      .pengumuman-content {
-        flex-direction: column;
-      }
+        .tag-blue {
+            background-color: var(--color-blue);
+            color: white;
+        }
 
-      .pengumuman-flyer {
-        width: 100%;
-        max-width: 250px;
-      }
-    }
+        .pengumuman-content {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
 
-    .timeline-dropdown-wrapper {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 30px;
-    }
+        .pengumuman-flyer {
+            width: 120px;
+            height: auto;
+            border-radius: 8px;
+            object-fit: cover;
+        }
 
-    .custom-dropdown {
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background-color: #ffffff;
-      color: #333;
-      padding: 12px 40px 12px 16px;
-      font-size: 1em;
-      font-weight: 600;
-      border: 2px solid var(--color-primary);
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-      background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="16" height="16" fill="gray" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 5.5l6 6 6-6" stroke="gray" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      background-size: 16px;
-      transition: border-color 0.3s, box-shadow 0.3s;
-      cursor: pointer;
-    }
+        .pengumuman-details {
+            flex: 1;
+        }
 
-    .custom-dropdown:hover {
-      border-color: #0056b3;
-    }
-    
-    /* Tombol WhatsApp */
-.whatsapp-button {
-  display: inline-block;
-  margin: 10px;
-  padding: 12px 25px;
-  border-radius: 8px;
-  font-weight: bold;
-  text-decoration: none;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  color: #fff;
-}
+        @media (max-width: 600px) {
+            .pengumuman-content {
+                flex-direction: column;
+            }
 
-.whatsapp-ikhwan {
-  background-color: #25D366;
-}
+            .pengumuman-flyer {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
 
-.whatsapp-akhawat {
-  background-color: #128C7E;
-}
+        .timeline-dropdown-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
 
-.whatsapp-button:hover {
-  transform: scale(1.05);
-  opacity: 0.9;
-}
+        .custom-dropdown {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: #ffffff;
+            color: #333;
+            padding: 12px 40px 12px 16px;
+            font-size: 1em;
+            font-weight: 600;
+            border: 2px solid var(--color-primary);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="16" height="16" fill="gray" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 5.5l6 6 6-6" stroke="gray" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
 
-/* Tentang JBTV */
-.section-about p {
-  font-size: 0.9em;
-  max-width: 700px;
-  margin: 25px auto;
-  text-align: center;
-  font-style: normal;
-  color: #555;
-  font-weight: normal; /* tambahkan ini jika ingin pastikan tidak bold */
-}
+        .custom-dropdown:hover {
+            border-color: #0056b3;
+        }
+
+        /* Tombol WhatsApp */
+        .whatsapp-button {
+            display: inline-block;
+            margin: 10px;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            color: #fff;
+        }
+
+        .whatsapp-ikhwan {
+            background-color: #25D366;
+        }
+
+        .whatsapp-akhawat {
+            background-color: #128C7E;
+        }
+
+        .whatsapp-button:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        /* Tentang JBTV */
+        .section-about p {
+            font-size: 0.9em;
+            max-width: 700px;
+            margin: 25px auto;
+            text-align: center;
+            font-style: normal;
+            color: #555;
+            font-weight: normal;
+            /* tambahkan ini jika ingin pastikan tidak bold */
+        }
 
 
-/* Footer */
-footer {
-  background-color: var(--color-dark);
-  color: white;
-  text-align: center;
-  padding: 30px 0;
-  font-size: 0.9em;
-  font-style: normal;
-  font-weight: normal; /* tambahkan ini jika ingin pastikan tidak bold */
-}
-
-
-    
-  </style>
+        /* Footer */
+        footer {
+            background-color: var(--color-dark);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            font-size: 0.9em;
+            font-style: normal;
+            font-weight: normal;
+            /* tambahkan ini jika ingin pastikan tidak bold */
+        }
+    </style>
 </head>
+
 <body>
 
-	<!-- Section Video -->
-  <section class="section-white">
-    <div class="container live-streaming-wrapper">
-      <h2></h2>
-      <h4></h4>
-      <div class="video-container">
-        <iframe src="https://www.facebook.com/plugins/video.php?href=https://web.facebook.com/jbtv17/videos/1048093734075136/" frameborder="0" allowfullscreen></iframe>
-      </div>
-      <p class="streaming-info">
-        Kami menyediakan siaran langsung dari youtube dan facebook yang bisa anda tonton di sini. Format video streaming memiliki variasi kualitas dan mengikuti kecepatan internet sehingga Anda bisa nyaman dalam menyimak <strong>streaming siaran JBTV.</strong> Selamat menyimak dan semoga bermanfaat.
-      </p>
-    </div>
-  </section>
-
-<!-- Section Jadwal Kajian -->
-  <section class="section-grey">
-    <div class="container">
-      <h2><strong>Jadwal Kajian Rutin</h2>
-      <center><h4>Jadwal Kajian, 25 Juni - 1 Juli 2025</h4></center>
-
-      <div class="timeline-container">
-        <div class="timeline-nav timeline-dropdown-wrapper">
-          <select id="ustadzDropdown" onchange="openDropdownTab(event)" class="custom-dropdown">
-            <option value="ustad1">TGH. Suharni Abdul Manan, Lc.</option>
-            <option value="ustad2">Ust. Zamakhsyari Dhofir, Lc., M.A.</option>
-            <option value="ustad3">Ust. Ahmad Marwazi Manar, S.H., M.A.</option>
-          </select>
-        </div>
-
-        <div id="ustad1" class="timeline-content active">
-          <ul class="timeline">
-            <li class="timeline-item">
-              <div class="timeline-item-content">
-                <span class="timeline-tag tag-dark">Kajian Malam</span>
-                <span class="timeline-tag tag-red">Malam Ahad</span>
-                <div><span class="timeline-tag tag-green">Masjid Jami' Nurah Ali Al-Amir</span></div>
-              </div>
-            </li>
-            <li class="timeline-item">
-              <div class="timeline-item-content">
-                <span class="timeline-tag tag-dark">Kajian Sore</span>
-                <span class="timeline-tag tag-red">01 Juli 2025 | Setelah Ashar</span>
-                <div><span class="timeline-tag tag-green">Masjid Dasan Re</span></div>
-              </div>
-            </li>
-          </ul>
-        </div>
-
-        <div id="ustad2" class="timeline-content">
-          <ul class="timeline">
-            <li class="timeline-item">
-              <div class="timeline-item-content">
-                <span class="timeline-tag tag-dark">Kajian Ilmiah</span>
-                <span class="timeline-tag tag-red">Malam Kamis</span>
-                <div><span class="timeline-tag tag-green">Masjid Madang</span></div>
-              </div>
-            </li>
-            <li class="timeline-item">
-              <div class="timeline-item-content">
-                <span class="timeline-tag tag-dark">Kajian Ilmiah</span>
-                <span class="timeline-tag tag-red">Malam Jum'at</span>
-                <div><span class="timeline-tag tag-green">Masjid Rembate</span></div>
-              </div>
-            </li>
-            <li class="timeline-item">
-              <div class="timeline-item-content">
-                <span class="timeline-tag tag-dark">Kajian Ilmiah</span>
-                <span class="timeline-tag tag-red">Malam Sabtu</span>
-                <div><span class="timeline-tag tag-green">Masjid Dasan Bagek</span></div>
-              </div>
-            </li>
-            <li class="timeline-item">
-              <div class="timeline-item-content">
-                <span class="timeline-tag tag-dark">Kajian Ilmiah</span>
-                <span class="timeline-tag tag-red">Malam Senin</span>
-                <div><span class="timeline-tag tag-green">Masjid Banjarsari</span></div>
-              </div>
-            </li>
-            <li class="timeline-item">
-              <div class="timeline-item-content">
-                <span class="timeline-tag tag-dark">Kajian Ilmiah</span>
-                <span class="timeline-tag tag-red">Malam Selasa</span>
-                <div><span class="timeline-tag tag-green">Masjid Kampung Karya</span></div>
-              </div>
-            </li>
-          </ul>
-        </div>
-
-        <div id="ustad3" class="timeline-content">
-          <ul class="timeline">
-            <li class="timeline-item">
-              <div class="timeline-item-content">
-                <span class="timeline-tag tag-dark">Kajian Sore</span>
-                <span class="timeline-tag tag-red">Hari Kamis</span>
-                <div><span class="timeline-tag tag-green">Masjid Dasan Tembeng</span></div>
-              </div>
-            </li>
-            <li class="timeline-item">
-              <div class="timeline-item-content">
-                <span class="timeline-tag tag-dark">Kajian Malam</span>
-                <span class="timeline-tag tag-red">Malam Jum'at</span>
-                <div><span class="timeline-tag tag-green">Masjid An-Nur, Suralaga</span></div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-	<!-- Section Pengumuman -->
-  <section class="section-white">
-    <div class="container">
-      <h2><strong>Pengumuman Penting</h2>
-      <ul class="timeline">
-        <li class="timeline-item">
-          <div class="timeline-item-content">
-            <div class="pengumuman-content">
-              <img src="https://lnk.ink/tablighakbar" alt="Flyer Kajian Akbar" class="pengumuman-flyer">
-              <div class="pengumuman-details">
-                <span class="timeline-tag tag-dark">Tabligh Akbar</span>
-                <span class="timeline-tag tag-blue">Pemateri: Ustadz Mubarak Bamualim, Lc., M.H.I.</span>
-                <div><span class="timeline-tag tag-green">Kamis (Malam Jum'at), 26 Juni 2025 | Maghrib - Isya'</span></div>
-                <div><span class="timeline-tag tag-red">Masjid Jami' Nurah Ali Al-Amir</span></div>
-              </div>
+    <!-- Section Video -->
+    <section class="section-white">
+        <div class="container live-streaming-wrapper">
+            <h2></h2>
+            <h4></h4>
+            <div class="video-container">
+                <iframe
+                    src="https://www.facebook.com/plugins/video.php?href=https://web.facebook.com/jbtv17/videos/1048093734075136/"
+                    frameborder="0" allowfullscreen></iframe>
             </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </section>
-  
+            <p class="streaming-info">
+                Kami menyediakan siaran langsung dari youtube dan facebook yang bisa anda tonton di sini. Format video
+                streaming memiliki variasi kualitas dan mengikuti kecepatan internet sehingga Anda bisa nyaman dalam
+                menyimak <strong>streaming siaran JBTV.</strong> Selamat menyimak dan semoga bermanfaat.
+            </p>
+        </div>
+    </section>
+
+    <!-- Section Jadwal Kajian -->
+    <section class="section-grey">
+        <div class="container">
+            <h2><strong>Jadwal Kajian Rutin</h2>
+                <h4>Jadwal Kajian, 25 Juni - 1 Juli 2025</h4>
+
+            <div class="timeline-container">
+                <div class="timeline-nav timeline-dropdown-wrapper">
+                    <select id="ustadzDropdown" onchange="openDropdownTab(event)" class="custom-dropdown">
+                        <option value="ustad1">TGH. Suharni Abdul Manan, Lc.</option>
+                        <option value="ustad2">Ust. Zamakhsyari Dhofir, Lc., M.A.</option>
+                        <option value="ustad3">Ust. Ahmad Marwazi Manar, S.H., M.A.</option>
+                    </select>
+                </div>
+
+                <div id="ustad1" class="timeline-content active">
+                    <ul class="timeline">
+                        <li class="timeline-item">
+                            <div class="timeline-item-content">
+                                <span class="timeline-tag tag-dark">Kajian Malam</span>
+                                <span class="timeline-tag tag-red">Malam Ahad</span>
+                                <div><span class="timeline-tag tag-green">Masjid Jami' Nurah Ali Al-Amir</span></div>
+                            </div>
+                        </li>
+                        <li class="timeline-item">
+                            <div class="timeline-item-content">
+                                <span class="timeline-tag tag-dark">Kajian Sore</span>
+                                <span class="timeline-tag tag-red">01 Juli 2025 | Setelah Ashar</span>
+                                <div><span class="timeline-tag tag-green">Masjid Dasan Re</span></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="ustad2" class="timeline-content">
+                    <ul class="timeline">
+                        <li class="timeline-item">
+                            <div class="timeline-item-content">
+                                <span class="timeline-tag tag-dark">Kajian Ilmiah</span>
+                                <span class="timeline-tag tag-red">Malam Kamis</span>
+                                <div><span class="timeline-tag tag-green">Masjid Madang</span></div>
+                            </div>
+                        </li>
+                        <li class="timeline-item">
+                            <div class="timeline-item-content">
+                                <span class="timeline-tag tag-dark">Kajian Ilmiah</span>
+                                <span class="timeline-tag tag-red">Malam Jum'at</span>
+                                <div><span class="timeline-tag tag-green">Masjid Rembate</span></div>
+                            </div>
+                        </li>
+                        <li class="timeline-item">
+                            <div class="timeline-item-content">
+                                <span class="timeline-tag tag-dark">Kajian Ilmiah</span>
+                                <span class="timeline-tag tag-red">Malam Sabtu</span>
+                                <div><span class="timeline-tag tag-green">Masjid Dasan Bagek</span></div>
+                            </div>
+                        </li>
+                        <li class="timeline-item">
+                            <div class="timeline-item-content">
+                                <span class="timeline-tag tag-dark">Kajian Ilmiah</span>
+                                <span class="timeline-tag tag-red">Malam Senin</span>
+                                <div><span class="timeline-tag tag-green">Masjid Banjarsari</span></div>
+                            </div>
+                        </li>
+                        <li class="timeline-item">
+                            <div class="timeline-item-content">
+                                <span class="timeline-tag tag-dark">Kajian Ilmiah</span>
+                                <span class="timeline-tag tag-red">Malam Selasa</span>
+                                <div><span class="timeline-tag tag-green">Masjid Kampung Karya</span></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="ustad3" class="timeline-content">
+                    <ul class="timeline">
+                        <li class="timeline-item">
+                            <div class="timeline-item-content">
+                                <span class="timeline-tag tag-dark">Kajian Sore</span>
+                                <span class="timeline-tag tag-red">Hari Kamis</span>
+                                <div><span class="timeline-tag tag-green">Masjid Dasan Tembeng</span></div>
+                            </div>
+                        </li>
+                        <li class="timeline-item">
+                            <div class="timeline-item-content">
+                                <span class="timeline-tag tag-dark">Kajian Malam</span>
+                                <span class="timeline-tag tag-red">Malam Jum'at</span>
+                                <div><span class="timeline-tag tag-green">Masjid An-Nur, Suralaga</span></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Pengumuman -->
+    <section class="section-white">
+        <div class="container">
+            <h2><strong>Pengumuman Penting</h2>
+            <ul class="timeline">
+                <li class="timeline-item">
+                    <div class="timeline-item-content">
+                        <div class="pengumuman-content">
+                            <img src="https://lnk.ink/tablighakbar" alt="Flyer Kajian Akbar" class="pengumuman-flyer">
+                            <div class="pengumuman-details">
+                                <span class="timeline-tag tag-dark">Tabligh Akbar</span>
+                                <span class="timeline-tag tag-blue">Pemateri: Ustadz Mubarak Bamualim, Lc.,
+                                    M.H.I.</span>
+                                <div><span class="timeline-tag tag-green">Kamis (Malam Jum'at), 26 Juni 2025 | Maghrib -
+                                        Isya'</span></div>
+                                <div><span class="timeline-tag tag-red">Masjid Jami' Nurah Ali Al-Amir</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
     <!-- Section Gabung Grup WhatsApp -->
-  <section class="section-grey">
-    <div class="container" style="text-align: center;">
-      <h2>Gabung Grup WhatsApp</h2>
-      <p>Bergabunglah dengan grup WhatsApp untuk mendapatkan update kajian terbaru:</p>
-      <div style="margin-top: 20px;">
-        <a href="https://chat.whatsapp.com/KIDegAern9GF0Z1wzkxoJ2" target="_blank" class="whatsapp-button whatsapp-ikhwan">Gabung JB TV Ikhwan</a>
-<a href="https://chat.whatsapp.com/Kmd1of6VpRi9kWxrnNXUdH" target="_blank" class="whatsapp-button whatsapp-akhawat">Gabung JB TV Akhawat</a>
-      </div>
-    </div>
-  </section>
+    <section class="section-grey">
+        <div class="container" style="text-align: center;">
+            <h2>Gabung Grup WhatsApp</h2>
+            <p>Bergabunglah dengan grup WhatsApp untuk mendapatkan update kajian terbaru:</p>
+            <div style="margin-top: 20px;">
+                <a href="https://chat.whatsapp.com/KIDegAern9GF0Z1wzkxoJ2" target="_blank"
+                    class="whatsapp-button whatsapp-ikhwan">Gabung JB TV Ikhwan</a>
+                <a href="https://chat.whatsapp.com/Kmd1of6VpRi9kWxrnNXUdH" target="_blank"
+                    class="whatsapp-button whatsapp-akhawat">Gabung JB TV Akhawat</a>
+            </div>
+        </div>
+    </section>
 
-  <!-- Section Tentang JBTV -->
- <section class="section-white section-about">
-    <div class="container">
-      <h2>Tentang JBTV</h2>
-      <p style="text-align: center; max-width: 700px; margin: auto;">
-        <strong>JB TV</strong>  adalah saluran media dakwah di bawah naungan Pondok Pesantren Jamaluddin Al-Manar, Bagik Nyaka. JBTV menyajikan siaran langsung dan rekaman kajian Islam secara rutin melalui berbagai platform digital. Tujuan kami adalah menyebarkan ilmu syar'i secara luas dan mudah diakses oleh umat. Kami berkomitmen untuk menghadirkan konten yang bermanfaat, terpercaya, dan sesuai dengan manhaj Ahlus Sunnah wal Jama'ah.</p>
-    </div>
-  </section>
+    <!-- Section Tentang JBTV -->
+    <section class="section-white section-about">
+        <div class="container">
+            <h2>Tentang JBTV</h2>
+            <p style="text-align: center; max-width: 700px; margin: auto;">
+                <strong>JB TV</strong> adalah saluran media dakwah di bawah naungan Pondok Pesantren Jamaluddin
+                Al-Manar, Bagik Nyaka. JBTV menyajikan siaran langsung dan rekaman kajian Islam secara rutin melalui
+                berbagai platform digital. Tujuan kami adalah menyebarkan ilmu syar'i secara luas dan mudah diakses oleh
+                umat. Kami berkomitmen untuk menghadirkan konten yang bermanfaat, terpercaya, dan sesuai dengan manhaj
+                Ahlus Sunnah wal Jama'ah.
+            </p>
+        </div>
+    </section>
 
-  <!-- Footer -->
-  <footer>
-  <div class="container">
-    &copy; 2025 JBTV. All rights reserved. | By: Muzanni
-  </div>
-</footer>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            &copy; 2025 JBTV. All rights reserved. | By: Muzanni
+        </div>
+    </footer>
 
 
-  <script>
-    function openDropdownTab(evt) {
-      const selectedValue = evt.target.value;
-      const tabcontent = document.getElementsByClassName("timeline-content");
+    <script>
+        function openDropdownTab(evt) {
+            const selectedValue = evt.target.value;
+            const tabcontent = document.getElementsByClassName("timeline-content");
 
-      for (let i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
+            for (let i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
 
-      document.getElementById(selectedValue).style.display = "block";
-    }
+            document.getElementById(selectedValue).style.display = "block";
+        }
 
-    document.addEventListener("DOMContentLoaded", function () {
-      document.getElementById("ustadzDropdown").value = "ustad1";
-      document.getElementById("ustad1").style.display = "block";
-    });
-  </script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("ustadzDropdown").value = "ustad1";
+            document.getElementById("ustad1").style.display = "block";
+        });
+    </script>
 
 </body>
+
 </html>
