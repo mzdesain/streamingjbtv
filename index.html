@@ -56,8 +56,22 @@
         }
 
         .section-grey {
-            background-color: var(--color-bg-grey);
+            background-color: #114ed7;
+            /* DIUBAH: Warna latar belakang baru */
         }
+
+        /* BARU: Style untuk teks di dalam section-grey agar terbaca */
+        .section-grey h2,
+        .section-grey h4,
+        .section-grey p {
+            color: white;
+        }
+
+        .section-grey h4 {
+            color: #d1d1d1;
+            /* Warna abu-abu terang untuk subjudul */
+        }
+
 
         .live-streaming-wrapper {
             text-align: center;
@@ -82,21 +96,26 @@
             height: 100%;
             border: 0;
         }
-        
+
         /* --- STYLE BARU: News Ticker V2 (Lebih Canggih) --- */
         .news-ticker {
-            display: flex; /* Menggunakan flexbox untuk layout */
-            align-items: center; /* Menengahkan item secara vertikal */
-            background-color: #00008B	; /* Warna biru lebih gelap */
+            display: flex;
+            /* Menggunakan flexbox untuk layout */
+            align-items: center;
+            /* Menengahkan item secara vertikal */
+            background-color: #114ed7;
+            /* Warna biru lebih gelap */
             color: white;
-            padding: 5px 10px; /* Padding lebih ramping */
+            padding: 5px 10px;
+            /* Padding lebih ramping */
             border-radius: 4px;
             margin: 25px auto;
             overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            border-top: 2px solid #00008B; /* Aksen warna */
+            box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3);
+            border-top: 0px solid #00008B;
+            /* Aksen warna */
         }
-        
+
         /* Pause on Hover */
         .news-ticker:hover .streaming-info {
             animation-play-state: paused;
@@ -121,6 +140,7 @@
             font-weight: bold;
             margin-right: 10px;
         }
+
         .live-indicator .dot {
             width: 8px;
             height: 8px;
@@ -134,44 +154,71 @@
             font-weight: bold;
             font-size: 0.85em;
             text-align: center;
+            background-color: var(--color-red);
+            /* WARNA BARU */
+            padding: 4px 8px;
+            /* Padding agar lebih rapi */
+            border-radius: 3px;
+            /* Sudut membulat */
+            color: white;
+            /* Teks putih agar kontras */
         }
+
         .date-time-section span {
-            display: block; /* Agar tanggal dan waktu di baris terpisah */
+            display: block;
+            /* Agar tanggal dan waktu di baris terpisah */
         }
+
         #live-time {
             font-size: 1.1em;
         }
-        
+
         .marquee-section {
-            flex-grow: 1; /* Mengambil sisa ruang yang tersedia */
-            overflow: hidden; /* Penting untuk marquee */
+            flex-grow: 1;
+            /* Mengambil sisa ruang yang tersedia */
+            overflow: hidden;
+            /* Penting untuk marquee */
         }
 
         .streaming-info {
             font-size: 0.9em;
-            color: white; /* Ubah warna teks agar kontras */
-            display: inline-block; 
-            padding-left: 100%; 
-            white-space: nowrap; 
-            animation: marquee 20s linear; /* Dibuat tidak infinite, dikontrol JS */
-            margin: 0; /* Reset margin default dari paragraf */
+            color: white;
+            /* Ubah warna teks agar kontras */
+            display: inline-block;
+            padding-left: 100%;
+            white-space: nowrap;
+            animation: marquee 20s linear;
+            /* Dibuat tidak infinite, dikontrol JS */
+            margin: 0;
+            /* Reset margin default dari paragraf */
             vertical-align: middle;
-            will-change: transform; /* Optimasi performa animasi */
+            will-change: transform;
+            /* Optimasi performa animasi */
         }
-        
+
         @keyframes blink {
-            50% { opacity: 0.3; }
+            50% {
+                opacity: 0.3;
+            }
         }
-        
+
         @keyframes marquee {
-            0%   { transform: translateX(0%); }
-            100% { transform: translateX(-100%); }
+            0% {
+                transform: translateX(0%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
         }
+
         /* --- AKHIR STYLE NEWS TICKER --- */
 
         .post-actions {
             display: flex;
             align-items: center;
+            justify-content: center;
+            /* BARU: Menengahkan ikon */
             gap: 20px;
             border-top: 1px solid #eee;
             border-bottom: 1px solid #eee;
@@ -183,18 +230,36 @@
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 1.2em;
+            font-size: 1em;
+            /* DIUBAH: Dikecilkan */
             color: #555;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        .action-btn:hover { color: var(--color-primary); }
-        .action-btn i { font-size: 1.4em; }
-        
-        #comments-wrapper { display: none; margin-top: 20px; }
-        h4 { font-size: 1em; text-align: center; margin-top: -40px; color: var(--color-dark); }
-        
+
+        .action-btn:hover {
+            color: var(--color-primary);
+        }
+
+        .action-btn i {
+            font-size: 1.2em;
+        }
+
+        /* DIUBAH: Dikecilkan */
+
+        #comments-wrapper {
+            display: none;
+            margin-top: 20px;
+        }
+
+        h4 {
+            font-size: 1em;
+            text-align: center;
+            margin-top: -40px;
+            color: var(--color-dark);
+        }
+
         .timeline-container {
             width: 100%;
         }
@@ -221,7 +286,8 @@
             top: 0;
             bottom: 0;
             width: 3px;
-            background-color: var(--timeline-line-color);
+            background-color: #5d8bf2;
+            /* DIUBAH: Warna garis agar kontras */
             border-radius: 3px;
         }
 
@@ -237,17 +303,21 @@
             top: 5px;
             width: 13px;
             height: 13px;
-            background-color: white;
-            border: 3px solid var(--color-primary);
+            background-color: #114ed7;
+            /* DIUBAH: Sesuai BG */
+            border: 3px solid #5d8bf2;
+            /* DIUBAH: Warna border agar kontras */
             border-radius: 50%;
             z-index: 1;
         }
 
         .timeline-item-content {
-            background-color: var(--color-bg-white);
+            background-color: #2a65e0;
+            /* DIUBAH: Warna lebih terang dari BG utama */
             padding: 20px;
             border-radius: 8px;
-            border: 1px solid #eee;
+            border: 1px solid #5d8bf2;
+            /* DIUBAH: Warna border agar kontras */
         }
 
         .timeline-tag {
@@ -324,7 +394,8 @@
             padding: 12px 40px 12px 16px;
             font-size: 1em;
             font-weight: 600;
-            border: 2px solid var(--color-primary);
+            border: 2px solid #fff;
+            /* DIUBAH */
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
             background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="16" height="16" fill="gray" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 5.5l6 6 6-6" stroke="gray" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>');
@@ -336,7 +407,7 @@
         }
 
         .custom-dropdown:hover {
-            border-color: #0056b3;
+            border-color: #ddd;
         }
 
         .wa-float-container {
@@ -390,20 +461,29 @@
             font-size: 0.9em;
             max-width: 700px;
             margin: 25px auto;
+            margin-top: -20px;
             text-align: center;
             font-style: normal;
-            color: #555;
             font-weight: normal;
+            color: #fffff;
+            /* DIUBAH agar kontras */
         }
 
         footer {
             background-color: var(--color-dark);
             color: white;
             text-align: center;
-            padding: 10px 0;
+            padding: 0;
+            /* DIUBAH */
             font-size: 0.9em;
             font-style: normal;
             font-weight: normal;
+        }
+
+        /* BARU: Mengurangi padding vertikal khusus untuk container di footer */
+        footer .container {
+            padding-top: 20px;
+            padding-bottom: 20px;
         }
     </style>
 </head>
@@ -422,12 +502,7 @@
 
             <div class="news-ticker">
                 <div class="ticker-prefix">
-                    <div class="live-indicator">
-                        <span class="dot"></span>
-                        LIVE
-                    </div>
                     <div class="date-time-section">
-                        <span id="live-date">27 Juni 2025</span>
                         <span id="live-time">07:02:08 Wita</span>
                     </div>
                 </div>
@@ -444,7 +519,7 @@
                 </button>
                 <button class="action-btn" id="commentBtn">
                     <i class="fa-solid fa-comment"></i>
-                    <span id="commentCount">0</span> 
+                    <span id="commentCount">0</span>
                 </button>
                 <button class="action-btn" id="shareBtn">
                     <i class="fa-solid fa-share"></i>
@@ -594,7 +669,7 @@
     <section class="section-grey section-about">
         <div class="container">
             <h2><strong>Tentang JBTV</h2>
-            <p style="text-align: center; max-width: 700px; margin-top: -0px;">
+            <p>
                 <strong>JB TV</strong> adalah saluran media dakwah di bawah naungan Pondok Pesantren Jamaluddin, Bagik
                 Nyaka. Tujuan kami adalah menyebarkan ilmu syar'i secara luas dan mudah diakses oleh umat. Kami
                 berkomitmen untuk menghadirkan konten yang bermanfaat, terpercaya, dan sesuai dengan manhaj Ahlus Sunnah
@@ -636,10 +711,10 @@
         document.addEventListener("DOMContentLoaded", function () {
             // Dropdown Jadwal Kajian
             if (document.getElementById("ustadzDropdown")) {
-                 document.getElementById("ustadzDropdown").value = "ustad1";
-                 document.getElementById("ustad1").style.display = "block";
+                document.getElementById("ustadzDropdown").value = "ustad1";
+                document.getElementById("ustad1").style.display = "block";
             }
-            
+
             // Firebase config
             const firebaseConfig = {
                 apiKey: "AIzaSyAowVtnXTVstFSc3kSBTm5tXJkEvp31V2Y",
@@ -655,19 +730,14 @@
             // Inisialisasi Firebase
             firebase.initializeApp(firebaseConfig);
             const db = firebase.database();
-            
+
             // --- Logika Jam & Tanggal Real-time ---
-            const liveDateEl = document.getElementById('live-date');
             const liveTimeEl = document.getElementById('live-time');
-            const namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu"];
-            const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
             function updateDateTime() {
                 const now = new Date();
-                const dateString = `${namaHari[now.getDay()]}, ${now.getDate()} ${namaBulan[now.getMonth()]}`;
                 const padZero = (num) => (num < 10 ? '0' + num : num);
-                const timeString = `${padZero(now.getHours())}:${padZero(now.getMinutes())}:${padZero(now.getSeconds())}`;
-                liveDateEl.textContent = dateString;
+                const timeString = `${padZero(now.getHours())}:${padZero(now.getMinutes())}:${padZero(now.getSeconds())} Wita`;
                 liveTimeEl.textContent = timeString;
             }
             updateDateTime();
@@ -677,7 +747,7 @@
             const streamingInfoEl = document.querySelector('.streaming-info');
             const messages = [
                 "Selamat datang di JBTV. Saksikan siaran langsung kajian Islam dan dapatkan informasi jadwal terbaru.",
-                "Kami menyediakan siaran langsung dari youtube dan facebook yang bisa anda tonton di sini. Format video streaming memiliki variasi kualitas dan mengikuti kecepatan internet sehingga Anda bisa nyaman dalam menyimak streaming siaran JBTV.",
+                "Kami menyediakan siaran langsung dari youtube dan facebook yang bisa anda tonton di sini. Format video streaming memiliki variasi kualitas dan mengikuti kecepatan internet sehingga Anda bisa nyaman dalam menyimak <strong>streaming siaran JBTV.</strong>",
                 "Dukung dakwah JBTV dengan donasi terbaik Anda."
             ];
             let currentMessageIndex = 0;
@@ -686,7 +756,7 @@
                 streamingInfoEl.innerHTML = messages[currentMessageIndex];
                 streamingInfoEl.style.animation = 'none';
                 void streamingInfoEl.offsetWidth; // Memicu reflow browser
-                streamingInfoEl.style.animation = ''; 
+                streamingInfoEl.style.animation = '';
                 streamingInfoEl.style.animationName = 'marquee';
                 streamingInfoEl.style.animationIterationCount = '1';
             }
@@ -695,7 +765,7 @@
                 currentMessageIndex = (currentMessageIndex + 1) % messages.length;
                 runMarquee();
             });
-            
+
             runMarquee();
 
 
@@ -711,26 +781,26 @@
             const form = document.getElementById('commentForm');
             const commentsList = document.getElementById('commentsList');
             const isAdmin = window.location.search.includes('admin=true');
-            
+
             // Logika Tombol Komentar & Counternya
             commentBtn.addEventListener('click', () => {
                 const isVisible = commentsWrapper.style.display === 'block';
                 commentsWrapper.style.display = isVisible ? 'none' : 'block';
             });
-            
+
             commentsRef.on('value', (snapshot) => {
                 commentCountSpan.textContent = snapshot.numChildren();
             });
-            
+
             // Logika Tombol Suka (Tanpa Batasan)
             likeBtn.addEventListener('click', () => {
                 likesRef.transaction((currentLikes) => (currentLikes || 0) + 1);
             });
-            
+
             likesRef.on('value', (snapshot) => {
                 likeCountSpan.textContent = snapshot.val() || 0;
             });
-            
+
             // Logika Tombol Bagikan
             shareBtn.addEventListener('click', async () => {
                 const shareData = {
@@ -771,23 +841,23 @@
                 el.style.marginBottom = '20px';
                 const time = new Date(data.timestamp).toLocaleString('id-ID');
                 el.innerHTML = `
-                  <div style="padding: 10px; background: #fff; border: 1px solid #ddd; border-radius: 6px; text-align: left;">
-                    <strong>${data.name}</strong> <small style="color: gray;">(${time})</small>
-                    <p style="margin: 5px 0;">${data.comment}</p>
-                    ${isAdmin ? `<button onclick="deleteComment('${key}')">Hapus</button>` : ""}
-                  </div>
+                    <div style="padding: 10px; background: #fff; border: 1px solid #ddd; border-radius: 6px; text-align: left;">
+                        <strong>${data.name}</strong> <small style="color: gray;">(${time})</small>
+                        <p style="margin: 5px 0;">${data.comment}</p>
+                        ${isAdmin ? `<button onclick="deleteComment('${key}')">Hapus</button>` : ""}
+                    </div>
                 `;
                 commentsList.prepend(el);
             });
-            
+
             window.deleteComment = function (commentKey) {
                 if (confirm("Yakin ingin menghapus komentar ini?")) {
                     commentsRef.child(commentKey).remove();
                 }
             };
-            
-            commentsRef.on('child_removed', function(snapshot) {
-                window.location.reload(); 
+
+            commentsRef.on('child_removed', function (snapshot) {
+                window.location.reload();
             });
         });
     </script>
