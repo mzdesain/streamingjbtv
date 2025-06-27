@@ -857,6 +857,26 @@ const jadwalUstad2Container = document.getElementById('jadwal-ustad2');
 const jadwalUstad3Container = document.getElementById('jadwal-ustad3');
 const pengumumanContainer = document.getElementById('pengumuman-container');
 
+
+// === MULAI KODE BARU UNTUK MEMUAT RENTANG TANGGAL ===
+
+// Referensi ke database untuk tanggal
+const tanggalRef = db.ref('infoSitus/rentangTanggal');
+
+// Wadah di HTML
+const rentangTanggalKajianElem = document.getElementById('rentangTanggalKajian');
+
+// Fungsi untuk memuat teks tanggal
+tanggalRef.on('value', (snapshot) => {
+    if (snapshot.exists()) {
+        rentangTanggalKajianElem.textContent = snapshot.val();
+    } else {
+        rentangTanggalKajianElem.textContent = 'Jadwal Kajian Rutin'; // Teks default jika belum diatur
+    }
+});
+
+// === AKHIR KODE BARU ===
+
 // Fungsi untuk memuat jadwal kajian
 jadwalRef.on('value', (snapshot) => {
     // Kosongkan semua kontainer dulu
