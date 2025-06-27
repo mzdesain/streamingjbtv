@@ -565,106 +565,26 @@
                 </div>
 
                 <div id="ustad1" class="timeline-content active">
-                    <ul class="timeline">
-                        <li class="timeline-item">
-                            <div class="timeline-item-content">
-                                <span class="timeline-tag tag-dark">Kajian Malam</span>
-                                <span class="timeline-tag tag-red">Malam Ahad</span>
-                                <div><span class="timeline-tag tag-green">Masjid Jami' Nurah Ali Al-Amir</span></div>
-                            </div>
-                        </li>
-                        <li class="timeline-item">
-                            <div class="timeline-item-content">
-                                <span class="timeline-tag tag-dark">Kajian Sore</span>
-                                <span class="timeline-tag tag-red">01 Juli 2025 | Setelah Ashar</span>
-                                <div><span class="timeline-tag tag-green">Masjid Dasan Re</span></div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+    <ul class="timeline" id="jadwal-ustad1">
+        </ul>
+</div>
 
-                <div id="ustad2" class="timeline-content">
-                    <ul class="timeline">
-                        <li class="timeline-item">
-                            <div class="timeline-item-content">
-                                <span class="timeline-tag tag-dark">Kajian Ilmiah</span>
-                                <span class="timeline-tag tag-red">Malam Kamis</span>
-                                <div><span class="timeline-tag tag-green">Masjid Madang</span></div>
-                            </div>
-                        </li>
-                        <li class="timeline-item">
-                            <div class="timeline-item-content">
-                                <span class="timeline-tag tag-dark">Kajian Ilmiah</span>
-                                <span class="timeline-tag tag-red">Malam Jum'at</span>
-                                <div><span class="timeline-tag tag-green">Masjid Rembate</span></div>
-                            </div>
-                        </li>
-                        <li class="timeline-item">
-                            <div class="timeline-item-content">
-                                <span class="timeline-tag tag-dark">Kajian Ilmiah</span>
-                                <span class="timeline-tag tag-red">Malam Sabtu</span>
-                                <div><span class="timeline-tag tag-green">Masjid Dasan Bagek</span></div>
-                            </div>
-                        </li>
-                        <li class="timeline-item">
-                            <div class="timeline-item-content">
-                                <span class="timeline-tag tag-dark">Kajian Ilmiah</span>
-                                <span class="timeline-tag tag-red">Malam Senin</span>
-                                <div><span class="timeline-tag tag-green">Masjid Banjarsari</span></div>
-                            </div>
-                        </li>
-                        <li class="timeline-item">
-                            <div class="timeline-item-content">
-                                <span class="timeline-tag tag-dark">Kajian Ilmiah</span>
-                                <span class="timeline-tag tag-red">Malam Selasa</span>
-                                <div><span class="timeline-tag tag-green">Masjid Kampung Karya</span></div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+<div id="ustad2" class="timeline-content">
+    <ul class="timeline" id="jadwal-ustad2">
+        </ul>
+</div>
 
-                <div id="ustad3" class="timeline-content">
-                    <ul class="timeline">
-                        <li class="timeline-item">
-                            <div class="timeline-item-content">
-                                <span class="timeline-tag tag-dark">Kajian Sore</span>
-                                <span class="timeline-tag tag-red">Hari Kamis</span>
-                                <div><span class="timeline-tag tag-green">Masjid Dasan Tembeng</span></div>
-                            </div>
-                        </li>
-                        <li class="timeline-item">
-                            <div class="timeline-item-content">
-                                <span class="timeline-tag tag-dark">Kajian Malam</span>
-                                <span class="timeline-tag tag-red">Malam Jum'at</span>
-                                <div><span class="timeline-tag tag-green">Masjid An-Nur, Suralaga</span></div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+<div id="ustad3" class="timeline-content">
+    <ul class="timeline" id="jadwal-ustad3">
+        </ul>
+</div>
     </section>
 
     <section class="section-white">
         <div class="container">
             <h2><strong>Pengumuman Penting</h2>
-            <ul class="timeline">
-                <li class="timeline-item">
-                    <div class="timeline-item-content">
-                        <div class="pengumuman-content">
-                            <img src="https://lnk.ink/tablighakbar" alt="Flyer Kajian Akbar" class="pengumuman-flyer">
-                            <div class="pengumuman-details">
-                                <span class="timeline-tag tag-dark">Tabligh Akbar</span>
-                                <span class="timeline-tag tag-blue">Pemateri: Ustadz Mubarak Bamualim, Lc.,
-                                    M.H.I.</span>
-                                <div><span class="timeline-tag tag-green">Kamis (Malam Jum'at), 26 Juni 2025 | Maghrib -
-                                        Isya'</span></div>
-                                <div><span class="timeline-tag tag-red">Masjid Jami' Nurah Ali Al-Amir</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+            <ul class="timeline" id="pengumuman-container">
+    </ul>
         </div>
     </section>
 
@@ -698,7 +618,6 @@
             &copy; 2025 JBTV | By: Muzanni
         </div>
     </footer>
-
 
     <script>
         function openDropdownTab(evt) {
@@ -772,31 +691,50 @@
 
 
             // --- LOGIKA INTERAKSI (VIEWERS, LIKE, KOMENTAR, SHARE) ---
-            // === BAGIAN YANG DIUBAH DAN DITAMBAH ===
-            const commentsRef = db.ref('comments');
-            const likesRef = db.ref('likes');
-            const sharesRef = db.ref('shares');
-            const presenceRef = db.ref('presence'); // Untuk real-time viewers
 
+            // === PERUBAHAN UTAMA: MEMBUAT DATA UNIK UNTUK SETIAP VIDEO ===
+            // 1. Ambil URL video dari iframe sebagai ID unik
+            const videoIframe = document.querySelector('.video-container iframe');
+            if (!videoIframe) {
+                console.error("Iframe video tidak ditemukan!");
+                return; // Hentikan eksekusi jika iframe tidak ada
+            }
+            const videoSrc = videoIframe.src;
+            
+            // 2. Buat kunci yang valid untuk Firebase dari URL video
+            // Fungsi btoa() akan meng-encode URL menjadi string Base64 yang aman digunakan sebagai kunci
+            const videoId = btoa(videoSrc);
+
+            // 3. Arahkan semua referensi (likes, comments, dll.) ke path yang spesifik untuk video ini
+            // Ini akan membuat 'folder' baru di database Anda untuk setiap video yang berbeda.
+            const videoInteractionsRef = db.ref('video_interactions/' + videoId);
+            
+            const commentsRef = videoInteractionsRef.child('comments');
+            const likesRef = videoInteractionsRef.child('likes');
+            const sharesRef = videoInteractionsRef.child('shares');
+            const presenceRef = videoInteractionsRef.child('presence'); // Jumlah penonton juga spesifik per video
+
+            // Ambil semua elemen UI
             const viewersCountSpan = document.getElementById('viewersCount');
             const likeBtn = document.getElementById('likeBtn');
             const likeCountSpan = document.getElementById('likeCount');
             const commentBtn = document.getElementById('commentBtn');
             const commentCountSpan = document.getElementById('commentCount');
             const shareBtn = document.getElementById('shareBtn');
-            const shareCountSpan = document.getElementById('shareCount'); // Target untuk angka share
+            const shareCountSpan = document.getElementById('shareCount');
             const commentsWrapper = document.getElementById('comments-wrapper');
             const form = document.getElementById('commentForm');
             const commentsList = document.getElementById('commentsList');
             const isAdmin = window.location.search.includes('admin=true');
 
-            // --- BARU: Logika Jumlah Penonton (Real-time Presence) ---
+            // --- Logika Jumlah Penonton (Real-time Presence) ---
+            // Logika ini sekarang menggunakan `presenceRef` yang sudah spesifik per video
             const amOnline = db.ref('.info/connected');
             amOnline.on('value', (snapshot) => {
                 if (snapshot.val()) {
-                    const myRef = presenceRef.push(); // Buat ID unik untuk user ini
-                    myRef.onDisconnect().remove(); // Atur agar ID dihapus saat user disconnect
-                    myRef.set(true); // Tandai user sedang online
+                    const myRef = presenceRef.push(); 
+                    myRef.onDisconnect().remove(); 
+                    myRef.set(true); 
                 }
             });
 
@@ -804,7 +742,6 @@
                 const viewers = snapshot.numChildren();
                 viewersCountSpan.textContent = viewers;
             });
-            // --- AKHIR Logika Jumlah Penonton ---
 
             // Logika Tombol Komentar & Counternya
             commentBtn.addEventListener('click', () => {
@@ -813,7 +750,7 @@
             });
 
             commentsRef.on('value', (snapshot) => {
-                commentCountSpan.textContent = snapshot.numChildren();
+                commentCountSpan.textContent = snapshot.exists() ? snapshot.numChildren() : 0;
             });
 
             // Logika Tombol Suka
@@ -825,7 +762,7 @@
                 likeCountSpan.textContent = snapshot.val() || 0;
             });
 
-            // --- DIUBAH: Logika Tombol Bagikan dengan Counter ---
+            // Logika Tombol Bagikan dengan Counter
             shareBtn.addEventListener('click', async () => {
                 const shareData = {
                     title: 'JBTV - Kajian Islam & Pengumuman',
@@ -840,7 +777,7 @@
                 if (navigator.share) {
                     try {
                         await navigator.share(shareData);
-                        incrementShareCount(); // Tambah hitungan jika berhasil share
+                        incrementShareCount(); 
                     } catch (err) {
                         console.error('Gagal membagikan:', err);
                     }
@@ -848,18 +785,16 @@
                     try {
                         await navigator.clipboard.writeText(window.location.href);
                         alert('Tautan berhasil disalin ke clipboard!');
-                        incrementShareCount(); // Tambah hitungan jika berhasil menyalin
+                        incrementShareCount();
                     } catch (err) {
                         alert('Gagal menyalin link.');
                     }
                 }
             });
 
-            // Listener untuk update angka share di UI
             sharesRef.on('value', (snapshot) => {
                 shareCountSpan.textContent = snapshot.val() || 0;
             });
-
 
             // Logika Form & Daftar Komentar
             form.addEventListener('submit', function (e) {
@@ -881,6 +816,8 @@
                 const key = snapshot.key;
                 const el = document.createElement('div');
                 el.style.marginBottom = '20px';
+                // Tambahkan ID unik ke elemen komentar untuk mempermudah penghapusan
+                el.id = `comment-${key}`;
                 const time = new Date(data.timestamp).toLocaleString('id-ID');
                 el.innerHTML = `
                     <div style="padding: 10px; background: #fff; border: 1px solid #ddd; border-radius: 6px; text-align: left;">
@@ -891,16 +828,104 @@
                 `;
                 commentsList.prepend(el);
             });
-
+            
+            // Fungsi hapus komentar yang di-expose ke window
             window.deleteComment = function (commentKey) {
                 if (confirm("Yakin ingin menghapus komentar ini?")) {
                     commentsRef.child(commentKey).remove();
                 }
             };
 
+            // Listener untuk menghapus elemen komentar dari UI tanpa reload halaman
             commentsRef.on('child_removed', function (snapshot) {
-                window.location.reload();
+                 const key = snapshot.key;
+                 const commentElement = document.getElementById(`comment-${key}`);
+                 if (commentElement) {
+                     commentElement.remove();
+                 }
             });
+            
+            // === MULAI KODE BARU UNTUK MEMUAT JADWAL & PENGUMUMAN ===
+
+// Referensi ke database
+const jadwalRef = db.ref('jadwalKajian');
+const pengumumanRef = db.ref('pengumuman');
+
+// Wadah di HTML
+const jadwalUstad1Container = document.getElementById('jadwal-ustad1');
+const jadwalUstad2Container = document.getElementById('jadwal-ustad2');
+const jadwalUstad3Container = document.getElementById('jadwal-ustad3');
+const pengumumanContainer = document.getElementById('pengumuman-container');
+
+// Fungsi untuk memuat jadwal kajian
+jadwalRef.on('value', (snapshot) => {
+    // Kosongkan semua kontainer dulu
+    jadwalUstad1Container.innerHTML = '<li>Memuat jadwal...</li>';
+    jadwalUstad2Container.innerHTML = '<li>Memuat jadwal...</li>';
+    jadwalUstad3Container.innerHTML = '<li>Memuat jadwal...</li>';
+
+    if (snapshot.exists()) {
+        // Hapus pesan 'Memuat...'
+        jadwalUstad1Container.innerHTML = '';
+        jadwalUstad2Container.innerHTML = '';
+        jadwalUstad3Container.innerHTML = '';
+
+        snapshot.forEach((childSnapshot) => {
+            const jadwal = childSnapshot.val();
+            const itemHtml = `
+                <li class="timeline-item">
+                    <div class="timeline-item-content">
+                        <span class="timeline-tag tag-dark">${jadwal.jenis}</span>
+                        <span class="timeline-tag tag-red">${jadwal.waktu}</span>
+                        <div><span class="timeline-tag tag-green">${jadwal.lokasi}</span></div>
+                    </div>
+                </li>
+            `;
+            // Masukkan ke kontainer ustadz yang sesuai
+            if (jadwal.ustadzId === 'ustad1') {
+                jadwalUstad1Container.innerHTML += itemHtml;
+            } else if (jadwal.ustadzId === 'ustad2') {
+                jadwalUstad2Container.innerHTML += itemHtml;
+            } else if (jadwal.ustadzId === 'ustad3') {
+                jadwalUstad3Container.innerHTML += itemHtml;
+            }
+        });
+    } else {
+    jadwalUstad1Container.innerHTML = '<li style="color: white;">Belum ada jadwal.</li>';
+    jadwalUstad2Container.innerHTML = '<li style="color: white;">Belum ada jadwal.</li>';
+    jadwalUstad3Container.innerHTML = '<li style="color: white;">Belum ada jadwal.</li>';
+}
+});
+
+// Fungsi untuk memuat pengumuman
+pengumumanRef.on('value', (snapshot) => {
+    pengumumanContainer.innerHTML = '<li>Memuat pengumuman...</li>';
+    if (snapshot.exists()) {
+        pengumumanContainer.innerHTML = ''; // Kosongkan
+        snapshot.forEach((childSnapshot) => {
+            const pengumuman = childSnapshot.val();
+            const itemHtml = `
+                <li class="timeline-item">
+                    <div class="timeline-item-content">
+                        <div class="pengumuman-content">
+                            <img src="${pengumuman.flyerUrl}" alt="Flyer ${pengumuman.judul}" class="pengumuman-flyer">
+                            <div class="pengumuman-details">
+                                <span class="timeline-tag tag-dark">${pengumuman.judul}</span>
+                                <span class="timeline-tag tag-blue">Pemateri: ${pengumuman.pemateri}</span>
+                                <div><span class="timeline-tag tag-green">${pengumuman.waktu}</span></div>
+                                <div><span class="timeline-tag tag-red">${pengumuman.lokasi}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            `;
+            pengumumanContainer.innerHTML += itemHtml;
+        });
+    } else {
+        pengumumanContainer.innerHTML = '<li>Belum ada pengumuman.</li>';
+    }
+});
+// === AKHIR KODE BARU ===
         });
     </script>
 </body>
