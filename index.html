@@ -152,7 +152,7 @@
 
         .date-time-section {
             font-weight: bold;
-            font-size: 0.85em;
+            font-size: 0.6em;
             text-align: center;
             background-color: var(--color-red);
             /* WARNA BARU */
@@ -513,6 +513,10 @@
 
 
             <div class="post-actions">
+                <button class="action-btn" id="viewersBtn" title="Sedang menonton">
+                    <i class="fa-solid fa-eye"></i>
+                    <span id="viewersCount">0</span>
+                </button>
                 <button class="action-btn like-btn" id="likeBtn">
                     <i class="fa-solid fa-thumbs-up"></i>
                     <span id="likeCount">0</span>
@@ -523,11 +527,9 @@
                 </button>
                 <button class="action-btn" id="shareBtn">
                     <i class="fa-solid fa-share"></i>
-                    <span></span>
+                    <span id="shareCount">0</span>
                 </button>
             </div>
-
-
             <div id="comments-wrapper">
                 <section class="section-white">
                     <div class="container">
@@ -769,18 +771,40 @@
             runMarquee();
 
 
-            // --- LOGIKA INTERAKSI (LIKE, KOMENTAR, SHARE) ---
+            // --- LOGIKA INTERAKSI (VIEWERS, LIKE, KOMENTAR, SHARE) ---
+            // === BAGIAN YANG DIUBAH DAN DITAMBAH ===
             const commentsRef = db.ref('comments');
             const likesRef = db.ref('likes');
+            const sharesRef = db.ref('shares');
+            const presenceRef = db.ref('presence'); // Untuk real-time viewers
+
+            const viewersCountSpan = document.getElementById('viewersCount');
             const likeBtn = document.getElementById('likeBtn');
             const likeCountSpan = document.getElementById('likeCount');
             const commentBtn = document.getElementById('commentBtn');
             const commentCountSpan = document.getElementById('commentCount');
             const shareBtn = document.getElementById('shareBtn');
+            const shareCountSpan = document.getElementById('shareCount'); // Target untuk angka share
             const commentsWrapper = document.getElementById('comments-wrapper');
             const form = document.getElementById('commentForm');
             const commentsList = document.getElementById('commentsList');
             const isAdmin = window.location.search.includes('admin=true');
+
+            // --- BARU: Logika Jumlah Penonton (Real-time Presence) ---
+            const amOnline = db.ref('.info/connected');
+            amOnline.on('value', (snapshot) => {
+                if (snapshot.val()) {
+                    const myRef = presenceRef.push(); // Buat ID unik untuk user ini
+                    myRef.onDisconnect().remove(); // Atur agar ID dihapus saat user disconnect
+                    myRef.set(true); // Tandai user sedang online
+                }
+            });
+
+            presenceRef.on('value', (snapshot) => {
+                const viewers = snapshot.numChildren();
+                viewersCountSpan.textContent = viewers;
+            });
+            // --- AKHIR Logika Jumlah Penonton ---
 
             // Logika Tombol Komentar & Counternya
             commentBtn.addEventListener('click', () => {
@@ -792,7 +816,7 @@
                 commentCountSpan.textContent = snapshot.numChildren();
             });
 
-            // Logika Tombol Suka (Tanpa Batasan)
+            // Logika Tombol Suka
             likeBtn.addEventListener('click', () => {
                 likesRef.transaction((currentLikes) => (currentLikes || 0) + 1);
             });
@@ -801,7 +825,7 @@
                 likeCountSpan.textContent = snapshot.val() || 0;
             });
 
-            // Logika Tombol Bagikan
+            // --- DIUBAH: Logika Tombol Bagikan dengan Counter ---
             shareBtn.addEventListener('click', async () => {
                 const shareData = {
                     title: 'JBTV - Kajian Islam & Pengumuman',
@@ -809,15 +833,33 @@
                     url: window.location.href
                 };
 
+                const incrementShareCount = () => {
+                    sharesRef.transaction((currentShares) => (currentShares || 0) + 1);
+                };
+
                 if (navigator.share) {
-                    try { await navigator.share(shareData); } catch (err) { console.error('Gagal membagikan:', err); }
+                    try {
+                        await navigator.share(shareData);
+                        incrementShareCount(); // Tambah hitungan jika berhasil share
+                    } catch (err) {
+                        console.error('Gagal membagikan:', err);
+                    }
                 } else {
                     try {
                         await navigator.clipboard.writeText(window.location.href);
                         alert('Tautan berhasil disalin ke clipboard!');
-                    } catch (err) { alert('Gagal menyalin link.'); }
+                        incrementShareCount(); // Tambah hitungan jika berhasil menyalin
+                    } catch (err) {
+                        alert('Gagal menyalin link.');
+                    }
                 }
             });
+
+            // Listener untuk update angka share di UI
+            sharesRef.on('value', (snapshot) => {
+                shareCountSpan.textContent = snapshot.val() || 0;
+            });
+
 
             // Logika Form & Daftar Komentar
             form.addEventListener('submit', function (e) {
