@@ -207,7 +207,9 @@
             }
             const streamingInfoEl = document.querySelector('.streaming-info');
             if(streamingInfoEl){
-                const messages = [ "Selamat datang di JBTV...", "Saksikan siaran langsung...", "Dukung dakwah JBTV..." ];
+                const messages = [ "Selamat datang di JBTV. Saksikan siaran langsung kajian Islam dan dapatkan informasi jadwal terbaru.",
+                "Kami menyediakan siaran langsung dari youtube dan facebook yang bisa anda tonton di sini. Format video streaming memiliki variasi kualitas dan mengikuti kecepatan internet sehingga Anda bisa nyaman dalam menyimak <strong>streaming siaran JBTV.</strong>",
+                "Dukung dakwah JBTV dengan donasi terbaik Anda." ];
                 let msgIndex = 0;
                 function runMarquee() { streamingInfoEl.innerHTML = messages[msgIndex]; streamingInfoEl.style.animation = 'marquee 20s linear 1'; }
                 streamingInfoEl.addEventListener('animationend', () => { msgIndex = (msgIndex + 1) % messages.length; runMarquee(); });
