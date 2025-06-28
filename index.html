@@ -12,6 +12,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+    <script src="https://player.vimeo.com/api/player.js"></script>
     <style>
         :root { --color-bg-white: #ffffff; --color-bg-grey: #f7f7f7; --color-text: #333; --color-primary: #007bff; --color-dark: #343a40; --color-green: #28a745; --color-red: #dc3545; --color-blue: #17a2b8; --timeline-line-color: #e0e0e0;}
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; margin: 0; padding: 0; background-color: var(--color-bg-grey); color: var(--color-text); }
@@ -26,7 +27,7 @@
         .live-streaming-wrapper { text-align: center; }
         .video-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        .news-ticker { display: flex; align-items: center; background-color: #114ed7; color: white; padding: 5px 10px; border-radius: 4px; margin: 25px auto; overflow: hidden; box-shadow: 0 0px 0px rgba(0,0,0,0.3); }
+        .news-ticker { display: flex; align-items: center; background-color: #114ed7; color: white; padding: 5px 10px; border-radius: 4px; margin: 25px auto; overflow: hidden; box-shadow: 0 0px 0px rgba(0,0,0,0.3); border-top: 0px solid #00008B; }
         .news-ticker:hover .streaming-info { animation-play-state: paused; }
         .ticker-prefix { flex-shrink: 0; display: flex; align-items: center; padding-right: 10px; margin-right: 10px; border-right: 1px solid rgba(255,255,255,0.4); }
         .date-time-section { font-weight: bold; font-size: 0.6em; text-align: center; background-color: var(--color-red); padding: 4px 8px; border-radius: 3px; color: white; }
@@ -66,8 +67,10 @@
         .wa-akhwat { background-color: #128C7E; }
         .wa-label { background-color: #333; color: white; padding: 4px 10px; font-size: 12px; border-radius: 12px; margin-right: 5px; opacity: 0.8; }
         .section-about p { font-size: 0.9em; max-width: 700px; margin: 25px auto; margin-top: -20px; text-align: center; font-style: normal; font-weight: normal; color: white; }
-        footer { background-color: var(--color-dark); color: white; text-align: center; font-size: 0.9em; }
-        footer .container { padding: 20px; }
+        footer { background-color: var(--color-dark); color: white; text-align: center; padding: 0; font-size: 0.9em; }
+        footer .container { padding-top: 20px; padding-bottom: 20px; }
+        
+        /* === CSS BARU UNTUK FITUR VIDEO SCROLL === */
         .reels-float-container { position: fixed; bottom: 20px; left: 20px; z-index: 998; }
         #reels-float-button { background-color: #e71d43; color: white; width: 55px; height: 55px; border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); border: none; cursor: pointer; }
         #reels-float-button i { margin-left: 2px; }
@@ -78,16 +81,9 @@
         .reels-container { -ms-overflow-style: none; scrollbar-width: none; }
         .reel-slide { width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center; scroll-snap-align: start; position: relative; }
         .reel-video-wrapper { position: relative; max-width: 56.25vh; width: 90%; height: 80vh; display: flex; justify-content: center; align-items: center; }
-        .reel-thumbnail { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: opacity 0.4s ease-in-out; border-radius: 12px; }
-        .reel-iframe-container { position: relative; width: 100%; height: 100%; border-radius: 12px; overflow: hidden; background-color: #1a1a1a; }
-        .reel-iframe-container iframe { width: 100%; height: 100%; border: 0; opacity: 0; transition: opacity 0.4s ease-in-out; z-index: 2; position: relative; }
-        .reel-iframe-container iframe.loaded { opacity: 1; }
-        .reel-ui-overlay { position: absolute; bottom: 0; left: 0; right: 0; z-index: 3; padding: 20px 15px; color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%); pointer-events: none; border-radius: 0 0 12px 12px; }
-        .reel-title { font-size: 1.1em; font-weight: bold; margin-bottom: 5px; }
-        .reel-channel { font-size: 0.9em; opacity: 0.9; }
-        .unmute-button { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 4; background: rgba(0,0,0,0.6); color: white; border: 2px solid white; width: 60px; height: 60px; border-radius: 50%; font-size: 24px; cursor: pointer; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
-        .unmute-button.visible { display: flex; opacity: 1; }
-        .reels-close-button { position: absolute; top: 20px; left: 20px; background: rgba(0,0,0,0.5); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; z-index: 10001; display: flex; align-items: center; justify-content: center; }
+        .reel-iframe-wrapper { position: relative; width: 100%; height: 100%; border-radius: 12px; overflow: hidden; background-color: #1a1a1a; }
+        .reel-iframe-wrapper iframe { width: 100%; height: 100%; border: 0; }
+        .reels-close-button { position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.5); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; z-index: 10001; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
@@ -106,9 +102,9 @@
             </div>
             <div class="post-actions">
                 <button class="action-btn" id="viewersBtn" title="Sedang menonton"><i class="fa-solid fa-eye"></i><span id="viewersCount">0</span></button>
-                <button class="action-btn" id="likeBtn" title="Suka"><i class="fa-solid fa-thumbs-up"></i><span id="likeCount">0</span></button>
-                <button class="action-btn" id="commentBtn" title="Komentar"><i class="fa-solid fa-comment"></i><span id="commentCount">0</span></button>
-                <button class="action-btn" id="shareBtn" title="Bagikan"><i class="fa-solid fa-share"></i><span id="shareCount">0</span></button>
+                <button class="action-btn like-btn" id="likeBtn"><i class="fa-solid fa-thumbs-up"></i><span id="likeCount">0</span></button>
+                <button class="action-btn" id="commentBtn"><i class="fa-solid fa-comment"></i><span id="commentCount">0</span></button>
+                <button class="action-btn" id="shareBtn"><i class="fa-solid fa-share"></i><span id="shareCount">0</span></button>
             </div>
             <div id="comments-wrapper">
                 <section class="section-white">
@@ -203,7 +199,7 @@
             firebase.initializeApp(firebaseConfig);
             const db = firebase.database();
 
-            // --- LOGIKA ASLI ANDA ---
+            // --- SEMUA LOGIKA ASLI ANDA (DIJAGA UTUH) ---
             const liveTimeEl = document.getElementById('live-time');
             if(liveTimeEl){
                 function updateDateTime() { const now = new Date(); const padZero = (n) => (n < 10 ? '0' + n : n); liveTimeEl.textContent = `${padZero(now.getHours())}:${padZero(now.getMinutes())}:${padZero(now.getSeconds())} Wita`; }
@@ -211,39 +207,28 @@
             }
             const streamingInfoEl = document.querySelector('.streaming-info');
             if(streamingInfoEl){
-                const messages = ["Selamat datang di JBTV...", "Saksikan siaran langsung...", "Dukung dakwah JBTV..."]; let msgIndex = 0;
+                const messages = [ "Selamat datang di JBTV...", "Saksikan siaran langsung...", "Dukung dakwah JBTV..." ];
+                let msgIndex = 0;
                 function runMarquee() { streamingInfoEl.innerHTML = messages[msgIndex]; streamingInfoEl.style.animation = 'marquee 20s linear 1'; }
                 streamingInfoEl.addEventListener('animationend', () => { msgIndex = (msgIndex + 1) % messages.length; runMarquee(); });
                 runMarquee();
             }
-            const videoIframe = document.querySelector('.video-container iframe');
-            if (videoIframe) {
-                const videoId = btoa(videoIframe.src);
-                const commentsRef = db.ref(`video_interactions/${videoId}/comments`);
-                const likesRef = db.ref(`video_interactions/${videoId}/likes`);
-                const sharesRef = db.ref(`video_interactions/${videoId}/shares`);
-                const presenceRef = db.ref(`video_interactions/${videoId}/presence`);
-                const viewersCountSpan = document.getElementById('viewersCount');
-                const likeBtn = document.getElementById('likeBtn');
-                const likeCountSpan = document.getElementById('likeCount');
-                const commentBtn = document.getElementById('commentBtn');
-                const commentCountSpan = document.getElementById('commentCount');
-                const shareBtn = document.getElementById('shareBtn');
-                const shareCountSpan = document.getElementById('shareCount');
-                const commentsWrapper = document.getElementById('comments-wrapper');
-                const form = document.getElementById('commentForm');
-                const commentsList = document.getElementById('commentsList');
-                const isAdmin = window.location.search.includes('admin=true');
+            const mainVideoIframe = document.querySelector('.video-container iframe');
+            if (mainVideoIframe) {
+                const videoId = btoa(mainVideoIframe.src);
+                const videoInteractionsRef = db.ref('video_interactions/' + videoId);
+                const commentsRef = videoInteractionsRef.child('comments'); const likesRef = videoInteractionsRef.child('likes'); const sharesRef = videoInteractionsRef.child('shares'); const presenceRef = videoInteractionsRef.child('presence');
+                const viewersCountSpan = document.getElementById('viewersCount'); const likeBtn = document.getElementById('likeBtn'); const likeCountSpan = document.getElementById('likeCount'); const commentBtn = document.getElementById('commentBtn'); const commentCountSpan = document.getElementById('commentCount'); const shareBtn = document.getElementById('shareBtn'); const shareCountSpan = document.getElementById('shareCount'); const commentsWrapper = document.getElementById('comments-wrapper'); const form = document.getElementById('commentForm'); const commentsList = document.getElementById('commentsList'); const isAdmin = window.location.search.includes('admin=true');
                 db.ref('.info/connected').on('value', (s) => { if (s.val()) { const ref = presenceRef.push(); ref.onDisconnect().remove(); ref.set(true); }});
                 presenceRef.on('value', (s) => { if(viewersCountSpan) viewersCountSpan.textContent = s.numChildren(); });
                 if(commentBtn) commentBtn.addEventListener('click', () => { commentsWrapper.style.display = commentsWrapper.style.display === 'block' ? 'none' : 'block'; });
                 commentsRef.on('value', (s) => { if(commentCountSpan) commentCountSpan.textContent = s.exists() ? s.numChildren() : 0; });
                 if(likeBtn) likeBtn.addEventListener('click', () => { likesRef.transaction((c) => (c || 0) + 1); });
                 likesRef.on('value', (s) => { if(likeCountSpan) likeCountSpan.textContent = s.val() || 0; });
-                if(shareBtn) shareBtn.addEventListener('click', async () => { /* share logic */ });
+                if(shareBtn) shareBtn.addEventListener('click', () => { sharesRef.transaction(c=>(c||0)+1); /* ... share logic ... */ });
                 sharesRef.on('value', (s) => { if(shareCountSpan) shareCountSpan.textContent = s.val() || 0; });
                 if(form) form.addEventListener('submit', (e) => { e.preventDefault(); const name = document.getElementById('name').value.trim(); const c = document.getElementById('comment').value.trim(); if (name && c) { commentsRef.push({ name, comment: c, timestamp: Date.now() }); form.reset(); } });
-                commentsRef.on('child_added', (s) => { const data = s.val(), key = s.key; const el = document.createElement('div'); el.id = `comment-${key}`; el.style.marginBottom = '20px'; const time = new Date(data.timestamp).toLocaleString('id-ID'); el.innerHTML = `<div style="padding:10px;background:#fff;border:1px solid #ddd;border-radius:6px;text-align:left;"><strong>${data.name}</strong> <small style="color:gray;">(${time})</small><p style="margin:5px 0;">${data.comment}</p>${isAdmin ? `<button onclick="deleteComment('${key}')">Hapus</button>` : ""}</div>`; if(commentsList) commentsList.prepend(el); });
+                commentsRef.on('child_added', (s) => { const data = s.val(), key = s.key, el = document.createElement('div'); el.id = `comment-${key}`; el.style.marginBottom = '20px'; const time = new Date(data.timestamp).toLocaleString('id-ID'); el.innerHTML = `<div style="padding:10px;background:#fff;border:1px solid #ddd;border-radius:6px;text-align:left;"><strong>${data.name}</strong> <small style="color:gray;">(${time})</small><p style="margin:5px 0;">${data.comment}</p>${isAdmin ? `<button onclick="deleteComment('${key}')">Hapus</button>` : ""}</div>`; if(commentsList) commentsList.prepend(el); });
                 window.deleteComment = (key) => { if (confirm("Yakin?")) { commentsRef.child(key).remove(); } };
                 commentsRef.on('child_removed', (s) => { const el = document.getElementById(`comment-${s.key}`); if (el) el.remove(); });
             }
@@ -261,172 +246,71 @@
                 else { pengumumanContainer.innerHTML = '<li>Belum ada pengumuman.</li>';}
             });
             
-            // --- LOGIKA VIDEO SCROLL DENGAN SEMUA PENYEMPURNAAN ---
+            // --- LOGIKA VIDEO SCROLL VIMEO ---
             const reelsRef = db.ref('youtubeReels');
             const reelsFloatButton = document.getElementById('reels-float-button');
             const reelsViewer = document.getElementById('reelsViewer');
             const reelsContainer = document.getElementById('reelsContainer');
             const reelsCloseButton = document.getElementById('reelsCloseButton');
-            let originalReels = [], isMutedByUser = true, scrollTimeout, intersectionObserver;
+            let originalReels = [], playerMap = new Map(), intersectionObserver;
 
-            function getYouTubeIDFromEmbed(embedCode) {
-                if (!embedCode) return null;
-                const srcMatch = embedCode.match(/src="[^"]*\/embed\/([^"?]+)/);
-                return srcMatch ? srcMatch[1] : null;
-            }
-            
             reelsRef.on('value', (snapshot) => {
-                if (snapshot.exists()) {
-                    originalReels = Object.values(snapshot.val());
-                    reelsFloatButton.style.display = originalReels.length > 0 ? 'flex' : 'none';
-                } else {
-                    originalReels = [];
-                    reelsFloatButton.style.display = 'none';
-                }
+                originalReels = snapshot.exists() ? Object.values(snapshot.val()) : [];
+                reelsFloatButton.style.display = originalReels.length > 0 ? 'flex' : 'none';
             });
 
             function buildReelsViewer() {
                 reelsContainer.innerHTML = '';
+                playerMap.clear();
                 if (originalReels.length === 0) return;
-                const reelsData = originalReels.length > 2
-                    ? [originalReels[originalReels.length - 1], ...originalReels, originalReels[0]]
-                    : [...originalReels, ...originalReels, ...originalReels];
-                
-                reelsData.forEach((reel, index) => {
-                    const videoId = getYouTubeIDFromEmbed(reel.embedCode);
-                    if (videoId) {
-                        const slide = document.createElement('div');
-                        slide.className = 'reel-slide';
-                        slide.dataset.index = index;
-                        slide.innerHTML = `
-                            <div class="reel-video-wrapper">
-                                <img src="https://i.ytimg.com/vi/${videoId}/hqdefault.jpg" class="reel-thumbnail" loading="lazy" alt="Thumbnail">
-                                <div class="reel-iframe-container">
-                                    <iframe data-src="https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&loop=1&playlist=${videoId}&origin=${window.location.origin}" allow="autoplay"></iframe>
-                                </div>
-                                <div class="reel-ui-overlay">
-                                    <div class="reel-title">${reel.title || ''}</div>
-                                    <div class="reel-channel">JBTV Official</div>
-                                </div>
-                                <button class="unmute-button"><i class="fa-solid fa-volume-xmark"></i></button>
-                            </div>`;
-                        reelsContainer.appendChild(slide);
-                    }
+                originalReels.forEach((reel, index) => {
+                    const slide = document.createElement('div');
+                    slide.className = 'reel-slide';
+                    slide.dataset.id = `video-${index}`;
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'reel-iframe-wrapper';
+                    wrapper.innerHTML = reel.embedCode;
+                    slide.appendChild(wrapper);
+                    reelsContainer.appendChild(slide);
+                    const iframe = slide.querySelector('iframe');
+                    if(iframe) playerMap.set(`video-${index}`, new Vimeo.Player(iframe));
                 });
-
                 setupIntersectionObserver();
-                const firstRealSlideIndex = originalReels.length > 2 ? 1 : 0;
-                const firstRealSlide = reelsContainer.querySelectorAll('.reel-slide')[firstRealSlideIndex];
-                if (firstRealSlide) {
-                    reelsContainer.scrollTo({ top: firstRealSlide.offsetTop, behavior: 'instant' });
-                }
             }
             
-            function activateIframe(slideElement) {
-                const iframe = slideElement.querySelector('iframe');
-                if (!iframe || iframe.src) return; 
-
-                iframe.src = iframe.dataset.src;
-                iframe.onload = () => {
-                    const unmuteBtn = slideElement.querySelector('.unmute-button');
-                    const thumbnail = slideElement.querySelector('.reel-thumbnail');
-                    const player = iframe.contentWindow;
-                    player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                    
-                    if (isMutedByUser) {
-                        player.postMessage('{"event":"command","func":"mute","args":""}', '*');
-                        unmuteBtn.classList.add('visible');
-                    } else {
-                        player.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-                        unmuteBtn.classList.remove('visible');
-                    }
-                    
-                    setTimeout(() => { 
-                        iframe.classList.add('loaded');
-                        if(thumbnail) thumbnail.style.opacity = '0';
-                    }, 500);
-                };
-            }
-
-            function deactivateIframe(slideElement){
-                const iframe = slideElement.querySelector('iframe');
-                if (iframe && iframe.src) {
-                    iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
-                    iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-                }
-            }
-
             function setupIntersectionObserver() {
-                if(intersectionObserver) intersectionObserver.disconnect();
+                if (intersectionObserver) intersectionObserver.disconnect();
                 intersectionObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
-                        const slide = entry.target;
+                        const player = playerMap.get(entry.target.dataset.id);
+                        if (!player) return;
                         if (entry.isIntersecting) {
-                            document.querySelectorAll('.is-active-slide').forEach(active => active.classList.remove('is-active-slide'));
-                            slide.classList.add('is-active-slide');
-                            activateIframe(slide);
+                            player.play();
+                            player.setVolume(1);
                         } else {
-                            slide.classList.remove('is-active-slide');
-                            deactivateIframe(slide);
+                            player.pause();
+                            player.setVolume(0);
                         }
                     });
                 }, { root: reelsContainer, threshold: 0.7 });
                 document.querySelectorAll('.reel-slide').forEach(slide => intersectionObserver.observe(slide));
             }
-            
-            reelsContainer.addEventListener('scroll', () => {
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    if (originalReels.length <= 2) return;
-                    const slides = Array.from(reelsContainer.querySelectorAll('.reel-slide'));
-                    const slideHeight = slides[0].offsetHeight;
-                    if (slideHeight === 0) return;
-                    
-                    const lastRealSlideIndex = originalReels.length;
-                    const lastRealSlide = slides[lastRealSlideIndex];
-                    if (!lastRealSlide) return;
-
-                    const lastRealSlideTop = lastRealSlide.offsetTop;
-                    const firstCloneTop = slides[lastRealSlideIndex + 1]?.offsetTop;
-                    const firstRealSlideTop = slides[1].offsetTop;
-                    const currentScroll = reelsContainer.scrollTop;
-                    
-                    if (firstCloneTop && currentScroll >= firstCloneTop - 1) {
-                        reelsContainer.scrollTo({ top: firstRealSlideTop, behavior: 'instant' });
-                    }
-                    if (currentScroll < firstRealSlideTop) {
-                        reelsContainer.scrollTo({ top: lastRealSlideTop, behavior: 'instant' });
-                    }
-                }, 200);
-            });
-
-            reelsViewer.addEventListener('click', (e) => {
-                if (e.target.closest('.unmute-button')) {
-                    isMutedByUser = false;
-                    reelsViewer.querySelectorAll('.unmute-button').forEach(btn => btn.classList.remove('visible'));
-                    const activeSlide = reelsViewer.querySelector('.is-active-slide');
-                    if (activeSlide) {
-                        const activeIframe = activeSlide.querySelector('iframe');
-                        if(activeIframe && activeIframe.src) {
-                             activeIframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-                        }
-                    }
-                }
-            });
 
             function openReelsViewer() {
                 if (originalReels.length > 0) {
-                    isMutedByUser = true;
                     buildReelsViewer();
                     reelsViewer.classList.add('active');
                     document.body.classList.add('reels-active');
                 }
             }
+
             function closeReelsViewer() {
                 reelsViewer.classList.remove('active');
                 document.body.classList.remove('reels-active');
+                playerMap.forEach(player => player.unload());
                 reelsContainer.innerHTML = '';
             }
+
             reelsFloatButton.addEventListener('click', openReelsViewer);
             reelsCloseButton.addEventListener('click', closeReelsViewer);
         });
