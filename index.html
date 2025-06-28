@@ -38,6 +38,11 @@
             color: var(--color-text);
         }
 
+        /* Mencegah scroll di body saat reels viewer terbuka */
+        body.reels-active {
+            overflow: hidden;
+        }
+
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -57,10 +62,8 @@
 
         .section-grey {
             background-color: #114ed7;
-            /* DIUBAH: Warna latar belakang baru */
         }
 
-        /* BARU: Style untuk teks di dalam section-grey agar terbaca */
         .section-grey h2,
         .section-grey h4,
         .section-grey p {
@@ -69,7 +72,6 @@
 
         .section-grey h4 {
             color: #d1d1d1;
-            /* Warna abu-abu terang untuk subjudul */
         }
 
 
@@ -97,26 +99,19 @@
             border: 0;
         }
 
-        /* --- STYLE BARU: News Ticker V2 (Lebih Canggih) --- */
         .news-ticker {
             display: flex;
-            /* Menggunakan flexbox untuk layout */
             align-items: center;
-            /* Menengahkan item secara vertikal */
             background-color: #114ed7;
-            /* Warna biru lebih gelap */
             color: white;
             padding: 5px 10px;
-            /* Padding lebih ramping */
             border-radius: 4px;
             margin: 25px auto;
             overflow: hidden;
             box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3);
             border-top: 0px solid #00008B;
-            /* Aksen warna */
         }
 
-        /* Pause on Hover */
         .news-ticker:hover .streaming-info {
             animation-play-state: paused;
         }
@@ -155,18 +150,13 @@
             font-size: 0.6em;
             text-align: center;
             background-color: var(--color-red);
-            /* WARNA BARU */
             padding: 4px 8px;
-            /* Padding agar lebih rapi */
             border-radius: 3px;
-            /* Sudut membulat */
             color: white;
-            /* Teks putih agar kontras */
         }
 
         .date-time-section span {
             display: block;
-            /* Agar tanggal dan waktu di baris terpisah */
         }
 
         #live-time {
@@ -175,25 +165,19 @@
 
         .marquee-section {
             flex-grow: 1;
-            /* Mengambil sisa ruang yang tersedia */
             overflow: hidden;
-            /* Penting untuk marquee */
         }
 
         .streaming-info {
             font-size: 0.9em;
             color: white;
-            /* Ubah warna teks agar kontras */
             display: inline-block;
             padding-left: 100%;
             white-space: nowrap;
             animation: marquee 20s linear;
-            /* Dibuat tidak infinite, dikontrol JS */
             margin: 0;
-            /* Reset margin default dari paragraf */
             vertical-align: middle;
             will-change: transform;
-            /* Optimasi performa animasi */
         }
 
         @keyframes blink {
@@ -212,13 +196,10 @@
             }
         }
 
-        /* --- AKHIR STYLE NEWS TICKER --- */
-
         .post-actions {
             display: flex;
             align-items: center;
             justify-content: center;
-            /* BARU: Menengahkan ikon */
             gap: 20px;
             border-top: 1px solid #eee;
             border-bottom: 1px solid #eee;
@@ -231,7 +212,6 @@
             border: none;
             cursor: pointer;
             font-size: 1em;
-            /* DIUBAH: Dikecilkan */
             color: #555;
             display: flex;
             align-items: center;
@@ -245,8 +225,6 @@
         .action-btn i {
             font-size: 1.2em;
         }
-
-        /* DIUBAH: Dikecilkan */
 
         #comments-wrapper {
             display: none;
@@ -287,7 +265,6 @@
             bottom: 0;
             width: 3px;
             background-color: #5d8bf2;
-            /* DIUBAH: Warna garis agar kontras */
             border-radius: 3px;
         }
 
@@ -304,20 +281,16 @@
             width: 13px;
             height: 13px;
             background-color: #114ed7;
-            /* DIUBAH: Sesuai BG */
             border: 3px solid #5d8bf2;
-            /* DIUBAH: Warna border agar kontras */
             border-radius: 50%;
             z-index: 1;
         }
 
         .timeline-item-content {
             background-color: #2a65e0;
-            /* DIUBAH: Warna lebih terang dari BG utama */
             padding: 20px;
             border-radius: 8px;
             border: 1px solid #5d8bf2;
-            /* DIUBAH: Warna border agar kontras */
         }
 
         .timeline-tag {
@@ -395,7 +368,6 @@
             font-size: 1em;
             font-weight: 600;
             border: 2px solid #fff;
-            /* DIUBAH */
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
             background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="16" height="16" fill="gray" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 5.5l6 6 6-6" stroke="gray" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>');
@@ -417,7 +389,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            z-index: 9999;
+            z-index: 999;
             align-items: flex-end;
         }
 
@@ -457,6 +429,109 @@
             opacity: 0.8;
         }
 
+        .reels-float-container {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 999;
+        }
+
+        #reels-float-button {
+            background-color: #e71d43;
+            color: white;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: none;
+            /* Defaultnya disembunyikan */
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        #reels-float-button:hover {
+            transform: scale(1.1);
+            background-color: #c41a3a;
+        }
+
+        #reels-float-button i {
+            margin-left: 2px;
+        }
+
+        .reels-viewer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            z-index: 10000;
+            display: none;
+            /* Awalnya tersembunyi */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .reels-viewer.active {
+            display: flex;
+        }
+
+        .reels-container {
+            width: 100%;
+            height: 100%;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .reels-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .reels-container {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .reel-slide {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            scroll-snap-align: start;
+            position: relative;
+        }
+
+        .reel-slide iframe {
+            max-width: 50.625vh;
+            width: 100%;
+            height: 90vh;
+            border: none;
+            background-color: #1a1a1a;
+        }
+
+        .reels-close-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10001;
+        }
+
         .section-about p {
             font-size: 0.9em;
             max-width: 700px;
@@ -466,7 +541,6 @@
             font-style: normal;
             font-weight: normal;
             color: #fffff;
-            /* DIUBAH agar kontras */
         }
 
         footer {
@@ -474,13 +548,11 @@
             color: white;
             text-align: center;
             padding: 0;
-            /* DIUBAH */
             font-size: 0.9em;
             font-style: normal;
             font-weight: normal;
         }
 
-        /* BARU: Mengurangi padding vertikal khusus untuk container di footer */
         footer .container {
             padding-top: 20px;
             padding-bottom: 20px;
@@ -565,26 +637,28 @@
                 </div>
 
                 <div id="ustad1" class="timeline-content active">
-    <ul class="timeline" id="jadwal-ustad1">
-        </ul>
-</div>
+                    <ul class="timeline" id="jadwal-ustad1">
+                    </ul>
+                </div>
 
-<div id="ustad2" class="timeline-content">
-    <ul class="timeline" id="jadwal-ustad2">
-        </ul>
-</div>
+                <div id="ustad2" class="timeline-content">
+                    <ul class="timeline" id="jadwal-ustad2">
+                    </ul>
+                </div>
 
-<div id="ustad3" class="timeline-content">
-    <ul class="timeline" id="jadwal-ustad3">
-        </ul>
-</div>
+                <div id="ustad3" class="timeline-content">
+                    <ul class="timeline" id="jadwal-ustad3">
+                    </ul>
+                </div>
+            </div>
+        </div>
     </section>
 
     <section class="section-white">
         <div class="container">
             <h2><strong>Pengumuman Penting</h2>
             <ul class="timeline" id="pengumuman-container">
-    </ul>
+            </ul>
         </div>
     </section>
 
@@ -612,6 +686,19 @@
             <i class="fab fa-whatsapp"></i> Akhwat
         </a>
     </div>
+
+    <div class="reels-float-container">
+        <button id="reels-float-button" title="Tonton Video Reels">
+            <i class="fa-solid fa-play"></i>
+        </button>
+    </div>
+
+    <div id="reelsViewer" class="reels-viewer">
+        <button id="reelsCloseButton" class="reels-close-button">×</button>
+        <div id="reelsContainer" class="reels-container">
+            </div>
+    </div>
+
 
     <footer>
         <div class="container">
@@ -691,30 +778,19 @@
 
 
             // --- LOGIKA INTERAKSI (VIEWERS, LIKE, KOMENTAR, SHARE) ---
-
-            // === PERUBAHAN UTAMA: MEMBUAT DATA UNIK UNTUK SETIAP VIDEO ===
-            // 1. Ambil URL video dari iframe sebagai ID unik
             const videoIframe = document.querySelector('.video-container iframe');
             if (!videoIframe) {
                 console.error("Iframe video tidak ditemukan!");
-                return; // Hentikan eksekusi jika iframe tidak ada
+                return;
             }
             const videoSrc = videoIframe.src;
-            
-            // 2. Buat kunci yang valid untuk Firebase dari URL video
-            // Fungsi btoa() akan meng-encode URL menjadi string Base64 yang aman digunakan sebagai kunci
             const videoId = btoa(videoSrc);
-
-            // 3. Arahkan semua referensi (likes, comments, dll.) ke path yang spesifik untuk video ini
-            // Ini akan membuat 'folder' baru di database Anda untuk setiap video yang berbeda.
             const videoInteractionsRef = db.ref('video_interactions/' + videoId);
-            
             const commentsRef = videoInteractionsRef.child('comments');
             const likesRef = videoInteractionsRef.child('likes');
             const sharesRef = videoInteractionsRef.child('shares');
-            const presenceRef = videoInteractionsRef.child('presence'); // Jumlah penonton juga spesifik per video
+            const presenceRef = videoInteractionsRef.child('presence');
 
-            // Ambil semua elemen UI
             const viewersCountSpan = document.getElementById('viewersCount');
             const likeBtn = document.getElementById('likeBtn');
             const likeCountSpan = document.getElementById('likeCount');
@@ -728,13 +804,12 @@
             const isAdmin = window.location.search.includes('admin=true');
 
             // --- Logika Jumlah Penonton (Real-time Presence) ---
-            // Logika ini sekarang menggunakan `presenceRef` yang sudah spesifik per video
             const amOnline = db.ref('.info/connected');
             amOnline.on('value', (snapshot) => {
                 if (snapshot.val()) {
-                    const myRef = presenceRef.push(); 
-                    myRef.onDisconnect().remove(); 
-                    myRef.set(true); 
+                    const myRef = presenceRef.push();
+                    myRef.onDisconnect().remove();
+                    myRef.set(true);
                 }
             });
 
@@ -743,7 +818,6 @@
                 viewersCountSpan.textContent = viewers;
             });
 
-            // Logika Tombol Komentar & Counternya
             commentBtn.addEventListener('click', () => {
                 const isVisible = commentsWrapper.style.display === 'block';
                 commentsWrapper.style.display = isVisible ? 'none' : 'block';
@@ -753,7 +827,6 @@
                 commentCountSpan.textContent = snapshot.exists() ? snapshot.numChildren() : 0;
             });
 
-            // Logika Tombol Suka
             likeBtn.addEventListener('click', () => {
                 likesRef.transaction((currentLikes) => (currentLikes || 0) + 1);
             });
@@ -762,7 +835,6 @@
                 likeCountSpan.textContent = snapshot.val() || 0;
             });
 
-            // Logika Tombol Bagikan dengan Counter
             shareBtn.addEventListener('click', async () => {
                 const shareData = {
                     title: 'JBTV - Kajian Islam & Pengumuman',
@@ -777,7 +849,7 @@
                 if (navigator.share) {
                     try {
                         await navigator.share(shareData);
-                        incrementShareCount(); 
+                        incrementShareCount();
                     } catch (err) {
                         console.error('Gagal membagikan:', err);
                     }
@@ -796,7 +868,6 @@
                 shareCountSpan.textContent = snapshot.val() || 0;
             });
 
-            // Logika Form & Daftar Komentar
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
                 const name = document.getElementById('name').value.trim();
@@ -816,7 +887,6 @@
                 const key = snapshot.key;
                 const el = document.createElement('div');
                 el.style.marginBottom = '20px';
-                // Tambahkan ID unik ke elemen komentar untuk mempermudah penghapusan
                 el.id = `comment-${key}`;
                 const time = new Date(data.timestamp).toLocaleString('id-ID');
                 el.innerHTML = `
@@ -828,124 +898,200 @@
                 `;
                 commentsList.prepend(el);
             });
-            
-            // Fungsi hapus komentar yang di-expose ke window
+
             window.deleteComment = function (commentKey) {
                 if (confirm("Yakin ingin menghapus komentar ini?")) {
                     commentsRef.child(commentKey).remove();
                 }
             };
 
-            // Listener untuk menghapus elemen komentar dari UI tanpa reload halaman
             commentsRef.on('child_removed', function (snapshot) {
-                 const key = snapshot.key;
-                 const commentElement = document.getElementById(`comment-${key}`);
-                 if (commentElement) {
-                     commentElement.remove();
-                 }
+                const key = snapshot.key;
+                const commentElement = document.getElementById(`comment-${key}`);
+                if (commentElement) {
+                    commentElement.remove();
+                }
             });
-            
-            // === MULAI KODE BARU UNTUK MEMUAT JADWAL & PENGUMUMAN ===
 
-// Referensi ke database
-const jadwalRef = db.ref('jadwalKajian');
-const pengumumanRef = db.ref('pengumuman');
+            // --- Logika untuk Fitur Reels Viewer ---
+            const reelsRef = db.ref('youtubeReels');
+            const reelsFloatButton = document.getElementById('reels-float-button');
+            const reelsViewer = document.getElementById('reelsViewer');
+            const reelsContainer = document.getElementById('reelsContainer');
+            const reelsCloseButton = document.getElementById('reelsCloseButton');
+            let reelsData = [];
 
-// Wadah di HTML
-const jadwalUstad1Container = document.getElementById('jadwal-ustad1');
-const jadwalUstad2Container = document.getElementById('jadwal-ustad2');
-const jadwalUstad3Container = document.getElementById('jadwal-ustad3');
-const pengumumanContainer = document.getElementById('pengumuman-container');
-
-
-// === MULAI KODE BARU UNTUK MEMUAT RENTANG TANGGAL ===
-
-// Referensi ke database untuk tanggal
-const tanggalRef = db.ref('infoSitus/rentangTanggal');
-
-// Wadah di HTML
-const rentangTanggalKajianElem = document.getElementById('rentangTanggalKajian');
-
-// Fungsi untuk memuat teks tanggal
-tanggalRef.on('value', (snapshot) => {
-    if (snapshot.exists()) {
-        rentangTanggalKajianElem.textContent = snapshot.val();
-    } else {
-        rentangTanggalKajianElem.textContent = 'Jadwal Kajian Rutin'; // Teks default jika belum diatur
-    }
-});
-
-// === AKHIR KODE BARU ===
-
-// Fungsi untuk memuat jadwal kajian
-jadwalRef.on('value', (snapshot) => {
-    // Kosongkan semua kontainer dulu
-    jadwalUstad1Container.innerHTML = '<li>Memuat jadwal...</li>';
-    jadwalUstad2Container.innerHTML = '<li>Memuat jadwal...</li>';
-    jadwalUstad3Container.innerHTML = '<li>Memuat jadwal...</li>';
-
-    if (snapshot.exists()) {
-        // Hapus pesan 'Memuat...'
-        jadwalUstad1Container.innerHTML = '';
-        jadwalUstad2Container.innerHTML = '';
-        jadwalUstad3Container.innerHTML = '';
-
-        snapshot.forEach((childSnapshot) => {
-            const jadwal = childSnapshot.val();
-            const itemHtml = `
-                <li class="timeline-item">
-                    <div class="timeline-item-content">
-                        <span class="timeline-tag tag-dark">${jadwal.jenis}</span>
-                        <span class="timeline-tag tag-red">${jadwal.waktu}</span>
-                        <div><span class="timeline-tag tag-green">${jadwal.lokasi}</span></div>
-                    </div>
-                </li>
-            `;
-            // Masukkan ke kontainer ustadz yang sesuai
-            if (jadwal.ustadzId === 'ustad1') {
-                jadwalUstad1Container.innerHTML += itemHtml;
-            } else if (jadwal.ustadzId === 'ustad2') {
-                jadwalUstad2Container.innerHTML += itemHtml;
-            } else if (jadwal.ustadzId === 'ustad3') {
-                jadwalUstad3Container.innerHTML += itemHtml;
+            function getYouTubeID(url) {
+                const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                const match = url.match(regExp);
+                return (match && match[2].length === 11) ? match[2] : null;
             }
-        });
-    } else {
-    jadwalUstad1Container.innerHTML = '<li style="color: white;">Belum ada jadwal.</li>';
-    jadwalUstad2Container.innerHTML = '<li style="color: white;">Belum ada jadwal.</li>';
-    jadwalUstad3Container.innerHTML = '<li style="color: white;">Belum ada jadwal.</li>';
-}
-});
 
-// Fungsi untuk memuat pengumuman
-pengumumanRef.on('value', (snapshot) => {
-    pengumumanContainer.innerHTML = '<li>Memuat pengumuman...</li>';
-    if (snapshot.exists()) {
-        pengumumanContainer.innerHTML = ''; // Kosongkan
-        snapshot.forEach((childSnapshot) => {
-            const pengumuman = childSnapshot.val();
-            const itemHtml = `
-                <li class="timeline-item">
-                    <div class="timeline-item-content">
-                        <div class="pengumuman-content">
-                            <img src="${pengumuman.flyerUrl}" alt="Flyer ${pengumuman.judul}" class="pengumuman-flyer">
-                            <div class="pengumuman-details">
-                                <span class="timeline-tag tag-dark">${pengumuman.judul}</span>
-                                <span class="timeline-tag tag-blue">Pemateri: ${pengumuman.pemateri}</span>
-                                <div><span class="timeline-tag tag-green">${pengumuman.waktu}</span></div>
-                                <div><span class="timeline-tag tag-red">${pengumuman.lokasi}</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            `;
-            pengumumanContainer.innerHTML += itemHtml;
-        });
-    } else {
-        pengumumanContainer.innerHTML = '<li>Belum ada pengumuman.</li>';
-    }
-});
-// === AKHIR KODE BARU ===
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+            }
+
+            function buildReelsViewer() {
+                reelsContainer.innerHTML = '';
+                let shuffledReels = [...reelsData];
+                shuffleArray(shuffledReels);
+
+                shuffledReels.forEach(reel => {
+                    const videoId = getYouTubeID(reel.url);
+                    if (videoId) {
+                        const slide = document.createElement('div');
+                        slide.className = 'reel-slide';
+                        slide.innerHTML = `<iframe data-src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0" loading="lazy"></iframe>`;
+                        reelsContainer.appendChild(slide);
+                    }
+                });
+                setupIntersectionObserver();
+            }
+
+            function setupIntersectionObserver() {
+                const options = {
+                    root: reelsContainer,
+                    rootMargin: '0px',
+                    threshold: 0.8
+                };
+
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        const iframe = entry.target.querySelector('iframe');
+                        if (entry.isIntersecting) {
+                            if (iframe && !iframe.src) {
+                                iframe.src = iframe.dataset.src;
+                            }
+                        } else {
+                            if (iframe && iframe.src) {
+                                iframe.src = '';
+                            }
+                        }
+                    });
+                }, options);
+
+                document.querySelectorAll('.reel-slide').forEach(slide => {
+                    observer.observe(slide);
+                });
+            }
+
+            reelsRef.on('value', (snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    reelsData = Object.keys(data).map(key => ({ key: key, url: data[key].url }));
+                    if (reelsData.length > 0) {
+                        reelsFloatButton.style.display = 'flex';
+                    } else {
+                        reelsFloatButton.style.display = 'none';
+                    }
+                } else {
+                    reelsFloatButton.style.display = 'none';
+                    reelsData = [];
+                }
+            });
+
+            reelsFloatButton.addEventListener('click', () => {
+                if (reelsData.length > 0) {
+                    buildReelsViewer();
+                    reelsViewer.classList.add('active');
+                    document.body.classList.add('reels-active');
+                }
+            });
+
+            reelsCloseButton.addEventListener('click', () => {
+                reelsViewer.classList.remove('active');
+                document.body.classList.remove('reels-active');
+                reelsContainer.querySelectorAll('iframe').forEach(iframe => {
+                    iframe.src = '';
+                });
+            });
+
+
+            // === MEMUAT DATA DINAMIS (JADWAL & PENGUMUMAN) ===
+            const jadwalRef = db.ref('jadwalKajian');
+            const pengumumanRef = db.ref('pengumuman');
+            const tanggalRef = db.ref('infoSitus/rentangTanggal');
+
+            const jadwalUstad1Container = document.getElementById('jadwal-ustad1');
+            const jadwalUstad2Container = document.getElementById('jadwal-ustad2');
+            const jadwalUstad3Container = document.getElementById('jadwal-ustad3');
+            const pengumumanContainer = document.getElementById('pengumuman-container');
+            const rentangTanggalKajianElem = document.getElementById('rentangTanggalKajian');
+
+            tanggalRef.on('value', (snapshot) => {
+                if (snapshot.exists()) {
+                    rentangTanggalKajianElem.textContent = snapshot.val();
+                } else {
+                    rentangTanggalKajianElem.textContent = 'Jadwal Kajian Rutin';
+                }
+            });
+
+            jadwalRef.on('value', (snapshot) => {
+                jadwalUstad1Container.innerHTML = '<li>Memuat jadwal...</li>';
+                jadwalUstad2Container.innerHTML = '<li>Memuat jadwal...</li>';
+                jadwalUstad3Container.innerHTML = '<li>Memuat jadwal...</li>';
+
+                if (snapshot.exists()) {
+                    jadwalUstad1Container.innerHTML = '';
+                    jadwalUstad2Container.innerHTML = '';
+                    jadwalUstad3Container.innerHTML = '';
+
+                    snapshot.forEach((childSnapshot) => {
+                        const jadwal = childSnapshot.val();
+                        const itemHtml = `
+                            <li class="timeline-item">
+                                <div class="timeline-item-content">
+                                    <span class="timeline-tag tag-dark">${jadwal.jenis}</span>
+                                    <span class="timeline-tag tag-red">${jadwal.waktu}</span>
+                                    <div><span class="timeline-tag tag-green">${jadwal.lokasi}</span></div>
+                                </div>
+                            </li>
+                        `;
+                        if (jadwal.ustadzId === 'ustad1') {
+                            jadwalUstad1Container.innerHTML += itemHtml;
+                        } else if (jadwal.ustadzId === 'ustad2') {
+                            jadwalUstad2Container.innerHTML += itemHtml;
+                        } else if (jadwal.ustadzId === 'ustad3') {
+                            jadwalUstad3Container.innerHTML += itemHtml;
+                        }
+                    });
+                } else {
+                    jadwalUstad1Container.innerHTML = '<li style="color: white;">Belum ada jadwal.</li>';
+                    jadwalUstad2Container.innerHTML = '<li style="color: white;">Belum ada jadwal.</li>';
+                    jadwalUstad3Container.innerHTML = '<li style="color: white;">Belum ada jadwal.</li>';
+                }
+            });
+
+            pengumumanRef.on('value', (snapshot) => {
+                pengumumanContainer.innerHTML = '<li>Memuat pengumuman...</li>';
+                if (snapshot.exists()) {
+                    pengumumanContainer.innerHTML = '';
+                    snapshot.forEach((childSnapshot) => {
+                        const pengumuman = childSnapshot.val();
+                        const itemHtml = `
+                            <li class="timeline-item">
+                                <div class="timeline-item-content">
+                                    <div class="pengumuman-content">
+                                        <img src="${pengumuman.flyerUrl}" alt="Flyer ${pengumuman.judul}" class="pengumuman-flyer">
+                                        <div class="pengumuman-details">
+                                            <span class="timeline-tag tag-dark">${pengumuman.judul}</span>
+                                            <span class="timeline-tag tag-blue">Pemateri: ${pengumuman.pemateri}</span>
+                                            <div><span class="timeline-tag tag-green">${pengumuman.waktu}</span></div>
+                                            <div><span class="timeline-tag tag-red">${pengumuman.lokasi}</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        `;
+                        pengumumanContainer.innerHTML += itemHtml;
+                    });
+                } else {
+                    pengumumanContainer.innerHTML = '<li>Belum ada pengumuman.</li>';
+                }
+            });
         });
     </script>
 </body>
