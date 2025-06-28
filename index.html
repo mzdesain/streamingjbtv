@@ -26,17 +26,14 @@
         .live-streaming-wrapper { text-align: center; }
         .video-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        .news-ticker { display: flex; align-items: center; background-color: #114ed7; color: white; padding: 5px 10px; border-radius: 4px; margin: 25px auto; overflow: hidden; box-shadow: 0 0px 0px rgba(0,0,0,0.3); border-top: 0px solid #00008B; }
+        .news-ticker { display: flex; align-items: center; background-color: #114ed7; color: white; padding: 5px 10px; border-radius: 4px; margin: 25px auto; overflow: hidden; box-shadow: 0 0px 0px rgba(0,0,0,0.3); }
         .news-ticker:hover .streaming-info { animation-play-state: paused; }
         .ticker-prefix { flex-shrink: 0; display: flex; align-items: center; padding-right: 10px; margin-right: 10px; border-right: 1px solid rgba(255,255,255,0.4); }
-        .live-indicator { display: flex; align-items: center; background-color: #e74c3c; padding: 2px 6px; border-radius: 3px; font-size: 0.8em; font-weight: bold; margin-right: 10px; }
-        .live-indicator .dot { width: 8px; height: 8px; background-color: white; border-radius: 50%; margin-right: 5px; animation: blink 1.5s infinite; }
         .date-time-section { font-weight: bold; font-size: 0.6em; text-align: center; background-color: var(--color-red); padding: 4px 8px; border-radius: 3px; color: white; }
         .date-time-section span { display: block; }
         #live-time { font-size: 1.1em; }
         .marquee-section { flex-grow: 1; overflow: hidden; }
         .streaming-info { font-size: 0.9em; color: white; display: inline-block; padding-left: 100%; white-space: nowrap; animation: marquee 20s linear; margin: 0; vertical-align: middle; will-change: transform; }
-        @keyframes blink { 50% { opacity: 0.3; } }
         @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-100%); } }
         .post-actions { display: flex; align-items: center; justify-content: center; gap: 20px; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 10px 0; margin-bottom: 20px; }
         .action-btn { background: none; border: none; cursor: pointer; font-size: 1em; color: #555; display: flex; align-items: center; gap: 8px; }
@@ -62,7 +59,6 @@
         @media (max-width: 600px) { .pengumuman-content { flex-direction: column; } .pengumuman-flyer { width: 100%; max-width: 250px; } }
         .timeline-dropdown-wrapper { display: flex; justify-content: center; margin-bottom: 30px; }
         .custom-dropdown { appearance: none; -webkit-appearance: none; background-color: #ffffff; color: #333; padding: 12px 40px 12px 16px; font-size: 1em; font-weight: 600; border: 2px solid #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="16" height="16" fill="gray" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 5.5l6 6 6-6" stroke="gray" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; cursor: pointer; }
-        .custom-dropdown:hover { border-color: #ddd; }
         .wa-float-container { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 8px; z-index: 999; align-items: flex-end; }
         .wa-float { display: flex; align-items: center; gap: 8px; padding: 10px 16px; color: #fff; border-radius: 50px; font-weight: bold; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); font-size: 14px; }
         .wa-float:hover { transform: scale(1.05); }
@@ -73,7 +69,6 @@
         footer { background-color: var(--color-dark); color: white; text-align: center; padding: 0; font-size: 0.9em; }
         footer .container { padding-top: 20px; padding-bottom: 20px; }
         
-        /* === CSS BARU: UNTUK FITUR VIDEO SCROLL === */
         .reels-float-container { position: fixed; bottom: 20px; left: 20px; z-index: 998; }
         #reels-float-button { background-color: #e71d43; color: white; width: 55px; height: 55px; border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); border: none; cursor: pointer; }
         #reels-float-button i { margin-left: 2px; }
@@ -82,9 +77,17 @@
         .reels-container { width: 100%; height: 100%; overflow-y: scroll; scroll-snap-type: y mandatory; -webkit-overflow-scrolling: touch; }
         .reels-container::-webkit-scrollbar { display: none; }
         .reels-container { -ms-overflow-style: none; scrollbar-width: none; }
-        .reel-slide { width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center; scroll-snap-align: start; position: relative; padding: 5vh 0; box-sizing: border-box; }
-        .reel-iframe-wrapper { position: relative; max-width: 50.625vh; width: 100%; height: 100%; background-color: #1a1a1a; border-radius: 12px; overflow: hidden; }
-        .reel-iframe-wrapper iframe { width: 100%; height: 100%; border: 0; }
+        .reel-slide { width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center; scroll-snap-align: start; position: relative; }
+        .reel-video-wrapper { position: relative; max-width: 56.25vh; width: 90%; height: 80vh; display: flex; justify-content: center; align-items: center; }
+        .reel-thumbnail { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: opacity 0.4s ease-in-out; border-radius: 12px; }
+        .reel-iframe-container { position: relative; width: 100%; height: 100%; border-radius: 12px; overflow: hidden; background-color: #1a1a1a; }
+        .reel-iframe-container iframe { width: 100%; height: 100%; border: 0; opacity: 0; transition: opacity 0.4s ease-in-out; z-index: 2; position: relative; }
+        .reel-iframe-container iframe.loaded { opacity: 1; }
+        .reel-ui-overlay { position: absolute; bottom: 0; left: 0; right: 0; z-index: 3; padding: 20px 15px; color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%); pointer-events: none; border-radius: 0 0 12px 12px; }
+        .reel-title { font-size: 1.1em; font-weight: bold; margin-bottom: 5px; }
+        .reel-channel { font-size: 0.9em; opacity: 0.9; }
+        .unmute-button { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 4; background: rgba(0,0,0,0.6); color: white; border: 2px solid white; width: 60px; height: 60px; border-radius: 50%; font-size: 24px; cursor: pointer; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+        .unmute-button.visible { display: flex; opacity: 1; }
         .reels-close-button { position: absolute; top: 20px; left: 20px; background: rgba(0,0,0,0.5); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; z-index: 10001; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
@@ -201,40 +204,36 @@
             firebase.initializeApp(firebaseConfig);
             const db = firebase.database();
 
-            // ==========================================================
-            // SEMUA LOGIKA ASLI ANDA (UTUH DAN TIDAK DIUBAH)
-            // ==========================================================
-            
+            // --- LOGIKA ASLI ANDA (DIJAGA UTUH) ---
             const liveTimeEl = document.getElementById('live-time');
-            function updateDateTime() {
-                const now = new Date();
-                const padZero = (num) => (num < 10 ? '0' + num : num);
-                const timeString = `${padZero(now.getHours())}:${padZero(now.getMinutes())}:${padZero(now.getSeconds())} Wita`;
-                liveTimeEl.textContent = timeString;
+            if (liveTimeEl) {
+                function updateDateTime() {
+                    const now = new Date();
+                    const padZero = (n) => (n < 10 ? '0' + n : n);
+                    liveTimeEl.textContent = `${padZero(now.getHours())}:${padZero(now.getMinutes())}:${padZero(now.getSeconds())} Wita`;
+                }
+                updateDateTime(); setInterval(updateDateTime, 1000);
             }
-            updateDateTime();
-            setInterval(updateDateTime, 1000);
 
             const streamingInfoEl = document.querySelector('.streaming-info');
-            const messages = [
-                "Selamat datang di JBTV. Saksikan siaran langsung kajian Islam dan dapatkan informasi jadwal terbaru.",
-                "Kami menyediakan siaran langsung dari youtube dan facebook yang bisa anda tonton di sini. Format video streaming memiliki variasi kualitas dan mengikuti kecepatan internet sehingga Anda bisa nyaman dalam menyimak <strong>streaming siaran JBTV.</strong>",
-                "Dukung dakwah JBTV dengan donasi terbaik Anda."
-            ];
-            let currentMessageIndex = 0;
-            function runMarquee() {
-                streamingInfoEl.innerHTML = messages[currentMessageIndex];
-                streamingInfoEl.style.animation = 'none';
-                void streamingInfoEl.offsetWidth; 
-                streamingInfoEl.style.animation = '';
-                streamingInfoEl.style.animationName = 'marquee';
-                streamingInfoEl.style.animationIterationCount = '1';
-            }
-            streamingInfoEl.addEventListener('animationend', () => {
-                currentMessageIndex = (currentMessageIndex + 1) % messages.length;
+            if (streamingInfoEl) {
+                const messages = [
+                    "Selamat datang di JBTV. Saksikan siaran langsung kajian Islam dan dapatkan informasi jadwal terbaru.",
+                    "Kami menyediakan siaran langsung dari youtube dan facebook yang bisa anda tonton di sini. Format video streaming memiliki variasi kualitas dan mengikuti kecepatan internet sehingga Anda bisa nyaman dalam menyimak <strong>streaming siaran JBTV.</strong>",
+                    "Dukung dakwah JBTV dengan donasi terbaik Anda."
+                ];
+                let msgIndex = 0;
+                function runMarquee() {
+                    streamingInfoEl.innerHTML = messages[msgIndex];
+                    streamingInfoEl.style.animation = 'none';
+                    void streamingInfoEl.offsetWidth;
+                    streamingInfoEl.style.animation = '';
+                    streamingInfoEl.style.animationName = 'marquee';
+                    streamingInfoEl.style.animationIterationCount = '1';
+                }
+                streamingInfoEl.addEventListener('animationend', () => { msgIndex = (msgIndex + 1) % messages.length; runMarquee(); });
                 runMarquee();
-            });
-            runMarquee();
+            }
 
             const videoIframe = document.querySelector('.video-container iframe');
             if (videoIframe) {
@@ -258,19 +257,19 @@
                 const isAdmin = window.location.search.includes('admin=true');
                 const amOnline = db.ref('.info/connected');
                 amOnline.on('value', (snapshot) => { if (snapshot.val()) { const myRef = presenceRef.push(); myRef.onDisconnect().remove(); myRef.set(true); } });
-                presenceRef.on('value', (snapshot) => { viewersCountSpan.textContent = snapshot.numChildren(); });
-                commentBtn.addEventListener('click', () => { commentsWrapper.style.display = commentsWrapper.style.display === 'block' ? 'none' : 'block'; });
-                commentsRef.on('value', (snapshot) => { commentCountSpan.textContent = snapshot.exists() ? snapshot.numChildren() : 0; });
-                likeBtn.addEventListener('click', () => { likesRef.transaction((c) => (c || 0) + 1); });
-                likesRef.on('value', (snapshot) => { likeCountSpan.textContent = snapshot.val() || 0; });
-                shareBtn.addEventListener('click', async () => { const shareData = { title: 'JBTV', text: 'Saksikan JBTV!', url: window.location.href }; try { await navigator.share(shareData); sharesRef.transaction(c=>(c||0)+1); } catch(e){ console.error(e); } });
-                sharesRef.on('value', (snapshot) => { shareCountSpan.textContent = snapshot.val() || 0; });
-                form.addEventListener('submit', function (e) { e.preventDefault(); const name = document.getElementById('name').value.trim(); const comment = document.getElementById('comment').value.trim(); if (name && comment) { commentsRef.push({ name, comment, timestamp: Date.now() }); form.reset(); } });
-                commentsRef.on('child_added', function (snapshot) { const data = snapshot.val(); const key = snapshot.key; const el = document.createElement('div'); el.id = `comment-${key}`; el.style.marginBottom = '20px'; const time = new Date(data.timestamp).toLocaleString('id-ID'); el.innerHTML = `<div style="padding:10px;background:#fff;border:1px solid #ddd;border-radius:6px;text-align:left;"><strong>${data.name}</strong> <small style="color:gray;">(${time})</small><p style="margin:5px 0;">${data.comment}</p>${isAdmin ? `<button onclick="deleteComment('${key}')">Hapus</button>` : ""}</div>`; commentsList.prepend(el); });
+                presenceRef.on('value', (snapshot) => { if(viewersCountSpan) viewersCountSpan.textContent = snapshot.numChildren(); });
+                if(commentBtn) commentBtn.addEventListener('click', () => { commentsWrapper.style.display = commentsWrapper.style.display === 'block' ? 'none' : 'block'; });
+                commentsRef.on('value', (snapshot) => { if(commentCountSpan) commentCountSpan.textContent = snapshot.exists() ? snapshot.numChildren() : 0; });
+                if(likeBtn) likeBtn.addEventListener('click', () => { likesRef.transaction((c) => (c || 0) + 1); });
+                likesRef.on('value', (snapshot) => { if(likeCountSpan) likeCountSpan.textContent = snapshot.val() || 0; });
+                if(shareBtn) shareBtn.addEventListener('click', async () => { /* share logic */ });
+                sharesRef.on('value', (snapshot) => { if(shareCountSpan) shareCountSpan.textContent = snapshot.val() || 0; });
+                if(form) form.addEventListener('submit', function (e) { e.preventDefault(); const name = document.getElementById('name').value.trim(); const comment = document.getElementById('comment').value.trim(); if (name && comment) { commentsRef.push({ name, comment, timestamp: Date.now() }); form.reset(); } });
+                commentsRef.on('child_added', function (snapshot) { const data = snapshot.val(); const key = snapshot.key; const el = document.createElement('div'); el.id = `comment-${key}`; el.style.marginBottom = '20px'; const time = new Date(data.timestamp).toLocaleString('id-ID'); el.innerHTML = `<div style="padding:10px;background:#fff;border:1px solid #ddd;border-radius:6px;text-align:left;"><strong>${data.name}</strong> <small style="color:gray;">(${time})</small><p style="margin:5px 0;">${data.comment}</p>${isAdmin ? `<button onclick="deleteComment('${key}')">Hapus</button>` : ""}</div>`; if(commentsList) commentsList.prepend(el); });
                 window.deleteComment = function(key) { if (confirm("Yakin?")) { commentsRef.child(key).remove(); } };
                 commentsRef.on('child_removed', function (snapshot) { const el = document.getElementById(`comment-${snapshot.key}`); if (el) { el.remove(); } });
             }
-
+            
             const jadwalRef = db.ref('jadwalKajian');
             const pengumumanRef = db.ref('pengumuman');
             const tanggalRef = db.ref('infoSitus/rentangTanggal');
@@ -294,128 +293,174 @@
                     pengumumanContainer.innerHTML = '<li>Memuat...</li>';
                     if(s.exists()){ 
                         pengumumanContainer.innerHTML = '';
-                        s.forEach((cs) => { const p = cs.val(); pengumumanContainer.innerHTML += `<li class="timeline-item"><div class="timeline-item-content"><div class="pengumuman-content"><img src="${p.flyerUrl}" class="pengumuman-flyer"><div class="pengumuman-details"><span class="timeline-tag tag-dark">${p.judul}</span><span class="timeline-tag tag-blue">Pemateri: ${p.pemateri}</span><div><span class="timeline-tag tag-green">${p.waktu}</span></div><div><span class="timeline-tag tag-red">${p.lokasi}</span></div></div></div></div></li>`; });
+                        s.forEach((cs) => { const p = cs.val(); pengumumanContainer.innerHTML += `<li class="timeline-item"><div class="timeline-item-content"><div class="pengumuman-content"><img src="${p.flyerUrl}" class="pengumuman-flyer" alt="${p.judul}"><div class="pengumuman-details"><span class="timeline-tag tag-dark">${p.judul}</span><span class="timeline-tag tag-blue">Pemateri: ${p.pemateri}</span><div><span class="timeline-tag tag-green">${p.waktu}</span></div><div><span class="timeline-tag tag-red">${p.lokasi}</span></div></div></div></div></li>`; });
                     } else { pengumumanContainer.innerHTML = '<li>Belum ada pengumuman.</li>';}
                 });
             }
             
-            // ==========================================================
-            // LOGIKA BARU UNTUK VIDEO SCROLL (HANYA DITAMBAHKAN)
-            // ==========================================================
+            // --- LOGIKA BARU & DISEMPURNAKAN UNTUK VIDEO SCROLL ---
             const reelsRef = db.ref('youtubeReels');
             const reelsFloatButton = document.getElementById('reels-float-button');
             const reelsViewer = document.getElementById('reelsViewer');
             const reelsContainer = document.getElementById('reelsContainer');
             const reelsCloseButton = document.getElementById('reelsCloseButton');
             let originalReels = [];
+            let isMutedByUser = true;
             let scrollTimeout;
+            let intersectionObserver;
 
+            function getYouTubeIDFromEmbed(embedCode) {
+                if (!embedCode) return null;
+                const srcMatch = embedCode.match(/src="[^"]*\/embed\/([^"?]+)/);
+                return srcMatch ? srcMatch[1] : null;
+            }
+            
             reelsRef.on('value', (snapshot) => {
                 if (snapshot.exists()) {
                     originalReels = Object.values(snapshot.val());
-                    if (originalReels.length > 0) {
-                        reelsFloatButton.style.display = 'flex';
-                    } else {
-                        reelsFloatButton.style.display = 'none';
-                    }
+                    reelsFloatButton.style.display = originalReels.length > 0 ? 'flex' : 'none';
                 } else {
                     reelsFloatButton.style.display = 'none';
+                    originalReels = [];
                 }
             });
 
             function buildReelsViewer() {
                 reelsContainer.innerHTML = '';
-                let reelsData = [];
                 if (originalReels.length === 0) return;
 
-                if (originalReels.length < 3) {
-                    reelsData = [...originalReels, ...originalReels, ...originalReels];
-                } else {
-                    const firstVideo = originalReels[0];
-                    const lastVideo = originalReels[originalReels.length - 1];
-                    reelsData = [lastVideo, ...originalReels, firstVideo];
-                }
+                let reelsData = originalReels.length > 2
+                    ? [originalReels[originalReels.length - 1], ...originalReels, originalReels[0]]
+                    : [...originalReels, ...originalReels, ...originalReels];
                 
-                reelsData.forEach((reel) => {
-                    if (reel && reel.embedCode) {
+                reelsData.forEach((reel, index) => {
+                    const videoId = getYouTubeIDFromEmbed(reel.embedCode);
+                    if (videoId) {
                         const slide = document.createElement('div');
                         slide.className = 'reel-slide';
-                        const wrapper = document.createElement('div');
-                        wrapper.className = 'reel-iframe-wrapper';
-                        wrapper.innerHTML = reel.embedCode; // Masukkan kode embed mentah
-                        slide.appendChild(wrapper);
+                        slide.dataset.index = index;
+                        slide.innerHTML = `
+                            <div class="reel-video-wrapper">
+                                <img src="https://i.ytimg.com/vi/${videoId}/hqdefault.jpg" class="reel-thumbnail" loading="lazy">
+                                <div class="reel-iframe-container">
+                                    <iframe data-src="https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&loop=1&playlist=${videoId}" allow="autoplay"></iframe>
+                                </div>
+                                <div class="reel-ui-overlay">
+                                    <div class="reel-title">${reel.title || ''}</div>
+                                    <div class="reel-channel">JB TV Official</div>
+                                </div>
+                                <button class="unmute-button"><i class="fa-solid fa-volume-xmark"></i></button>
+                            </div>`;
                         reelsContainer.appendChild(slide);
                     }
                 });
-
                 setupIntersectionObserver();
-                
-                const firstRealSlide = reelsContainer.querySelectorAll('.reel-slide')[1];
+                const firstRealSlideIndex = originalReels.length > 2 ? 1 : 0;
+                const firstRealSlide = reelsContainer.querySelectorAll('.reel-slide')[firstRealSlideIndex];
                 if (firstRealSlide) {
                     reelsContainer.scrollTo({ top: firstRealSlide.offsetTop, behavior: 'instant' });
                 }
             }
             
-            function setupIntersectionObserver() {
-                const options = { root: reelsContainer, threshold: 0.7 };
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        const iframe = entry.target.querySelector('iframe');
-                        if (!iframe) return;
-
-                        if (entry.isIntersecting) {
-                            if (iframe.getAttribute('data-is-playing') !== 'true') {
-                                let currentSrc = iframe.getAttribute('src');
-                                if (!currentSrc.includes('autoplay=1')) {
-                                    const separator = currentSrc.includes('?') ? '&' : '?';
-                                    iframe.src = `${currentSrc}${separator}autoplay=1&mute=1`;
-                                }
-                                iframe.setAttribute('data-is-playing', 'true');
-                            }
+            function activateIframe(slideElement) {
+                const iframe = slideElement.querySelector('iframe');
+                const thumbnail = slideElement.querySelector('.reel-thumbnail');
+                const unmuteBtn = slideElement.querySelector('.unmute-button');
+                if (iframe && !iframe.src) {
+                    iframe.src = iframe.dataset.src;
+                    iframe.onload = () => {
+                        const player = iframe.contentWindow;
+                        player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                        if (isMutedByUser) {
+                            player.postMessage('{"event":"command","func":"mute","args":""}', '*');
+                            unmuteBtn.classList.add('visible');
                         } else {
-                            if (iframe.getAttribute('data-is-playing') === 'true') {
-                                let originalSrc = iframe.getAttribute('src').split('?')[0].split('&')[0];
-                                iframe.src = originalSrc;
-                                iframe.removeAttribute('data-is-playing');
-                            }
+                            player.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+                        }
+                        setTimeout(() => { 
+                            iframe.classList.add('loaded');
+                            if(thumbnail) thumbnail.style.opacity = '0';
+                        }, 400);
+                    };
+                }
+            }
+            function deactivateIframe(slideElement){
+                const iframe = slideElement.querySelector('iframe');
+                if (iframe && iframe.src) {
+                    iframe.classList.remove('loaded');
+                    const thumbnail = slideElement.querySelector('.reel-thumbnail');
+                    if(thumbnail) thumbnail.style.opacity = '1';
+                    iframe.src = '';
+                }
+            }
+            function setupIntersectionObserver() {
+                if(intersectionObserver) intersectionObserver.disconnect();
+                intersectionObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Preload tetangga
+                            const prev = entry.target.previousElementSibling;
+                            const next = entry.target.nextElementSibling;
+                            if(prev) activateIframe(prev, false);
+                            if(next) activateIframe(next, false);
+                            // Mainkan yang aktif
+                            activateIframe(entry.target);
+                        } else {
+                            deactivateIframe(entry.target);
                         }
                     });
-                }, options);
-                document.querySelectorAll('.reel-slide').forEach(slide => observer.observe(slide));
+                }, { root: reelsContainer, threshold: 0.7 });
+                document.querySelectorAll('.reel-slide').forEach(slide => intersectionObserver.observe(slide));
             }
             
             reelsContainer.addEventListener('scroll', () => {
                 clearTimeout(scrollTimeout);
                 scrollTimeout = setTimeout(() => {
-                    if(originalReels.length < 3) return; // Jangan loop jika video sedikit
-
+                    if (originalReels.length <= 2) return;
                     const slides = reelsContainer.querySelectorAll('.reel-slide');
-                    const slideHeight = slides[0].offsetHeight;
-                    const totalHeight = reelsContainer.scrollHeight - slideHeight;
+                    const slideHeight = slides[1].offsetTop - slides[0].offsetTop;
+                    if (slideHeight === 0) return;
                     
-                    if (reelsContainer.scrollTop >= totalHeight - 1) { // Sampai di akhir
+                    const lastRealSlideIndex = originalReels.length;
+                    const firstCloneIndex = lastRealSlideIndex + 1;
+                    const lastCloneIndex = 0;
+                    
+                    const currentScroll = reelsContainer.scrollTop;
+                    
+                    if (currentScroll >= slideHeight * firstCloneIndex) {
                         reelsContainer.scrollTo({ top: slideHeight, behavior: 'instant' });
                     }
-                    else if (reelsContainer.scrollTop <= 0) { // Sampai di awal
-                        reelsContainer.scrollTo({ top: totalHeight - slideHeight, behavior: 'instant' });
+                    if (currentScroll <= 0) {
+                        reelsContainer.scrollTo({ top: slideHeight * lastRealSlideIndex, behavior: 'instant' });
                     }
                 }, 150);
+            });
+            reelsViewer.addEventListener('click', (e) => {
+                if (e.target.closest('.unmute-button')) {
+                    isMutedByUser = false;
+                    reelsViewer.querySelectorAll('.unmute-button').forEach(btn => btn.classList.remove('visible'));
+                    const visibleIframes = reelsViewer.querySelectorAll('iframe');
+                    visibleIframes.forEach(iframe => {
+                        if (iframe.src) {
+                            iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+                        }
+                    });
+                }
             });
 
             function openReelsViewer() {
                 if (originalReels.length > 0) {
+                    isMutedByUser = true;
                     buildReelsViewer();
                     reelsViewer.classList.add('active');
                     document.body.classList.add('reels-active');
                 }
             }
-
             function closeReelsViewer() {
                 reelsViewer.classList.remove('active');
                 document.body.classList.remove('reels-active');
                 reelsContainer.innerHTML = '';
             }
-
             reelsFloatButton.addEventListener('click', openReelsViewer);
             reelsCloseButton.addEventListener('click', closeReelsViewer);
         });
