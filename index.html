@@ -27,19 +27,18 @@
         .live-streaming-wrapper { text-align: center; }
         .video-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        .news-ticker { display: flex; align-items: center; background-color: #114ed7; color: white; padding: 5px 10px; border-radius: 4px; margin: 25px auto; overflow: hidden; box-shadow: 0 0px 0px rgba(0,0,0,0.3); border-top: 0px solid #00008B; }
+        .news-ticker { display: flex; align-items: center; background-color: #114ed7; color: white; padding: 5px 10px; border-radius: 4px; margin: 25px auto; overflow: hidden; }
         .news-ticker:hover .streaming-info { animation-play-state: paused; }
         .ticker-prefix { flex-shrink: 0; display: flex; align-items: center; padding-right: 10px; margin-right: 10px; border-right: 1px solid rgba(255,255,255,0.4); }
         .date-time-section { font-weight: bold; font-size: 0.6em; text-align: center; background-color: var(--color-red); padding: 4px 8px; border-radius: 3px; color: white; }
-        .date-time-section span { display: block; }
         #live-time { font-size: 1.1em; }
         .marquee-section { flex-grow: 1; overflow: hidden; }
         .streaming-info { font-size: 0.9em; color: white; display: inline-block; padding-left: 100%; white-space: nowrap; animation: marquee 20s linear; margin: 0; vertical-align: middle; will-change: transform; }
         @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-100%); } }
         .post-actions { display: flex; align-items: center; justify-content: center; gap: 20px; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 10px 0; margin-bottom: 20px; }
         .action-btn { background: none; border: none; cursor: pointer; font-size: 1em; color: #555; display: flex; align-items: center; gap: 8px; }
-        .action-btn:hover { color: var(--color-primary); }
         .action-btn i { font-size: 1.2em; }
+        .action-btn:hover { color: var(--color-primary); }
         #comments-wrapper { display: none; margin-top: 20px; }
         .timeline-container { width: 100%; }
         .timeline-content { display: none; }
@@ -60,7 +59,7 @@
         @media (max-width: 600px) { .pengumuman-content { flex-direction: column; } .pengumuman-flyer { width: 100%; max-width: 250px; } }
         .timeline-dropdown-wrapper { display: flex; justify-content: center; margin-bottom: 30px; }
         .custom-dropdown { appearance: none; -webkit-appearance: none; background-color: #ffffff; color: #333; padding: 12px 40px 12px 16px; font-size: 1em; font-weight: 600; border: 2px solid #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="16" height="16" fill="gray" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 5.5l6 6 6-6" stroke="gray" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; cursor: pointer; }
-        .wa-float-container { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 8px; z-index: 999; align-items: flex-end; }
+        .wa-float-container { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 8px; z-index: 9999; align-items: flex-end; }
         .wa-float { display: flex; align-items: center; gap: 8px; padding: 10px 16px; color: #fff; border-radius: 50px; font-weight: bold; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); font-size: 14px; }
         .wa-float:hover { transform: scale(1.05); }
         .wa-ikhwan { background-color: #25D366; }
@@ -69,11 +68,24 @@
         .section-about p { font-size: 0.9em; max-width: 700px; margin: 25px auto; margin-top: -20px; text-align: center; font-style: normal; font-weight: normal; color: white; }
         footer { background-color: var(--color-dark); color: white; text-align: center; padding: 0; font-size: 0.9em; }
         footer .container { padding-top: 20px; padding-bottom: 20px; }
-        
-        /* === CSS BARU UNTUK FITUR VIDEO SCROLL === */
-        .reels-float-container { position: fixed; bottom: 20px; left: 20px; z-index: 998; }
-        #reels-float-button { background-color: #e71d43; color: white; width: 55px; height: 55px; border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); border: none; cursor: pointer; }
+
+        /* === PERBAIKAN CSS UNTUK TOMBOL DI HP === */
+        .reels-float-container {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 9998; /* Nilai z-index tinggi agar di atas elemen lain */
+            -webkit-transform: translateZ(0); /* Trik untuk GPU rendering di beberapa browser mobile */
+            transform: translateZ(0);
+        }
+        #reels-float-button {
+            background-color: #e71d43; color: white; width: 55px; height: 55px;
+            border-radius: 50%; display: none; align-items: center; justify-content: center;
+            font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border: none; cursor: pointer;
+        }
         #reels-float-button i { margin-left: 2px; }
+
         .reels-viewer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; z-index: 10000; display: none; }
         .reels-viewer.active { display: block; }
         .reels-container { width: 100%; height: 100%; overflow-y: scroll; scroll-snap-type: y mandatory; -webkit-overflow-scrolling: touch; }
@@ -181,7 +193,6 @@
             for (let i = 0; i < tabcontent.length; i++) { tabcontent[i].style.display = "none"; }
             document.getElementById(selectedValue).style.display = "block";
         }
-
         document.addEventListener("DOMContentLoaded", function () {
             if (document.getElementById("ustadzDropdown")) {
                 document.getElementById("ustadzDropdown").value = "ustad1";
@@ -199,7 +210,7 @@
             firebase.initializeApp(firebaseConfig);
             const db = firebase.database();
 
-            // --- SEMUA LOGIKA ASLI ANDA (DIJAGA UTUH) ---
+            // --- SEMUA LOGIKA ASLI ANDA ---
             const liveTimeEl = document.getElementById('live-time');
             if(liveTimeEl){
                 function updateDateTime() { const now = new Date(); const padZero = (n) => (n < 10 ? '0' + n : n); liveTimeEl.textContent = `${padZero(now.getHours())}:${padZero(now.getMinutes())}:${padZero(now.getSeconds())} Wita`; }
@@ -207,20 +218,33 @@
             }
             const streamingInfoEl = document.querySelector('.streaming-info');
             if(streamingInfoEl){
-                const messages = [ "Selamat datang di JBTV. Saksikan siaran langsung kajian Islam dan dapatkan informasi jadwal terbaru.",
-                "Kami menyediakan siaran langsung dari youtube dan facebook yang bisa anda tonton di sini. Format video streaming memiliki variasi kualitas dan mengikuti kecepatan internet sehingga Anda bisa nyaman dalam menyimak <strong>streaming siaran JBTV.</strong>",
-                "Dukung dakwah JBTV dengan donasi terbaik Anda." ];
+                const messages = ["Selamat datang di JBTV...", "Saksikan siaran langsung...", "Dukung dakwah JBTV..."];
                 let msgIndex = 0;
-                function runMarquee() { streamingInfoEl.innerHTML = messages[msgIndex]; streamingInfoEl.style.animation = 'marquee 20s linear 1'; }
+                function runMarquee() {
+                    streamingInfoEl.innerHTML = messages[msgIndex];
+                    streamingInfoEl.style.animation = 'marquee 20s linear 1';
+                }
                 streamingInfoEl.addEventListener('animationend', () => { msgIndex = (msgIndex + 1) % messages.length; runMarquee(); });
                 runMarquee();
             }
             const mainVideoIframe = document.querySelector('.video-container iframe');
             if (mainVideoIframe) {
                 const videoId = btoa(mainVideoIframe.src);
-                const videoInteractionsRef = db.ref('video_interactions/' + videoId);
-                const commentsRef = videoInteractionsRef.child('comments'); const likesRef = videoInteractionsRef.child('likes'); const sharesRef = videoInteractionsRef.child('shares'); const presenceRef = videoInteractionsRef.child('presence');
-                const viewersCountSpan = document.getElementById('viewersCount'); const likeBtn = document.getElementById('likeBtn'); const likeCountSpan = document.getElementById('likeCount'); const commentBtn = document.getElementById('commentBtn'); const commentCountSpan = document.getElementById('commentCount'); const shareBtn = document.getElementById('shareBtn'); const shareCountSpan = document.getElementById('shareCount'); const commentsWrapper = document.getElementById('comments-wrapper'); const form = document.getElementById('commentForm'); const commentsList = document.getElementById('commentsList'); const isAdmin = window.location.search.includes('admin=true');
+                const commentsRef = db.ref(`video_interactions/${videoId}/comments`);
+                const likesRef = db.ref(`video_interactions/${videoId}/likes`);
+                const sharesRef = db.ref(`video_interactions/${videoId}/shares`);
+                const presenceRef = db.ref(`video_interactions/${videoId}/presence`);
+                const viewersCountSpan = document.getElementById('viewersCount');
+                const likeBtn = document.getElementById('likeBtn');
+                const likeCountSpan = document.getElementById('likeCount');
+                const commentBtn = document.getElementById('commentBtn');
+                const commentCountSpan = document.getElementById('commentCount');
+                const shareBtn = document.getElementById('shareBtn');
+                const shareCountSpan = document.getElementById('shareCount');
+                const commentsWrapper = document.getElementById('comments-wrapper');
+                const form = document.getElementById('commentForm');
+                const commentsList = document.getElementById('commentsList');
+                const isAdmin = window.location.search.includes('admin=true');
                 db.ref('.info/connected').on('value', (s) => { if (s.val()) { const ref = presenceRef.push(); ref.onDisconnect().remove(); ref.set(true); }});
                 presenceRef.on('value', (s) => { if(viewersCountSpan) viewersCountSpan.textContent = s.numChildren(); });
                 if(commentBtn) commentBtn.addEventListener('click', () => { commentsWrapper.style.display = commentsWrapper.style.display === 'block' ? 'none' : 'block'; });
@@ -275,7 +299,11 @@
                     slide.appendChild(wrapper);
                     reelsContainer.appendChild(slide);
                     const iframe = slide.querySelector('iframe');
-                    if(iframe) playerMap.set(`video-${index}`, new Vimeo.Player(iframe));
+                    if(iframe) {
+                        // Tambahkan ID unik ke iframe untuk kontrol
+                        iframe.id = `vimeo-player-${index}`;
+                        playerMap.set(`video-${index}`, new Vimeo.Player(iframe));
+                    }
                 });
                 setupIntersectionObserver();
             }
@@ -295,7 +323,10 @@
                         }
                     });
                 }, { root: reelsContainer, threshold: 0.7 });
-                document.querySelectorAll('.reel-slide').forEach(slide => intersectionObserver.observe(slide));
+                
+                document.querySelectorAll('.reel-slide').forEach(slide => {
+                    intersectionObserver.observe(slide);
+                });
             }
 
             function openReelsViewer() {
@@ -309,7 +340,7 @@
             function closeReelsViewer() {
                 reelsViewer.classList.remove('active');
                 document.body.classList.remove('reels-active');
-                playerMap.forEach(player => player.unload());
+                playerMap.forEach(player => player.unload().catch(()=>{}));
                 reelsContainer.innerHTML = '';
             }
 
