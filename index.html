@@ -262,7 +262,7 @@
 
         .timeline-container {
             width: 100%;
-            margin:auto
+            margin: auto
         }
 
         .timeline-content {
@@ -489,60 +489,60 @@
             padding-top: 20px;
             padding-bottom: 20px;
         }
-        
+
         /* === MULAI STYLE BARU UNTUK SECTION ARTIKEL === */
-.article-card {
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    transition: box-shadow 0.3s ease;
-}
+        .article-card {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s ease;
+        }
 
-.article-card:hover {
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
+        .article-card:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
 
-.article-title {
-    font-size: 1.2em;
-    font-weight: 600;
-    color: #114ed7;
-    margin: 0 0 10px 0;
-}
+        .article-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #114ed7;
+            margin: 0 0 10px 0;
+        }
 
-.article-snippet {
-    font-size: 0.8em;
-    font-style:normal
-    color: #333; /* DIUBAH: Warna disamakan dengan isi artikel agar lebih jelas */
-    line-height: 1.6;
-    margin: 0 0 15px 0;
-}
+        .article-snippet {
+            font-size: 0.8em;
+            font-style: normal color: #333;
+            /* DIUBAH: Warna disamakan dengan isi artikel agar lebih jelas */
+            line-height: 1.6;
+            margin: 0 0 15px 0;
+        }
 
-.read-more-btn {
-    display: inline-block;
-    background-color: #114ed7;
-    color: white;
-    padding: 8px 15px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: 500;
-    font-size: 0.9em;
-    transition: background-color 0.3s;
-}
+        .read-more-btn {
+            display: inline-block;
+            background-color: #114ed7;
+            color: white;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            font-size: 0.9em;
+            transition: background-color 0.3s;
+        }
 
-.read-more-btn:hover {
-    background-color: #0038a8;
-}
+        .read-more-btn:hover {
+            background-color: #0038a8;
+        }
 
-/* PERBAIKAN: Aturan spesifik untuk snippet di dalam section biru */
-.section-grey .article-snippet {
-    color: #333;
-    font-style: x-small;
-}
-/* === AKHIR STYLE BARU UNTUK SECTION ARTIKEL === */
-        
+        /* PERBAIKAN: Aturan spesifik untuk snippet di dalam section biru */
+        .section-grey .article-snippet {
+            color: #333;
+            font-style: x-small;
+        }
+
+        /* === AKHIR STYLE BARU UNTUK SECTION ARTIKEL === */
     </style>
 </head>
 
@@ -554,8 +554,8 @@
             <h4></h4>
             <div class="video-container">
                 <iframe
-    src="https://www.facebook.com/plugins/video.php?href=https://web.facebook.com/jbtv17/videos/1116523027070382/"
-    frameborder="0" allowfullscreen></iframe>
+                    src="https://www.facebook.com/plugins/video.php?href=https://web.facebook.com/jbtv17/videos/1116523027070382/"
+                    frameborder="0" allowfullscreen></iframe>
             </div>
 
             <div class="news-ticker">
@@ -568,55 +568,57 @@
                     <p class="streaming-info"></p>
                 </div>
             </div>
-            
+
             <div>
-                 <p style= "font-size: 0.9em; margin-bottom: -20px;">Klik icon volume pada video jika tidak ada suaranya!</p>
+                <p style="font-size: 0.9em; margin-bottom: -20px;">Klik icon volume pada video jika tidak ada suaranya!
+                </p>
+            </div>
+        </div>
+
+
+        <div class="post-actions">
+            <button class="action-btn" id="viewersBtn" title="Sedang menonton">
+                <i class="fa-solid fa-eye"></i>
+                <span id="viewersCount">0</span>
+            </button>
+            <button class="action-btn like-btn" id="likeBtn">
+                <i class="fa-solid fa-thumbs-up"></i>
+                <span id="likeCount">0</span>
+            </button>
+            <button class="action-btn" id="commentBtn">
+                <i class="fa-solid fa-comment"></i>
+                <span id="commentCount">0</span>
+            </button>
+            <button class="action-btn" id="shareBtn">
+                <i class="fa-solid fa-share"></i>
+                <span id="shareCount">0</span>
+            </button>
+        </div>
+        <div id="comments-wrapper">
+            <section class="section-white">
+                <div class="container">
+                    <h2 style="font-size: 1.5em; margin-top: -30px;"></h2>
+                    <form id="commentForm" style="margin-top: -70px;">
+                        <input type="text" id="name" placeholder="Nama Anda" required
+                            style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                        <textarea id="comment" placeholder="Tulis komentar..." required
+                            style="padding: 10px; width: 100%; height: 100px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
+                        <button type="submit"
+                            style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; margin-top: 20px; margin-bottom: 20px;">Kirim
+                            Komentar</button>
+                    </form>
+                    <div id="commentsList"></div>
                 </div>
-            </div>
-
-
-            <div class="post-actions">
-                <button class="action-btn" id="viewersBtn" title="Sedang menonton">
-                    <i class="fa-solid fa-eye"></i>
-                    <span id="viewersCount">0</span>
-                </button>
-                <button class="action-btn like-btn" id="likeBtn">
-                    <i class="fa-solid fa-thumbs-up"></i>
-                    <span id="likeCount">0</span>
-                </button>
-                <button class="action-btn" id="commentBtn">
-                    <i class="fa-solid fa-comment"></i>
-                    <span id="commentCount">0</span>
-                </button>
-                <button class="action-btn" id="shareBtn">
-                    <i class="fa-solid fa-share"></i>
-                    <span id="shareCount">0</span>
-                </button>
-            </div>
-            <div id="comments-wrapper">
-                <section class="section-white">
-                    <div class="container">
-                        <h2 style="font-size: 1.5em; margin-top: -30px;"></h2>
-                        <form id="commentForm" style="margin-top: -70px;">
-                            <input type="text" id="name" placeholder="Nama Anda" required
-                                style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
-                            <textarea id="comment" placeholder="Tulis komentar..." required
-                                style="padding: 10px; width: 100%; height: 100px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
-                            <button type="submit"
-                                style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; margin-top: 20px; margin-bottom: 20px;">Kirim
-                                Komentar</button>
-                        </form>
-                        <div id="commentsList"></div>
-                    </div>
-                </section>
-            </div>
+            </section>
+        </div>
         </div>
     </section>
 
     <section class="section-grey">
         <div class="container">
             <h2><strong>Jadwal Kajian Rutin</h2>
-            <h4 id="rentangTanggalKajian" style="color: #ffffff; font-style: oblique; font-size: 0.8;">Belum ada tanggal kajian</h4>
+            <h4 id="rentangTanggalKajian" style="color: #ffffff; font-style: oblique; font-size: 0.8;">Belum ada tanggal
+                kajian</h4>
 
             <div class="timeline-container">
                 <div class="timeline-nav timeline-dropdown-wrapper">
@@ -628,36 +630,36 @@
                 </div>
 
                 <div id="ustad1" class="timeline-content active">
-    <ul class="timeline" id="jadwal-ustad1">
-        </ul>
-</div>
+                    <ul class="timeline" id="jadwal-ustad1">
+                    </ul>
+                </div>
 
-<div id="ustad2" class="timeline-content">
-    <ul class="timeline" id="jadwal-ustad2">
-        </ul>
-</div>
+                <div id="ustad2" class="timeline-content">
+                    <ul class="timeline" id="jadwal-ustad2">
+                    </ul>
+                </div>
 
-<div id="ustad3" class="timeline-content">
-    <ul class="timeline" id="jadwal-ustad3">
-        </ul>
-</div>
+                <div id="ustad3" class="timeline-content">
+                    <ul class="timeline" id="jadwal-ustad3">
+                    </ul>
+                </div>
     </section>
 
     <section class="section-white">
         <div class="container">
             <h2 style="color:  #114ed7;"><strong>Pengumuman Penting</strong></h2>
             <ul class="timeline" id="pengumuman-container">
-    </ul>
+            </ul>
         </div>
     </section>
-    
+
     <section class="section-grey">
-    <div class="container">
-        <h2 style="color: #ffffff;"><strong>Tanya Jawab & Artikel</strong></h2>
-        <div id="articles-container">
+        <div class="container">
+            <h2 style="color: #ffffff;"><strong>Tanya Jawab & Artikel</strong></h2>
+            <div id="articles-container">
             </div>
-    </div>
-</section>
+        </div>
+    </section>
 
     <section class="section-white section-about">
         <div class="container">
@@ -771,7 +773,7 @@
                 return; // Hentikan eksekusi jika iframe tidak ada
             }
             const videoSrc = videoIframe.src;
-            
+
             // 2. Buat kunci yang valid untuk Firebase dari URL video
             // Fungsi btoa() akan meng-encode URL menjadi string Base64 yang aman digunakan sebagai kunci
             const videoId = btoa(videoSrc);
@@ -779,7 +781,7 @@
             // 3. Arahkan semua referensi (likes, comments, dll.) ke path yang spesifik untuk video ini
             // Ini akan membuat 'folder' baru di database Anda untuk setiap video yang berbeda.
             const videoInteractionsRef = db.ref('video_interactions/' + videoId);
-            
+
             const commentsRef = videoInteractionsRef.child('comments');
             const likesRef = videoInteractionsRef.child('likes');
             const sharesRef = videoInteractionsRef.child('shares');
@@ -803,9 +805,9 @@
             const amOnline = db.ref('.info/connected');
             amOnline.on('value', (snapshot) => {
                 if (snapshot.val()) {
-                    const myRef = presenceRef.push(); 
-                    myRef.onDisconnect().remove(); 
-                    myRef.set(true); 
+                    const myRef = presenceRef.push();
+                    myRef.onDisconnect().remove();
+                    myRef.set(true);
                 }
             });
 
@@ -836,8 +838,8 @@
             // Logika Tombol Bagikan dengan Counter
             shareBtn.addEventListener('click', async () => {
                 const shareData = {
-                    title: 'JBTV - Kajian Islam & Pengumuman',
-                    text: 'Saksikan siaran langsung dan lihat jadwal kajian terbaru di JBTV!',
+                    title: 'JB TV - Kajian & Artikel Islami',
+                    text: 'Saksikan siaran langsung dan lihat baca artikel islami!',
                     url: window.location.href
                 };
 
@@ -848,7 +850,7 @@
                 if (navigator.share) {
                     try {
                         await navigator.share(shareData);
-                        incrementShareCount(); 
+                        incrementShareCount();
                     } catch (err) {
                         console.error('Gagal membagikan:', err);
                     }
@@ -899,7 +901,7 @@
                 `;
                 commentsList.prepend(el);
             });
-            
+
             // Fungsi hapus komentar yang di-expose ke window
             window.deleteComment = function (commentKey) {
                 if (confirm("Yakin ingin menghapus komentar ini?")) {
@@ -909,61 +911,61 @@
 
             // Listener untuk menghapus elemen komentar dari UI tanpa reload halaman
             commentsRef.on('child_removed', function (snapshot) {
-                 const key = snapshot.key;
-                 const commentElement = document.getElementById(`comment-${key}`);
-                 if (commentElement) {
-                     commentElement.remove();
-                 }
+                const key = snapshot.key;
+                const commentElement = document.getElementById(`comment-${key}`);
+                if (commentElement) {
+                    commentElement.remove();
+                }
             });
-            
+
             // === MULAI KODE BARU UNTUK MEMUAT JADWAL & PENGUMUMAN ===
 
-// Referensi ke database
-const jadwalRef = db.ref('jadwalKajian');
-const pengumumanRef = db.ref('pengumuman');
+            // Referensi ke database
+            const jadwalRef = db.ref('jadwalKajian');
+            const pengumumanRef = db.ref('pengumuman');
 
-// Wadah di HTML
-const jadwalUstad1Container = document.getElementById('jadwal-ustad1');
-const jadwalUstad2Container = document.getElementById('jadwal-ustad2');
-const jadwalUstad3Container = document.getElementById('jadwal-ustad3');
-const pengumumanContainer = document.getElementById('pengumuman-container');
+            // Wadah di HTML
+            const jadwalUstad1Container = document.getElementById('jadwal-ustad1');
+            const jadwalUstad2Container = document.getElementById('jadwal-ustad2');
+            const jadwalUstad3Container = document.getElementById('jadwal-ustad3');
+            const pengumumanContainer = document.getElementById('pengumuman-container');
 
 
-// === MULAI KODE BARU UNTUK MEMUAT RENTANG TANGGAL ===
+            // === MULAI KODE BARU UNTUK MEMUAT RENTANG TANGGAL ===
 
-// Referensi ke database untuk tanggal
-const tanggalRef = db.ref('infoSitus/rentangTanggal');
+            // Referensi ke database untuk tanggal
+            const tanggalRef = db.ref('infoSitus/rentangTanggal');
 
-// Wadah di HTML
-const rentangTanggalKajianElem = document.getElementById('rentangTanggalKajian');
+            // Wadah di HTML
+            const rentangTanggalKajianElem = document.getElementById('rentangTanggalKajian');
 
-// Fungsi untuk memuat teks tanggal
-tanggalRef.on('value', (snapshot) => {
-    if (snapshot.exists()) {
-        rentangTanggalKajianElem.textContent = snapshot.val();
-    } else {
-        rentangTanggalKajianElem.textContent = 'Jadwal Kajian Rutin'; // Teks default jika belum diatur
-    }
-});
+            // Fungsi untuk memuat teks tanggal
+            tanggalRef.on('value', (snapshot) => {
+                if (snapshot.exists()) {
+                    rentangTanggalKajianElem.textContent = snapshot.val();
+                } else {
+                    rentangTanggalKajianElem.textContent = 'Jadwal Kajian Rutin'; // Teks default jika belum diatur
+                }
+            });
 
-// === AKHIR KODE BARU ===
+            // === AKHIR KODE BARU ===
 
-// Fungsi untuk memuat jadwal kajian
-jadwalRef.on('value', (snapshot) => {
-    // Kosongkan semua kontainer dulu
-    jadwalUstad1Container.innerHTML = '<li>Memuat jadwal...</li>';
-    jadwalUstad2Container.innerHTML = '<li>Memuat jadwal...</li>';
-    jadwalUstad3Container.innerHTML = '<li>Memuat jadwal...</li>';
+            // Fungsi untuk memuat jadwal kajian
+            jadwalRef.on('value', (snapshot) => {
+                // Kosongkan semua kontainer dulu
+                jadwalUstad1Container.innerHTML = '<li>Memuat jadwal...</li>';
+                jadwalUstad2Container.innerHTML = '<li>Memuat jadwal...</li>';
+                jadwalUstad3Container.innerHTML = '<li>Memuat jadwal...</li>';
 
-    if (snapshot.exists()) {
-        // Hapus pesan 'Memuat...'
-        jadwalUstad1Container.innerHTML = '';
-        jadwalUstad2Container.innerHTML = '';
-        jadwalUstad3Container.innerHTML = '';
+                if (snapshot.exists()) {
+                    // Hapus pesan 'Memuat...'
+                    jadwalUstad1Container.innerHTML = '';
+                    jadwalUstad2Container.innerHTML = '';
+                    jadwalUstad3Container.innerHTML = '';
 
-        snapshot.forEach((childSnapshot) => {
-            const jadwal = childSnapshot.val();
-            const itemHtml = `
+                    snapshot.forEach((childSnapshot) => {
+                        const jadwal = childSnapshot.val();
+                        const itemHtml = `
                 <li class="timeline-item">
                     <div class="timeline-item-content">
                         <span class="timeline-tag tag-dark">${jadwal.jenis}</span>
@@ -972,30 +974,30 @@ jadwalRef.on('value', (snapshot) => {
                     </div>
                 </li>
             `;
-            // Masukkan ke kontainer ustadz yang sesuai
-            if (jadwal.ustadzId === 'ustad1') {
-                jadwalUstad1Container.innerHTML += itemHtml;
-            } else if (jadwal.ustadzId === 'ustad2') {
-                jadwalUstad2Container.innerHTML += itemHtml;
-            } else if (jadwal.ustadzId === 'ustad3') {
-                jadwalUstad3Container.innerHTML += itemHtml;
-            }
-        });
-    } else {
-    jadwalUstad1Container.innerHTML = '<li style="color: white;">Belum ada jadwal.</li>';
-    jadwalUstad2Container.innerHTML = '<li style="color: white;">Belum ada jadwal.</li>';
-    jadwalUstad3Container.innerHTML = '<li style="color: white;">Belum ada jadwal.</li>';
-}
-});
+                        // Masukkan ke kontainer ustadz yang sesuai
+                        if (jadwal.ustadzId === 'ustad1') {
+                            jadwalUstad1Container.innerHTML += itemHtml;
+                        } else if (jadwal.ustadzId === 'ustad2') {
+                            jadwalUstad2Container.innerHTML += itemHtml;
+                        } else if (jadwal.ustadzId === 'ustad3') {
+                            jadwalUstad3Container.innerHTML += itemHtml;
+                        }
+                    });
+                } else {
+                    jadwalUstad1Container.innerHTML = '<li style="color: white;">Belum ada jadwal.</li>';
+                    jadwalUstad2Container.innerHTML = '<li style="color: white;">Belum ada jadwal.</li>';
+                    jadwalUstad3Container.innerHTML = '<li style="color: white;">Belum ada jadwal.</li>';
+                }
+            });
 
-// Fungsi untuk memuat pengumuman
-pengumumanRef.on('value', (snapshot) => {
-    pengumumanContainer.innerHTML = '<li>Memuat pengumuman...</li>';
-    if (snapshot.exists()) {
-        pengumumanContainer.innerHTML = ''; // Kosongkan
-        snapshot.forEach((childSnapshot) => {
-            const pengumuman = childSnapshot.val();
-            const itemHtml = `
+            // Fungsi untuk memuat pengumuman
+            pengumumanRef.on('value', (snapshot) => {
+                pengumumanContainer.innerHTML = '<li>Memuat pengumuman...</li>';
+                if (snapshot.exists()) {
+                    pengumumanContainer.innerHTML = ''; // Kosongkan
+                    snapshot.forEach((childSnapshot) => {
+                        const pengumuman = childSnapshot.val();
+                        const itemHtml = `
                 <li class="timeline-item">
                     <div class="timeline-item-content">
                         <div class="pengumuman-content">
@@ -1010,59 +1012,59 @@ pengumumanRef.on('value', (snapshot) => {
                     </div>
                 </li>
             `;
-            pengumumanContainer.innerHTML += itemHtml;
-        });
-    } else {
-        pengumumanContainer.innerHTML = '<li>Belum ada pengumuman.</li>';
-    }
-});
+                        pengumumanContainer.innerHTML += itemHtml;
+                    });
+                } else {
+                    pengumumanContainer.innerHTML = '<li>Belum ada pengumuman.</li>';
+                }
+            });
 
-// ... (di dalam event listener DOMContentLoaded)
+            // ... (di dalam event listener DOMContentLoaded)
 
-// Referensi ke database
-// ... (referensi jadwalRef dan pengumumanRef yang sudah ada)
-const articlesRef = db.ref('articles');
+            // Referensi ke database
+            // ... (referensi jadwalRef dan pengumumanRef yang sudah ada)
+            const articlesRef = db.ref('articles');
 
-// Wadah di HTML
-// ... (wadah jadwal dan pengumuman yang sudah ada)
-const articlesContainer = document.getElementById('articles-container');
+            // Wadah di HTML
+            // ... (wadah jadwal dan pengumuman yang sudah ada)
+            const articlesContainer = document.getElementById('articles-container');
 
-// Fungsi untuk memuat artikel
-articlesRef.orderByChild('timestamp').limitToLast(5).on('value', (snapshot) => { // limitToLast(5) untuk 5 artikel terbaru
-    articlesContainer.innerHTML = '<p>Memuat artikel...</p>';
-    if (snapshot.exists()) {
-        articlesContainer.innerHTML = ''; // Kosongkan
-        
-        const articles = [];
-        snapshot.forEach(child => {
-            articles.push({ key: child.key, ...child.val() });
-        });
-        
-        // Dibalik agar yang terbaru di atas
-        articles.reverse().forEach(article => {
-            // Membuat ringkasan, potong sekitar 150 karakter
-            const snippet = article.content.length > 150 
-                ? article.content.substring(0, 150) + '...' 
-                : article.content;
+            // Fungsi untuk memuat artikel
+            articlesRef.orderByChild('timestamp').limitToLast(5).on('value', (snapshot) => { // limitToLast(5) untuk 5 artikel terbaru
+                articlesContainer.innerHTML = '<p>Memuat artikel...</p>';
+                if (snapshot.exists()) {
+                    articlesContainer.innerHTML = ''; // Kosongkan
 
-            const articleHtml = `
+                    const articles = [];
+                    snapshot.forEach(child => {
+                        articles.push({ key: child.key, ...child.val() });
+                    });
+
+                    // Dibalik agar yang terbaru di atas
+                    articles.reverse().forEach(article => {
+                        // Membuat ringkasan, potong sekitar 150 karakter
+                        const snippet = article.content.length > 150
+                            ? article.content.substring(0, 150) + '...'
+                            : article.content;
+
+                        const articleHtml = `
                 <div class="article-card">
                     <h3 class="article-title">${article.title}</h3>
                     <p class="article-snippet">${snippet}</p>
                     <a href="artikel.html?id=${article.key}" class="read-more-btn">Baca Selengkapnya <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             `;
-            articlesContainer.innerHTML += articleHtml;
-        });
+                        articlesContainer.innerHTML += articleHtml;
+                    });
 
-    } else {
-        articlesContainer.innerHTML = '<p>Belum ada artikel yang dipublikasikan.</p>';
-    }
-});
+                } else {
+                    articlesContainer.innerHTML = '<p>Belum ada artikel yang dipublikasikan.</p>';
+                }
+            });
 
-// ... (sisa kode JavaScript Anda yang lain)
+            // ... (sisa kode JavaScript Anda yang lain)
 
-// === AKHIR KODE BARU ===
+            // === AKHIR KODE BARU ===
         });
     </script>
 </body>
