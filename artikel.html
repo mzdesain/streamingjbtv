@@ -16,12 +16,11 @@
     <meta property="og:type" content="article" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    
+
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
     <style>
-        /* ... (seluruh kode CSS Anda tetap sama, tidak perlu diubah) ... */
         :root {
             --color-bg-white: #ffffff;
             --color-bg-grey: #f7f7f7;
@@ -128,12 +127,27 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const firebaseConfig = { /* ... Konfigurasi Firebase Anda ... */ };
+            // === KONFIGURASI FIREBASE (INI YANG DIPERBAIKI) ===
+            const firebaseConfig = {
+                apiKey: "AIzaSyAowVtnXTVstFSc3kSBTm5tXJkEvp31V2Y",
+                authDomain: "streamingjbtv.firebaseapp.com",
+                databaseURL: "https://streamingjbtv-default-rtdb.asia-southeast1.firebasedatabase.app",
+                projectId: "streamingjbtv",
+                storageBucket: "streamingjbtv.appspot.com",
+                messagingSenderId: "191301318558",
+                appId: "1:191301318558:web:f32dada7468d8a4486088f",
+                measurementId: "G-PBGDKCMQJT"
+            };
             firebase.initializeApp(firebaseConfig);
             const db = firebase.database();
             
             const urlParams = new URLSearchParams(window.location.search);
             const articleId = urlParams.get('id');
+
+            // Ambil elemen HTML sekali saja
+            const titleEl = document.getElementById('article-title');
+            const timestampEl = document.getElementById('article-timestamp');
+            const contentEl = document.getElementById('article-content');
 
             if (articleId) {
                 const articleRef = db.ref('articles/' + articleId);
@@ -141,43 +155,93 @@
                     if (snapshot.exists()) {
                         const article = snapshot.val();
                         
-                        // FUNGSI BARU UNTUK UPDATE META TAGS
+                        // Update meta tags dan konten halaman
                         updateMetaTags(article);
+                        updatePageContent(article);
                         
-                        // Kode lama untuk update konten di body
-                        document.getElementById('article-title').textContent = article.title;
-                        document.getElementById('article-content').textContent = article.content;
-                        // ... sisa kode untuk timestamp ...
-
+                        // Buat tombol share
                         generateShareButtons(article.title);
                     } else {
-                        // ... handle artikel tidak ditemukan ...
+                        // Handle jika artikel tidak ditemukan
+                        titleEl.textContent = 'Artikel Tidak Ditemukan';
+                        contentEl.textContent = 'Maaf, artikel yang Anda cari tidak ada atau mungkin telah dihapus.';
                     }
                 });
+            } else {
+                 // Handle jika tidak ada ID di URL
+                titleEl.textContent = 'Kesalahan';
+                contentEl.textContent = 'Tidak ada ID artikel yang diberikan. Silakan kembali ke halaman utama dan pilih artikel.';
             }
 
-            // === FUNGSI BARU UNTUK MENG-UPDATE META TAG SECARA DINAMIS ===
+            // Fungsi untuk meng-update konten di body
+            function updatePageContent(article) {
+                titleEl.textContent = article.title;
+                contentEl.textContent = article.content;
+                const date = new Date(article.timestamp);
+                const formattedDate = date.toLocaleDateString('id-ID', {
+                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                });
+                timestampEl.textContent = `Dipublikasikan pada: ${formattedDate}`;
+            }
+
+            // Fungsi untuk meng-update meta tags
             function updateMetaTags(article) {
-                const descriptionSnippet = article.content.substring(0, 150) + '...'; // Buat deskripsi singkat
-
-                // Update Title
+                const descriptionSnippet = article.content.substring(0, 150) + '...';
                 document.title = article.title + ' - JBTV';
-
-                // Update Meta Description
                 document.getElementById('meta-description').setAttribute('content', descriptionSnippet);
-
-                // Update Open Graph Tags
                 document.getElementById('og-title').setAttribute('content', article.title);
                 document.getElementById('og-description').setAttribute('content', descriptionSnippet);
                 document.getElementById('og-url').setAttribute('content', window.location.href);
-                // Optional: Jika Anda punya gambar untuk setiap artikel, Anda bisa update 'og-image' juga.
             }
             
-            // ... (Fungsi generateShareButtons Anda di sini) ...
+            // Fungsi untuk membuat tombol share
             function generateShareButtons(articleTitle) {
-                 const shareContainer = document.getElementById('share-container-wrapper');
-                 const shareUrl = window.location.href;
-                 // dst... (kode ini sama seperti sebelumnya)
+                const shareContainer = document.getElementById('share-container-wrapper');
+                const shareUrl = window.location.href;
+                const shareText = `Baca artikel menarik dari JBTV: "${articleTitle}"\n\n${shareUrl}`;
+                shareContainer.innerHTML = '<h3>Bagikan Artikel Ini:</h3>';
+                const buttonWrapper = document.createElement('div');
+                buttonWrapper.className = 'share-buttons';
+                if (navigator.share) {
+                    const nativeShareButton = document.createElement('button');
+                    nativeShareButton.className = 'native-share-btn';
+                    nativeShareButton.innerHTML = '<i class="fa-solid fa-share-nodes"></i> Bagikan via Aplikasi Lain';
+                    nativeShareButton.onclick = () => {
+                        navigator.share({
+                            title: articleTitle,
+                            text: `Baca artikel menarik: "${articleTitle}"`,
+                            url: shareUrl
+                        }).catch(error => console.log('Gagal membagikan:', error));
+                    };
+                    buttonWrapper.appendChild(nativeShareButton);
+                } else {
+                    const socialButtons = [
+                        { class: 'whatsapp', icon: 'fab fa-whatsapp', text: 'WhatsApp', href: `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}` },
+                        { class: 'facebook', icon: 'fab fa-facebook', text: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}` },
+                        { class: 'twitter', icon: 'fab fa-twitter', text: 'Twitter', href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent('Baca: ' + articleTitle)}` },
+                        { class: 'telegram', icon: 'fab fa-telegram', text: 'Telegram', href: `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(articleTitle)}` }
+                    ];
+                    socialButtons.forEach(btnInfo => {
+                        const btn = document.createElement('a');
+                        btn.className = `share-btn ${btnInfo.class}`;
+                        btn.href = btnInfo.href;
+                        btn.target = '_blank';
+                        btn.innerHTML = `<i class="${btnInfo.icon}"></i> ${btnInfo.text}`;
+                        buttonWrapper.appendChild(btn);
+                    });
+                }
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'share-btn copy-link';
+                copyBtn.innerHTML = '<i class="fa-solid fa-copy"></i> Salin Tautan';
+                copyBtn.onclick = () => {
+                    navigator.clipboard.writeText(shareUrl).then(() => {
+                        alert('Tautan artikel berhasil disalin!');
+                    }, () => {
+                        alert('Gagal menyalin tautan.');
+                    });
+                };
+                buttonWrapper.appendChild(copyBtn);
+                shareContainer.appendChild(buttonWrapper);
             }
         });
     </script>
