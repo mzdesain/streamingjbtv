@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    
+
     <title>Memuat Artikel... - JBTV</title>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
@@ -35,9 +35,9 @@
         }
 
         .article-header {
-             margin-bottom: 20px;
-             border-bottom: 2px solid #eee;
-             padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
         }
 
         #article-title {
@@ -45,22 +45,22 @@
             color: #114ed7;
             margin: 0;
         }
-        
+
         #article-timestamp {
             font-size: 0.9em;
             color: #777;
             margin-top: 8px;
         }
 
-       #article-content {
-    font-size: 1.1em;
-    line-height: 1.8;
-    white-space: pre-wrap; /* Agar format paragraf/enter tetap terjaga */
-    word-wrap: break-word;
-    color: #333; /* BARU: Mengubah warna teks menjadi hitam keabuan (lebih nyaman dibaca) */
-    font-style: normal; /* BARU: Memastikan gaya font adalah reguler/tidak miring */
-}
-        
+        #article-content {
+            font-size: 1.1em;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #333;
+            font-style: normal;
+        }
+
         .back-link {
             display: inline-block;
             margin-bottom: 30px;
@@ -68,11 +68,11 @@
             text-decoration: none;
             font-weight: 500;
         }
-        
+
         .back-link:hover {
             text-decoration: underline;
         }
-        
+
         footer {
             background-color: var(--color-dark);
             color: white;
@@ -80,13 +80,66 @@
             padding: 20px;
             font-size: 0.9em;
         }
+
+        /* === STYLE BARU UNTUK TOMBOL SHARE === */
+        .share-container {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+
+        .share-container h3 {
+            margin: 0 0 15px 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .share-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .share-btn,
+        .native-share-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .share-btn:hover,
+        .native-share-btn:hover {
+            opacity: 0.85;
+        }
+
+        .share-btn i {
+            font-size: 1.2em;
+        }
+
+        /* Warna khusus untuk setiap tombol */
+        .share-btn.whatsapp { background-color: #25D366; }
+        .share-btn.facebook { background-color: #1877F2; }
+        .share-btn.twitter { background-color: #1DA1F2; }
+        .share-btn.telegram { background-color: #2AABEE; }
+        .share-btn.copy-link { background-color: #6c757d; }
+        .native-share-btn { background-color: #007bff; }
+        /* === AKHIR STYLE BARU === */
     </style>
 </head>
 
 <body>
     <div class="container" id="article-container">
         <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Kembali ke Halaman Utama</a>
-        
+
         <div class="article-header">
             <h1 id="article-title">Memuat judul artikel...</h1>
             <p id="article-timestamp">...</p>
@@ -95,15 +148,19 @@
         <div id="article-content">
             <p>Memuat isi artikel, mohon tunggu...</p>
         </div>
+        
+        <div class="share-container" id="share-container-wrapper">
+            </div>
+
     </div>
-    
+
     <footer>
         &copy; 2025 JBTV | By: Muzanni
     </footer>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Konfigurasi Firebase Anda (SAMA PERSIS seperti di halaman utama)
+            // Konfigurasi Firebase Anda
             const firebaseConfig = {
                 apiKey: "AIzaSyAowVtnXTVstFSc3kSBTm5tXJkEvp31V2Y",
                 authDomain: "streamingjbtv.firebaseapp.com",
@@ -128,16 +185,16 @@
 
             if (articleId) {
                 const articleRef = db.ref('articles/' + articleId);
-                
+
                 articleRef.on('value', (snapshot) => {
                     if (snapshot.exists()) {
                         const article = snapshot.val();
-                        
+
                         // Update judul halaman dan konten
                         document.title = article.title + ' - JBTV';
                         titleEl.textContent = article.title;
                         contentEl.textContent = article.content;
-                        
+
                         // Format tanggal
                         const date = new Date(article.timestamp);
                         const formattedDate = date.toLocaleDateString('id-ID', {
@@ -145,18 +202,77 @@
                         });
                         timestampEl.textContent = `Dipublikasikan pada: ${formattedDate}`;
 
+                        // Panggil fungsi untuk membuat tombol share setelah artikel dimuat
+                        generateShareButtons(article.title);
+
                     } else {
                         titleEl.textContent = 'Artikel Tidak Ditemukan';
                         contentEl.textContent = 'Maaf, artikel yang Anda cari tidak ada atau mungkin telah dihapus.';
                     }
                 });
-
             } else {
                 titleEl.textContent = 'Kesalahan';
                 contentEl.textContent = 'Tidak ada ID artikel yang diberikan. Silakan kembali ke halaman utama dan pilih artikel.';
             }
+
+            // Fungsi untuk membuat tombol share
+            function generateShareButtons(articleTitle) {
+                const shareContainer = document.getElementById('share-container-wrapper');
+                const shareUrl = window.location.href;
+                const shareText = `Baca artikel menarik dari JBTV: "${articleTitle}"\n\n${shareUrl}`;
+
+                shareContainer.innerHTML = '<h3>Bagikan Artikel Ini:</h3>';
+                const buttonWrapper = document.createElement('div');
+                buttonWrapper.className = 'share-buttons';
+
+                // Cek Web Share API (untuk mobile)
+                if (navigator.share) {
+                    const nativeShareButton = document.createElement('button');
+                    nativeShareButton.className = 'native-share-btn';
+                    nativeShareButton.innerHTML = '<i class="fa-solid fa-share-nodes"></i> Bagikan via Aplikasi Lain';
+                    nativeShareButton.onclick = () => {
+                        navigator.share({
+                            title: articleTitle,
+                            text: `Baca artikel menarik: "${articleTitle}"`,
+                            url: shareUrl
+                        }).catch(error => console.log('Gagal membagikan:', error));
+                    };
+                    buttonWrapper.appendChild(nativeShareButton);
+                } else {
+                    // Fallback untuk desktop
+                    const socialButtons = [
+                        { class: 'whatsapp', icon: 'fab fa-whatsapp', text: 'WhatsApp', href: `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}` },
+                        { class: 'facebook', icon: 'fab fa-facebook', text: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}` },
+                        { class: 'twitter', icon: 'fab fa-twitter', text: 'Twitter', href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent('Baca: ' + articleTitle)}` },
+                        { class: 'telegram', icon: 'fab fa-telegram', text: 'Telegram', href: `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(articleTitle)}` }
+                    ];
+
+                    socialButtons.forEach(btnInfo => {
+                        const btn = document.createElement('a');
+                        btn.className = `share-btn ${btnInfo.class}`;
+                        btn.href = btnInfo.href;
+                        btn.target = '_blank';
+                        btn.innerHTML = `<i class="${btnInfo.icon}"></i> ${btnInfo.text}`;
+                        buttonWrapper.appendChild(btn);
+                    });
+                }
+
+                // Tombol Salin Tautan (selalu ditampilkan)
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'share-btn copy-link';
+                copyBtn.innerHTML = '<i class="fa-solid fa-copy"></i> Salin Tautan';
+                copyBtn.onclick = () => {
+                    navigator.clipboard.writeText(shareUrl).then(() => {
+                        alert('Tautan artikel berhasil disalin!');
+                    }, () => {
+                        alert('Gagal menyalin tautan.');
+                    });
+                };
+                buttonWrapper.appendChild(copyBtn);
+
+                shareContainer.appendChild(buttonWrapper);
+            }
         });
     </script>
 </body>
-
 </html>
