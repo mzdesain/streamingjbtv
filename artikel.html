@@ -198,14 +198,14 @@
             function generateShareButtons(articleTitle) {
                 const shareContainer = document.getElementById('share-container-wrapper');
                 const shareUrl = window.location.href;
-                const shareText = `Baca artikel menarik dari JBTV: "${articleTitle}"\n\n${shareUrl}`;
+                const shareText = `Baca artikel menarik dari JB TV: "${articleTitle}"\n\n${shareUrl}`;
                 shareContainer.innerHTML = '<h3>Bagikan Artikel Ini:</h3>';
                 const buttonWrapper = document.createElement('div');
                 buttonWrapper.className = 'share-buttons';
                 if (navigator.share) {
                     const nativeShareButton = document.createElement('button');
                     nativeShareButton.className = 'native-share-btn';
-                    nativeShareButton.innerHTML = '<i class="fa-solid fa-share-nodes"></i> Bagikan via Aplikasi Lain';
+                    nativeShareButton.innerHTML = '<i class="fa-solid fa-share-nodes"></i> Bagikan Artikel';
                     nativeShareButton.onclick = () => {
                         navigator.share({
                             title: articleTitle,
