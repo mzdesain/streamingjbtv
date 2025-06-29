@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>JBTV - Kajian & Artikel Islami</title>
+
     <meta property="og:title" content="JBTV - Kajian & Artikel Islami" />
     <meta property="og:description" content="Siaran langsung dan info kajian rutin dari JBTV." />
     <meta property="og:image" content="https://i.postimg.cc/L4bXV47w/Thumbnail-Website.png" />
     <meta property="og:url" content="https://jbtv-id.netlify.app" />
     <meta name="twitter:card" content="summary_large_image" />
+
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
+
     <style>
-        /* =============================================================== */
-        /* SEMUA CSS ASLI ANDA (SAMA SEKALI TIDAK DIUBAH) */
-        /* =============================================================== */
         :root {
             --color-bg-white: #ffffff;
             --color-bg-grey: #f7f7f7;
@@ -28,6 +29,7 @@
             --color-blue: #17a2b8;
             --timeline-line-color: #e0e0e0;
         }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             margin: 0;
@@ -35,254 +37,824 @@
             background-color: var(--color-bg-grey);
             color: var(--color-text);
         }
-        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
-        h2 { font-size: 1.5em; text-align: center; margin-bottom: 40px; color: var(--color-dark); }
-        .section-white { background-color: var(--color-bg-white); }
-        .section-grey { background-color: #114ed7; }
-        .section-grey h2, .section-grey h4, .section-grey p { color: white; }
-        .section-grey h4 { color: #d1d1d1; }
-        .live-streaming-wrapper { text-align: center; }
-        .video-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        .news-ticker { display: flex; align-items: center; background-color: #114ed7; color: white; padding: 5px 10px; border-radius: 4px; margin: 25px auto; overflow: hidden; box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3); border-top: 0px solid #00008B; }
-        .news-ticker:hover .streaming-info { animation-play-state: paused; }
-        .ticker-prefix { flex-shrink: 0; display: flex; align-items: center; padding-right: 10px; margin-right: 10px; border-right: 1px solid rgba(255, 255, 255, 0.4); }
-        .live-indicator { display: flex; align-items: center; background-color: #e74c3c; padding: 2px 6px; border-radius: 3px; font-size: 0.8em; font-weight: bold; margin-right: 10px; }
-        .live-indicator .dot { width: 8px; height: 8px; background-color: white; border-radius: 50%; margin-right: 5px; animation: blink 1.5s infinite; }
-        .date-time-section { font-weight: bold; font-size: 0.6em; text-align: center; background-color: var(--color-red); padding: 4px 8px; border-radius: 3px; color: white; }
-        .date-time-section span { display: block; }
-        #live-time { font-size: 1.1em; }
-        .marquee-section { flex-grow: 1; overflow: hidden; }
-        .streaming-info { font-size: 0.9em; color: white; display: inline-block; padding-left: 100%; white-space: nowrap; animation: marquee 20s linear; margin: 0; vertical-align: middle; will-change: transform; }
-        @keyframes blink { 50% { opacity: 0.3; } }
-        @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-100%); } }
-        .post-actions { display: flex; align-items: center; justify-content: center; gap: 20px; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 10px 0; margin-bottom: 20px; }
-        .action-btn { background: none; border: none; cursor: pointer; font-size: 1em; color: #555; display: flex; align-items: center; gap: 8px; }
-        .action-btn:hover { color: var(--color-primary); }
-        .action-btn i { font-size: 1.2em; }
-        #comments-wrapper { display: none; margin-top: 20px; }
-        h4 { font-size: 0.8em; text-align: center; margin-top: -40px; color: var(--color-dark); }
-        .timeline-container { width: 100%; margin: auto; }
-        .timeline-content { display: none; }
-        .timeline-content.active { display: block; }
-        .timeline { position: relative; list-style: none; padding-left: 40px; margin: 0; }
-        .timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 3px; background-color: #5d8bf2; border-radius: 3px; }
-        .timeline-item { position: relative; margin-bottom: 30px; }
-        .timeline-item::after { content: ''; position: absolute; left: -35px; top: 5px; width: 13px; height: 13px; background-color: #114ed7; border: 3px solid #5d8bf2; border-radius: 50%; z-index: 1; }
-        .timeline-item-content { background-color: #2a65e0; padding: 20px; border-radius: 8px; border: 1px solid #5d8bf2; }
-        .timeline-tag { display: inline-block; padding: 5px 12px; border-radius: 5px; font-size: 0.9em; font-weight: 600; margin-right: 8px; margin-bottom: 10px; }
-        .tag-dark { background-color: var(--color-dark); color: white; }
-        .tag-red { background-color: var(--color-red); color: white; }
-        .tag-green { background-color: var(--color-green); color: white; margin-top: 10px; }
-        .tag-blue { background-color: var(--color-blue); color: white; }
-        .pengumuman-content { display: flex; gap: 20px; align-items: flex-start; }
-        .pengumuman-flyer { width: 120px; height: auto; border-radius: 5px; object-fit: cover; box-shadow: #333; }
-        .pengumuman-details { flex: 1; }
-        @media (max-width: 600px) { .pengumuman-content { flex-direction: column; } .pengumuman-flyer { width: 100%; max-width: 250px; } }
-        .timeline-dropdown-wrapper { display: flex; justify-content: center; margin-bottom: 30px; margin-left: auto; margin-right: auto; }
-        .custom-dropdown { appearance: none; -webkit-appearance: none; -moz-appearance: none; background-color: #ffffff; color: #333; padding: 12px 12px 12px 12px; font-size: 0.8em; font-weight: 600; border: 2px solid #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="16" height="16" fill="gray" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 5.5l6 6 6-6" stroke="gray" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; transition: border-color 0.3s, box-shadow 0.3s; cursor: pointer; }
-        .custom-dropdown:hover { border-color: #ddd; }
-        .wa-float-container { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 8px; z-index: 9999; align-items: flex-end; }
-        .wa-float { display: flex; align-items: center; gap: 8px; padding: 10px 16px; color: #fff; border-radius: 50px; font-weight: bold; text-decoration: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); transition: transform 0.3s ease; font-size: 14px; }
-        .wa-float:hover { transform: scale(1.05); }
-        .wa-ikhwan { background-color: #25D366; }
-        .wa-akhwat { background-color: #128C7E; }
-        .wa-label { background-color: #333; color: white; padding: 4px 10px; font-size: 12px; border-radius: 12px; margin-right: 5px; opacity: 0.8; }
-        .section-about p { font-size: 0.9em; max-width: 700px; margin: 25px auto; margin-top: -20px; text-align: center; font-style: normal; font-weight: normal; color: #333; }
-        footer { background-color: var(--color-dark); color: white; text-align: center; padding: 0; font-size: 0.9em; font-style: normal; font-weight: normal; }
-        footer .container { padding-top: 20px; padding-bottom: 20px; }
-        .article-card { background-color: #ffffff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); transition: box-shadow 0.3s ease; }
-        .article-card:hover { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); }
-        .article-title { font-size: 1.2em; font-weight: 600; color: #114ed7; margin: 0 0 10px 0; }
-        .article-snippet { font-size: 0.8em; line-height: 1.6; margin: 0 0 15px 0; color: #333; }
-        .read-more-btn { display: inline-block; background-color: #114ed7; color: white; padding: 8px 15px; text-decoration: none; border-radius: 5px; font-weight: 500; font-size: 0.9em; transition: background-color 0.3s; }
-        .read-more-btn:hover { background-color: #0038a8; }
-        .section-grey .article-snippet { color: #333; }
-        .ask-question-float { position: fixed; left: 20px; bottom: 20px; right: auto; width: auto; height: auto; padding: 10px 18px; border-radius: 50px; display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; background-color: var(--color-primary); color: white; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); cursor: pointer; z-index: 10000; transition: transform 0.3s ease; }
-        .ask-question-float:hover { transform: scale(1.1); }
-        .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); z-index: 10001; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
-        .modal-backdrop.visible { opacity: 1; visibility: visible; }
-        .modal-content { background-color: white; padding: 30px; border-radius: 8px; width: 90%; max-width: 500px; position: relative; transform: scale(0.9); transition: transform 0.3s; }
-        .modal-backdrop.visible .modal-content { transform: scale(1); }
-        .modal-close-btn { position: absolute; top: 10px; right: 15px; font-size: 28px; color: #aaa; cursor: pointer; border: none; background: none; }
-        .modal-content h3 { margin-top: 0; color: #114ed7; display: flex; align-items: center; gap: 10px; }
-        .modal-form { display: flex; flex-direction: column; gap: 15px; }
-        .modal-form input, .modal-form textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em; box-sizing: border-box; }
-        .modal-form textarea { height: 120px; resize: vertical; }
-        .modal-form button { padding: 12px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 1em; cursor: pointer; transition: background-color 0.3s; }
-        .modal-form button:hover { background-color: #0056b3; }
-    </style>
 
-    <style>
-        body { background-color: #f1f5f9 !important; }
-        .page-wrapper { display: flex; }
-        .sidebar {
-            width: 260px;
-            background-color: #ffffff;
-            border-right: 1px solid #e2e8f0;
-            flex-shrink: 0;
-            padding: 20px;
-            box-sizing: border-box;
-            height: 100vh;
-            position: fixed;
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--color-dark);
+        }
+
+        .section-white {
+            background-color: var(--color-bg-white);
+        }
+
+        .section-grey {
+            background-color: #114ed7;
+            /* DIUBAH: Warna latar belakang baru */
+        }
+
+        /* BARU: Style untuk teks di dalam section-grey agar terbaca */
+        .section-grey h2,
+        .section-grey h4,
+        .section-grey p {
+            color: white;
+        }
+
+        .section-grey h4 {
+            color: #d1d1d1;
+            /* Warna abu-abu terang untuk subjudul */
+        }
+
+
+        .live-streaming-wrapper {
+            text-align: center;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-container iframe {
+            position: absolute;
             top: 0;
             left: 0;
-            z-index: 1002;
+            width: 100%;
+            height: 100%;
+            border: 0;
         }
-        .sidebar-header { text-align: center; margin-bottom: 30px; }
-        .sidebar-header h2 { color: #114ed7; margin: 0; font-size: 1.6em; }
-        .sidebar-nav ul { list-style: none; padding: 0; margin: 0; }
-        .sidebar-nav a { display: flex; align-items: center; gap: 12px; padding: 12px 15px; color: #334155; text-decoration: none; border-radius: 6px; margin-bottom: 5px; font-weight: 500; }
-        .sidebar-nav a:hover { background-color: #eef2ff; color: #114ed7; }
-        .sidebar-nav a.active { background-color: #114ed7; color: white; }
-        .main-content {
+
+        /* --- STYLE BARU: News Ticker V2 (Lebih Canggih) --- */
+        .news-ticker {
+            display: flex;
+            /* Menggunakan flexbox untuk layout */
+            align-items: center;
+            /* Menengahkan item secara vertikal */
+            background-color: #114ed7;
+            /* Warna biru lebih gelap */
+            color: white;
+            padding: 5px 10px;
+            /* Padding lebih ramping */
+            border-radius: 4px;
+            margin: 25px auto;
+            overflow: hidden;
+            box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3);
+            border-top: 0px solid #00008B;
+            /* Aksen warna */
+        }
+
+        /* Pause on Hover */
+        .news-ticker:hover .streaming-info {
+            animation-play-state: paused;
+        }
+
+        .ticker-prefix {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            padding-right: 10px;
+            margin-right: 10px;
+            border-right: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            background-color: #e74c3c;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .live-indicator .dot {
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: blink 1.5s infinite;
+        }
+
+        .date-time-section {
+            font-weight: bold;
+            font-size: 0.6em;
+            text-align: center;
+            background-color: var(--color-red);
+            /* WARNA BARU */
+            padding: 4px 8px;
+            /* Padding agar lebih rapi */
+            border-radius: 3px;
+            /* Sudut membulat */
+            color: white;
+            /* Teks putih agar kontras */
+        }
+
+        .date-time-section span {
+            display: block;
+            /* Agar tanggal dan waktu di baris terpisah */
+        }
+
+        #live-time {
+            font-size: 1.1em;
+        }
+
+        .marquee-section {
             flex-grow: 1;
-            margin-left: 260px;
+            /* Mengambil sisa ruang yang tersedia */
+            overflow: hidden;
+            /* Penting untuk marquee */
+        }
+
+        .streaming-info {
+            font-size: 0.9em;
+            color: white;
+            /* Ubah warna teks agar kontras */
+            display: inline-block;
+            padding-left: 100%;
+            white-space: nowrap;
+            animation: marquee 20s linear;
+            /* Dibuat tidak infinite, dikontrol JS */
+            margin: 0;
+            /* Reset margin default dari paragraf */
+            vertical-align: middle;
+            will-change: transform;
+            /* Optimasi performa animasi */
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* --- AKHIR STYLE NEWS TICKER --- */
+
+        .post-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* BARU: Menengahkan ikon */
+            gap: 20px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            /* DIUBAH: Dikecilkan */
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            color: var(--color-primary);
+        }
+
+        .action-btn i {
+            font-size: 1.2em;
+        }
+
+        /* DIUBAH: Dikecilkan */
+
+        #comments-wrapper {
+            display: none;
+            margin-top: 20px;
+        }
+
+        h4 {
+            font-size: 0.8em;
+            text-align: center;
+            margin-top: -40px;
+            color: var(--color-dark);
+        }
+
+        .timeline-container {
+            width: 100%;
+            margin: auto
+        }
+
+        .timeline-content {
+            display: none;
+        }
+
+        .timeline-content.active {
+            display: block;
+        }
+
+        .timeline {
+            position: relative;
+            list-style: none;
+            padding-left: 40px;
+            margin: 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background-color: #5d8bf2;
+            /* DIUBAH: Warna garis agar kontras */
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -35px;
+            top: 5px;
+            width: 13px;
+            height: 13px;
+            background-color: #114ed7;
+            /* DIUBAH: Sesuai BG */
+            border: 3px solid #5d8bf2;
+            /* DIUBAH: Warna border agar kontras */
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .timeline-item-content {
+            background-color: #2a65e0;
+            /* DIUBAH: Warna lebih terang dari BG utama */
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #5d8bf2;
+            /* DIUBAH: Warna border agar kontras */
+        }
+
+        .timeline-tag {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-bottom: 10px;
+        }
+
+        .tag-dark {
+            background-color: var(--color-dark);
+            color: white;
+        }
+
+        .tag-red {
+            background-color: var(--color-red);
+            color: white;
+        }
+
+        .tag-green {
+            background-color: var(--color-green);
+            color: white;
+            margin-top: 10px;
+        }
+
+        .tag-blue {
+            background-color: var(--color-blue);
+            color: white;
+        }
+
+        .pengumuman-content {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .pengumuman-flyer {
+            width: 120px;
+            height: auto;
+            border-radius: 5px;
+            object-fit: cover;
+            box-shadow: #333;
+        }
+
+        .pengumuman-details {
+            flex: 1;
+        }
+
+        @media (max-width: 600px) {
+            .pengumuman-content {
+                flex-direction: column;
+            }
+
+            .pengumuman-flyer {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+
+        .timeline-dropdown-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .custom-dropdown {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: #ffffff;
+            color: #333;
+            padding: 12px 12px 12px 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            border: 2px solid #fff;
+            /* DIUBAH */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="16" height="16" fill="gray" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 5.5l6 6 6-6" stroke="gray" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .custom-dropdown:hover {
+            border-color: #ddd;
+        }
+
+        .wa-float-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 9999;
+            align-items: flex-end;
+        }
+
+        .wa-float {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            color: #fff;
+            border-radius: 50px;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            font-size: 14px;
+        }
+
+        .wa-float:hover {
+            transform: scale(1.05);
+        }
+
+        .wa-ikhwan {
+            background-color: #25D366;
+        }
+
+        .wa-akhwat {
+            background-color: #128C7E;
+        }
+
+        .wa-label {
+            background-color: #333;
+            color: white;
+            padding: 4px 10px;
+            font-size: 12px;
+            border-radius: 12px;
+            margin-right: 5px;
+            opacity: 0.8;
+        }
+
+        .section-about p {
+            font-size: 0.9em;
+            max-width: 700px;
+            margin: 25px auto;
+            margin-top: -20px;
+            text-align: center;
+            font-style: normal;
+            font-weight: normal;
+            color: #fffff;
+            /* DIUBAH agar kontras */
+        }
+
+        footer {
+            background-color: var(--color-dark);
+            color: white;
+            text-align: center;
             padding: 0;
+            /* DIUBAH */
+            font-size: 0.9em;
+            font-style: normal;
+            font-weight: normal;
         }
-        .content-page { display: none; }
-        .content-page.active { display: block; }
-        .mobile-header { display: none; }
-        @media (max-width: 992px) {
-            .sidebar { transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
-            .sidebar.is-open { transform: translateX(0); }
-            .main-content { margin-left: 0; }
-            .mobile-header { display: flex; background-color: #ffffff; color: #114ed7; padding: 10px 15px; align-items: center; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 1001; }
-            #menu-toggle { background: none; border: none; color: #114ed7; font-size: 24px; cursor: pointer; margin-right: 15px; }
-            .mobile-header h3 { margin: 0; font-size: 1.2em; }
+
+        /* BARU: Mengurangi padding vertikal khusus untuk container di footer */
+        footer .container {
+            padding-top: 20px;
+            padding-bottom: 20px;
         }
+
+        /* === MULAI STYLE BARU UNTUK SECTION ARTIKEL === */
+        .article-card {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .article-card:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #114ed7;
+            margin: 0 0 10px 0;
+        }
+
+        .article-snippet {
+            font-size: 0.8em;
+            font-style: normal color: #333;
+            /* DIUBAH: Warna disamakan dengan isi artikel agar lebih jelas */
+            line-height: 1.6;
+            margin: 0 0 15px 0;
+        }
+
+        .read-more-btn {
+            display: inline-block;
+            background-color: #114ed7;
+            color: white;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            font-size: 0.9em;
+            transition: background-color 0.3s;
+        }
+
+        .read-more-btn:hover {
+            background-color: #0038a8;
+        }
+
+        /* PERBAIKAN: Aturan spesifik untuk snippet di dalam section biru */
+        .section-grey .article-snippet {
+            color: #333;
+            font-style: x-small;
+        }
+
+        /* === AKHIR STYLE BARU UNTUK SECTION ARTIKEL === */
+        
+        /* === MULAI CSS BARU UNTUK TOMBOL & MODAL TANYA JAWAB === */
+.ask-question-float {
+    position: fixed;
+    /* --- PERUBAHAN POSISI --- */
+    left: 20px;   /* Diubah dari 'right' */
+    bottom: 20px; /* Diubah dari '155px' */
+    right: auto;  /* Hapus properti 'right' yang mungkin masih ada */
+
+    /* --- PERUBAHAN BENTUK & UKURAN --- */
+    width: auto;        /* Hapus lebar tetap agar fleksibel */
+    height: auto;       /* Hapus tinggi tetap */
+    padding: 10px 18px; /* Tambahkan padding agar ada ruang */
+    border-radius: 50px;/* Ubah menjadi bentuk kapsul */
+
+    /* --- PENYESUAIAN TULISAN & IKON --- */
+    display: flex;
+    align-items: center;
+    gap: 10px;          /* Beri jarak antara ikon dan teks */
+    font-size: 15px;    /* Sesuaikan ukuran font */
+    font-weight: 500;   /* Tebalkan sedikit */
+    
+    /* Properti lama yang masih relevan */
+    background-color: var(--color-primary);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 10000;
+    transition: transform 0.3s ease;
+}
+
+.ask-question-float:hover {
+    transform: scale(1.1);
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.modal-backdrop.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.3s;
+}
+
+.modal-backdrop.visible .modal-content {
+    transform: scale(1);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    color: #aaa;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    color: #114ed7;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modal-form input,
+.modal-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.modal-form textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+.modal-form button {
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modal-form button:hover {
+    background-color: #0056b3;
+}
+/* === AKHIR CSS BARU === */
+        
     </style>
 </head>
+
 <body>
-    <div class="page-wrapper">
-        <nav class="sidebar">
-            <div class="sidebar-header"><h2>JBTV</h2></div>
-            <ul class="sidebar-nav">
-                <li><a href="#" class="sidebar-link active" data-target="page-home"><i class="fa-solid fa-house"></i> Home</a></li>
-                <li><a href="#" class="sidebar-link" data-target="page-jadwal"><i class="fa-solid fa-calendar-days"></i> Jadwal & Info</a></li>
-                <li><a href="#" class="sidebar-link" data-target="page-tentang"><i class="fa-solid fa-circle-info"></i> Tentang Kami</a></li>
-            </ul>
-        </nav>
 
-        <div class="main-content">
-            <div class="mobile-header">
-                <button id="menu-toggle"><i class="fa-solid fa-bars"></i></button>
-                <h3>Menu</h3>
-            </div>
-            
-            <div id="page-home" class="content-page active">
-                <section class="section-white">
-                    <div class="container live-streaming-wrapper">
-                        <h2></h2><h4></h4>
-                        <div class="video-container"><iframe src="https://www.facebook.com/plugins/video.php?href=https://web.facebook.com/jbtv17/videos/1116523027070382/" frameborder="0" allowfullscreen></iframe></div>
-                        <div class="news-ticker">
-                            <div class="ticker-prefix"><div class="date-time-section"><span id="live-time">07:02:08</span></div></div>
-                            <div class="marquee-section"><p class="streaming-info"></p></div>
-                        </div>
-                        <div><p style="font-size: 0.9em; color:#333">Klik icon volume pada video jika tidak ada suaranya!</p></div>
-                        <div class="post-actions">
-                            <button class="action-btn" id="viewersBtn" title="Sedang menonton"><i class="fa-solid fa-eye"></i> <span id="viewersCount">0</span></button>
-                            <button class="action-btn" id="likeBtn"><i class="fa-solid fa-thumbs-up"></i> <span id="likeCount">0</span></button>
-                            <button class="action-btn" id="commentBtn"><i class="fa-solid fa-comment"></i> <span id="commentCount">0</span></button>
-                            <button class="action-btn" id="shareBtn"><i class="fa-solid fa-share"></i> <span id="shareCount">0</span></button>
-                        </div>
-                        <div id="comments-wrapper"><section class="section-white"><div class="container"><h2 style="font-size: 1.5em; margin-top: -30px;"></h2><form id="commentForm" style="margin-top: -70px;"><input type="text" id="name" placeholder="Nama Anda" required style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;"><textarea id="comment" placeholder="Tulis komentar..." required style="padding: 10px; width: 100%; height: 100px; border-radius: 5px; border: 1px solid #ccc;"></textarea><button type="submit" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; margin-top: 20px; margin-bottom: 20px;">Kirim Komentar</button></form><div id="commentsList"></div></div></section></div>
-                    </div>
-                </section>
-                <section class="section-grey">
-                    <div class="container">
-                        <h2 style="color: #ffffff;"><strong>Tanya Jawab & Artikel</strong></h2>
-                        <div id="articles-container"></div>
-                    </div>
-                </section>
+    <section class="section-white">
+        <div class="container live-streaming-wrapper">
+            <h2></h2>
+            <h4></h4>
+            <div class="video-container">
+                <iframe
+                    src="https://www.facebook.com/plugins/video.php?href=https://web.facebook.com/jbtv17/videos/1116523027070382/"
+                    frameborder="0" allowfullscreen></iframe>
             </div>
 
-            <div id="page-jadwal" class="content-page">
-                <section class="section-grey">
-                    <div class="container">
-                        <h2><strong>Jadwal Kajian Rutin</strong></h2>
-                        <h4 id="rentangTanggalKajian" style="color: #ffffff; font-style: oblique; font-size: 0.8em; margin-top:-20px;">Belum ada tanggal kajian</h4>
-                        <div class="timeline-container">
-                            <div class="timeline-nav timeline-dropdown-wrapper"><select id="ustadzDropdown" onchange="openDropdownTab(event)" class="custom-dropdown"><option value="ustad1">TGH. Suharni Abdul Manan, Lc.</option><option value="ustad2">Ust. Zamakhsyari Dhofir, Lc., M.A.</option><option value="ustad3">Ust. Ahmad Marwazi Manar, S.H., M.A.</option></select></div>
-                            <div id="ustad1" class="timeline-content active"><ul class="timeline" id="jadwal-ustad1"></ul></div>
-                            <div id="ustad2" class="timeline-content"><ul class="timeline" id="jadwal-ustad2"></ul></div>
-                            <div id="ustad3" class="timeline-content"><ul class="timeline" id="jadwal-ustad3"></ul></div>
-                        </div>
+            <div class="news-ticker">
+                <div class="ticker-prefix">
+                    <div class="date-time-section">
+                        <span id="live-time">07:02:08</span>
                     </div>
-                </section>
-                <section class="section-white">
-                    <div class="container">
-                        <h2 style="color:  #114ed7;"><strong>Pengumuman Penting</strong></h2>
-                        <ul class="timeline" id="pengumuman-container"></ul>
-                    </div>
-                </section>
-            </div>
-            
-            <div id="page-tentang" class="content-page">
-                <section class="section-white section-about">
-                    <div class="container">
-                        <h2><strong>Tentang JBTV</strong></h2>
-                        <p><strong>JB TV</strong> adalah saluran media dakwah di bawah naungan Pondok Pesantren Jamaluddin, Bagik Nyaka. Tujuan kami adalah menyebarkan ilmu syar'i secara luas dan mudah diakses oleh umat. Kami berkomitmen untuk menghadirkan konten yang bermanfaat, terpercaya, dan sesuai dengan manhaj Ahlus Sunnah wal Jama'ah.</p>
-                    </div>
-                </section>
+                </div>
+                <div class="marquee-section">
+                    <p class="streaming-info"></p>
+                </div>
             </div>
 
-            <footer>
-                <div class="container">&copy; 2025 JBTV | By: Muzanni</div>
-            </footer>
+            <div>
+                <p style="font-size: 0.9em; margin-bottom: -20px;">Klik icon volume pada video jika tidak ada suaranya!
+                </p>
+            </div>
         </div>
+
+
+        <div class="post-actions">
+            <button class="action-btn" id="viewersBtn" title="Sedang menonton">
+                <i class="fa-solid fa-eye"></i>
+                <span id="viewersCount">0</span>
+            </button>
+            <button class="action-btn like-btn" id="likeBtn">
+                <i class="fa-solid fa-thumbs-up"></i>
+                <span id="likeCount">0</span>
+            </button>
+            <button class="action-btn" id="commentBtn">
+                <i class="fa-solid fa-comment"></i>
+                <span id="commentCount">0</span>
+            </button>
+            <button class="action-btn" id="shareBtn">
+                <i class="fa-solid fa-share"></i>
+                <span id="shareCount">0</span>
+            </button>
+        </div>
+        <div id="comments-wrapper">
+            <section class="section-white">
+                <div class="container">
+                    <h2 style="font-size: 1.5em; margin-top: -30px;"></h2>
+                    <form id="commentForm" style="margin-top: -70px;">
+                        <input type="text" id="name" placeholder="Nama Anda" required
+                            style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                        <textarea id="comment" placeholder="Tulis komentar..." required
+                            style="padding: 10px; width: 100%; height: 100px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
+                        <button type="submit"
+                            style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; margin-top: 20px; margin-bottom: 20px;">Kirim
+                            Komentar</button>
+                    </form>
+                    <div id="commentsList"></div>
+                </div>
+            </section>
+        </div>
+        </div>
+    </section>
+
+    <section class="section-grey">
+        <div class="container">
+            <h2><strong>Jadwal Kajian</h2>
+            <h4 id="rentangTanggalKajian" style="color: #ffffff; font-style: oblique; font-size: 0.8;">Belum ada tanggal
+                kajian</h4>
+
+            <div class="timeline-container">
+                <div class="timeline-nav timeline-dropdown-wrapper">
+                    <select id="ustadzDropdown" onchange="openDropdownTab(event)" class="custom-dropdown">
+                        <option value="ustad1">TGH. Suharni Abdul Manan, Lc.</option>
+                        <option value="ustad2">Ust. Zamakhsyari Dhofir, Lc., M.A.</option>
+                        <option value="ustad3">Ust. Ahmad Marwazi Manar, S.H., M.A.</option>
+                    </select>
+                </div>
+
+                <div id="ustad1" class="timeline-content active">
+                    <ul class="timeline" id="jadwal-ustad1">
+                    </ul>
+                </div>
+
+                <div id="ustad2" class="timeline-content">
+                    <ul class="timeline" id="jadwal-ustad2">
+                    </ul>
+                </div>
+
+                <div id="ustad3" class="timeline-content">
+                    <ul class="timeline" id="jadwal-ustad3">
+                    </ul>
+                </div>
+    </section>
+
+    <section class="section-white">
+        <div class="container">
+            <h2 style="color:  #114ed7;"><strong>Pengumuman</strong></h2>
+            <ul class="timeline" id="pengumuman-container">
+            </ul>
+        </div>
+    </section>
+
+    <section class="section-grey">
+        <div class="container">
+            <h2 style="color: #ffffff;"><strong>Tanya Jawab & Artikel</strong></h2>
+            <div id="articles-container">
+            </div>
+        </div>
+    </section>
+
+    <section class="section-white section-about">
+        <div class="container">
+            <h2><strong>Tentang</h2>
+            <p>
+                <strong>JB TV</strong> adalah saluran media dakwah di bawah naungan Pondok Pesantren Jamaluddin, Bagik
+                Nyaka. Tujuan kami adalah menyebarkan ilmu syar'i secara luas dan mudah diakses oleh umat.
+            </p>
+        </div>
+    </section>
+
+    <div class="wa-float-container">
+        <div class="wa-label">Group WA</div>
+        <a href="https://chat.whatsapp.com/KIDegAern9GF0Z1wzkxoJ2" target="_blank" class="wa-float wa-ikhwan"
+            title="Gabung Grup Ikhwan">
+            <i class="fab fa-whatsapp"></i> Ikhwan
+        </a>
+
+        <a href="https://chat.whatsapp.com/Kmd1of6VpRi9kWxrnNXUdH" target="_blank" class="wa-float wa-akhwat"
+            title="Gabung Grup Akhawat">
+            <i class="fab fa-whatsapp"></i> Akhwat
+        </a>
     </div>
     
-    <div class="ask-question-float" id="ask-question-btn" title="Ajukan Pertanyaan"><i class="fa-solid fa-comments"></i><span>Tanya Ustadz</span></div>
-    <div class="modal-backdrop" id="questionModal"><div class="modal-content"><button class="modal-close-btn" id="modalCloseBtn">&times;</button><h3><i class="fa-solid fa-paper-plane"></i> Ajukan Pertanyaan</h3><p style="font-size: 0.8em; color: #555; margin-top: -10px; margin-bottom: 20px;">Pertanyaan Anda akan kami sampaikan kepada Ustadz. Jawaban akan dipublikasikan sebagai artikel jika relevan.</p><form id="questionForm" class="modal-form"><input type="text" id="questionName" placeholder="Nama Anda (Boleh disamarkan)" required><textarea id="questionText" placeholder="Tulis pertanyaan Anda di sini..." required></textarea><button type="submit">Kirim Pertanyaan</button></form></div></div>
-    <div class="wa-float-container"><div class="wa-label">Group WA</div><a href="https://chat.whatsapp.com/KIDegAern9GF0Z1wzkxoJ2" target="_blank" class="wa-float wa-ikhwan" title="Gabung Grup Ikhwan"><i class="fab fa-whatsapp"></i> Ikhwan</a><a href="https://chat.whatsapp.com/Kmd1of6VpRi9kWxrnNXUdH" target="_blank" class="wa-float wa-akhwat" title="Gabung Grup Akhawat"><i class="fab fa-whatsapp"></i> Akhwat</a></div>
+    <div class="ask-question-float" id="ask-question-btn" title="Ajukan Pertanyaan">
+    <i class="fa-solid fa-comments"></i>
+    <span>Tanya Ustadz</span>
+</div>
+
+<div class="modal-backdrop" id="questionModal">
+    <div class="modal-content">
+        <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
+        <h3><i class="fa-solid fa-paper-plane"></i> Ajukan Pertanyaan</h3>
+        <p style="font-size: 0.8em; color: #555; margin-top: -10px; margin-bottom: 20px;">
+            Pertanyaan Anda akan kami sampaikan kepada Ustadz. Jawaban akan dipublikasikan sebagai artikel jika relevan.
+        </p>
+        <form id="questionForm" class="modal-form">
+            <input type="text" id="questionName" placeholder="Nama Anda (Boleh disamarkan)" required>
+            <textarea id="questionText" placeholder="Tulis pertanyaan Anda di sini..." required></textarea>
+            <button type="submit">Kirim Pertanyaan</button>
+        </form>
+    </div>
+</div>
+
+    <footer>
+        <div class="container">
+            &copy; 2025 JBTV | By: Muzanni
+        </div>
+    </footer>
 
     <script>
+        function openDropdownTab(evt) {
+            const selectedValue = evt.target.value;
+            const tabcontent = document.getElementsByClassName("timeline-content");
+            for (let i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            document.getElementById(selectedValue).style.display = "block";
+        }
+
         document.addEventListener("DOMContentLoaded", function () {
-            // === SCRIPT BARU UNTUK NAVIGASI SIDEBAR ===
-            const sidebar = document.querySelector('.sidebar');
-            const menuToggle = document.getElementById('menu-toggle');
-            const sidebarLinks = document.querySelectorAll('.sidebar-link');
-            const contentPages = document.querySelectorAll('.content-page');
-            
-            if(menuToggle) {
-                menuToggle.addEventListener('click', () => sidebar.classList.toggle('is-open'));
-            }
-
-            sidebarLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetId = link.dataset.target;
-                    const targetPage = document.getElementById(targetId);
-                    
-                    sidebarLinks.forEach(l => l.classList.remove('active'));
-                    contentPages.forEach(p => p.classList.remove('active'));
-                    
-                    link.classList.add('active');
-                    if(targetPage) targetPage.classList.add('active');
-
-                    if (window.innerWidth <= 992) {
-                        sidebar.classList.remove('is-open');
-                    }
-                });
-            });
-
-            // === SCRIPT ASLI ANDA (UTUH DARI AWAL SAMPAI AKHIR) ===
-            function openDropdownTab(evt) {
-                const selectedValue = evt.target.value;
-                const tabcontent = document.getElementsByClassName("timeline-content");
-                for (let i = 0; i < tabcontent.length; i++) {
-                    tabcontent[i].style.display = "none";
-                }
-                document.getElementById(selectedValue).style.display = "block";
-            }
-            window.openDropdownTab = openDropdownTab; // expose to global scope
-
+            // Dropdown Jadwal Kajian
             if (document.getElementById("ustadzDropdown")) {
                 document.getElementById("ustadzDropdown").value = "ustad1";
                 document.getElementById("ustad1").style.display = "block";
             }
 
+            // Firebase config
             const firebaseConfig = {
                 apiKey: "AIzaSyAowVtnXTVstFSc3kSBTm5tXJkEvp31V2Y",
                 authDomain: "streamingjbtv.firebaseapp.com",
@@ -293,141 +865,398 @@
                 appId: "1:191301318558:web:f32dada7468d8a4486088f",
                 measurementId: "G-PBGDKCMQJT"
             };
+
+            // Inisialisasi Firebase
             firebase.initializeApp(firebaseConfig);
             const db = firebase.database();
 
+            // --- Logika Jam & Tanggal Real-time ---
             const liveTimeEl = document.getElementById('live-time');
-            if(liveTimeEl){
-                function updateDateTime() {
-                    const now = new Date();
-                    const padZero = (num) => (num < 10 ? '0' + num : num);
-                    liveTimeEl.textContent = `${padZero(now.getHours())}:${padZero(now.getMinutes())}:${padZero(now.getSeconds())} Wita`;
-                }
-                updateDateTime();
-                setInterval(updateDateTime, 1000);
+
+            function updateDateTime() {
+                const now = new Date();
+                const padZero = (num) => (num < 10 ? '0' + num : num);
+                const timeString = `${padZero(now.getHours())}:${padZero(now.getMinutes())}:${padZero(now.getSeconds())} Wita`;
+                liveTimeEl.textContent = timeString;
             }
-            
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+
+            // --- Logika Beberapa Pesan Bergantian ---
             const streamingInfoEl = document.querySelector('.streaming-info');
-            if(streamingInfoEl){
-                const messages = [
-                    "Selamat datang di JBTV. Saksikan siaran langsung kajian Islam dan dapatkan informasi jadwal terbaru.",
-                    "Kami menyediakan siaran langsung dari youtube dan facebook yang bisa anda tonton di sini...",
-                    "Dukung dakwah JBTV dengan donasi terbaik Anda."
-                ];
-                let currentMessageIndex = 0;
-                function runMarquee() {
-                    streamingInfoEl.innerHTML = messages[currentMessageIndex];
-                    streamingInfoEl.style.animation = 'none';
-                    void streamingInfoEl.offsetWidth;
-                    streamingInfoEl.style.animation = '';
-                    streamingInfoEl.style.animationName = 'marquee';
-                    streamingInfoEl.style.animationIterationCount = '1';
-                }
-                streamingInfoEl.addEventListener('animationend', () => {
-                    currentMessageIndex = (currentMessageIndex + 1) % messages.length;
-                    runMarquee();
-                });
+            const messages = [
+                "Selamat datang di JBTV. Saksikan siaran langsung kajian Islam dan dapatkan informasi jadwal terbaru.",
+                "Kami menyediakan siaran langsung dari youtube dan facebook yang bisa anda tonton di sini. Format video streaming memiliki variasi kualitas dan mengikuti kecepatan internet sehingga Anda bisa nyaman dalam menyimak <strong>streaming siaran JBTV.</strong>",
+                "Dukung dakwah JBTV dengan donasi terbaik Anda."
+            ];
+            let currentMessageIndex = 0;
+
+            function runMarquee() {
+                streamingInfoEl.innerHTML = messages[currentMessageIndex];
+                streamingInfoEl.style.animation = 'none';
+                void streamingInfoEl.offsetWidth; // Memicu reflow browser
+                streamingInfoEl.style.animation = '';
+                streamingInfoEl.style.animationName = 'marquee';
+                streamingInfoEl.style.animationIterationCount = '1';
+            }
+
+            streamingInfoEl.addEventListener('animationend', () => {
+                currentMessageIndex = (currentMessageIndex + 1) % messages.length;
                 runMarquee();
-            }
+            });
 
+            runMarquee();
+
+
+            // --- LOGIKA INTERAKSI (VIEWERS, LIKE, KOMENTAR, SHARE) ---
+
+            // === PERUBAHAN UTAMA: MEMBUAT DATA UNIK UNTUK SETIAP VIDEO ===
+            // 1. Ambil URL video dari iframe sebagai ID unik
             const videoIframe = document.querySelector('.video-container iframe');
-            if (videoIframe) {
-                const videoSrc = videoIframe.src;
-                const videoId = btoa(videoSrc);
-                const videoInteractionsRef = db.ref('video_interactions/' + videoId);
-                const commentsRef = videoInteractionsRef.child('comments');
-                const likesRef = videoInteractionsRef.child('likes');
-                const sharesRef = videoInteractionsRef.child('shares');
-                const presenceRef = videoInteractionsRef.child('presence');
-                const viewersCountSpan = document.getElementById('viewersCount');
-                const likeBtn = document.getElementById('likeBtn');
-                const likeCountSpan = document.getElementById('likeCount');
-                const commentBtn = document.getElementById('commentBtn');
-                const commentCountSpan = document.getElementById('commentCount');
-                const shareBtn = document.getElementById('shareBtn');
-                const shareCountSpan = document.getElementById('shareCount');
-                const commentsWrapper = document.getElementById('comments-wrapper');
-                const form = document.getElementById('commentForm');
-                const commentsList = document.getElementById('commentsList');
-                const isAdmin = window.location.search.includes('admin=true');
-
-                const amOnline = db.ref('.info/connected');
-                amOnline.on('value', (s) => { if (s.val()) { const myRef = presenceRef.push(); myRef.onDisconnect().remove(); myRef.set(true); } });
-                presenceRef.on('value', (s) => { if(viewersCountSpan) viewersCountSpan.textContent = s.numChildren(); });
-                commentBtn.addEventListener('click', () => { if(commentsWrapper) commentsWrapper.style.display = commentsWrapper.style.display === 'block' ? 'none' : 'block'; });
-                commentsRef.on('value', (s) => { if(commentCountSpan) commentCountSpan.textContent = s.exists() ? s.numChildren() : 0; });
-                likeBtn.addEventListener('click', () => { likesRef.transaction((c) => (c || 0) + 1); });
-                likesRef.on('value', (s) => { if(likeCountSpan) likeCountSpan.textContent = s.val() || 0; });
-                shareBtn.addEventListener('click', async () => { /* logika share */ });
-                sharesRef.on('value', (s) => { if(shareCountSpan) shareCountSpan.textContent = s.val() || 0; });
-                form.addEventListener('submit', function (e) {
-                    e.preventDefault();
-                    const name = document.getElementById('name').value.trim();
-                    const comment = document.getElementById('comment').value.trim();
-                    if (name && comment) { commentsRef.push({ name, comment, timestamp: Date.now() }); form.reset(); }
-                });
-                commentsRef.on('child_added', function (s) { const data = s.val(); const key = s.key; const el = document.createElement('div'); el.style.marginBottom = '20px'; el.id = `comment-${key}`; const time = new Date(data.timestamp).toLocaleString('id-ID'); el.innerHTML = `<div style="padding: 10px; background: #fff; border: 1px solid #ddd; border-radius: 6px; text-align: left;"><strong>${data.name}</strong> <small style="color: gray;">(${time})</small><p style="margin: 5px 0;">${data.comment}</p>${isAdmin ? `<button onclick="deleteComment('${key}')">Hapus</button>` : ""}</div>`; if(commentsList) commentsList.prepend(el); });
-                window.deleteComment = function (k) { if(confirm("Yakin?")) commentsRef.child(k).remove(); };
-                commentsRef.on('child_removed', (s) => { const el = document.getElementById(`comment-${s.key}`); if(el) el.remove(); });
+            if (!videoIframe) {
+                console.error("Iframe video tidak ditemukan!");
+                return; // Hentikan eksekusi jika iframe tidak ada
             }
+            const videoSrc = videoIframe.src;
 
+            // 2. Buat kunci yang valid untuk Firebase dari URL video
+            // Fungsi btoa() akan meng-encode URL menjadi string Base64 yang aman digunakan sebagai kunci
+            const videoId = btoa(videoSrc);
+
+            // 3. Arahkan semua referensi (likes, comments, dll.) ke path yang spesifik untuk video ini
+            // Ini akan membuat 'folder' baru di database Anda untuk setiap video yang berbeda.
+            const videoInteractionsRef = db.ref('video_interactions/' + videoId);
+
+            const commentsRef = videoInteractionsRef.child('comments');
+            const likesRef = videoInteractionsRef.child('likes');
+            const sharesRef = videoInteractionsRef.child('shares');
+            const presenceRef = videoInteractionsRef.child('presence'); // Jumlah penonton juga spesifik per video
+
+            // Ambil semua elemen UI
+            const viewersCountSpan = document.getElementById('viewersCount');
+            const likeBtn = document.getElementById('likeBtn');
+            const likeCountSpan = document.getElementById('likeCount');
+            const commentBtn = document.getElementById('commentBtn');
+            const commentCountSpan = document.getElementById('commentCount');
+            const shareBtn = document.getElementById('shareBtn');
+            const shareCountSpan = document.getElementById('shareCount');
+            const commentsWrapper = document.getElementById('comments-wrapper');
+            const form = document.getElementById('commentForm');
+            const commentsList = document.getElementById('commentsList');
+            const isAdmin = window.location.search.includes('admin=true');
+
+            // --- Logika Jumlah Penonton (Real-time Presence) ---
+            // Logika ini sekarang menggunakan `presenceRef` yang sudah spesifik per video
+            const amOnline = db.ref('.info/connected');
+            amOnline.on('value', (snapshot) => {
+                if (snapshot.val()) {
+                    const myRef = presenceRef.push();
+                    myRef.onDisconnect().remove();
+                    myRef.set(true);
+                }
+            });
+
+            presenceRef.on('value', (snapshot) => {
+                const viewers = snapshot.numChildren();
+                viewersCountSpan.textContent = viewers;
+            });
+
+            // Logika Tombol Komentar & Counternya
+            commentBtn.addEventListener('click', () => {
+                const isVisible = commentsWrapper.style.display === 'block';
+                commentsWrapper.style.display = isVisible ? 'none' : 'block';
+            });
+
+            commentsRef.on('value', (snapshot) => {
+                commentCountSpan.textContent = snapshot.exists() ? snapshot.numChildren() : 0;
+            });
+
+            // Logika Tombol Suka
+            likeBtn.addEventListener('click', () => {
+                likesRef.transaction((currentLikes) => (currentLikes || 0) + 1);
+            });
+
+            likesRef.on('value', (snapshot) => {
+                likeCountSpan.textContent = snapshot.val() || 0;
+            });
+
+            // Logika Tombol Bagikan dengan Counter
+            shareBtn.addEventListener('click', async () => {
+                const shareData = {
+                    title: 'JB TV - Kajian & Artikel Islami',
+                    text: 'Saksikan siaran langsung dan lihat baca artikel islami!',
+                    url: window.location.href
+                };
+
+                const incrementShareCount = () => {
+                    sharesRef.transaction((currentShares) => (currentShares || 0) + 1);
+                };
+
+                if (navigator.share) {
+                    try {
+                        await navigator.share(shareData);
+                        incrementShareCount();
+                    } catch (err) {
+                        console.error('Gagal membagikan:', err);
+                    }
+                } else {
+                    try {
+                        await navigator.clipboard.writeText(window.location.href);
+                        alert('Tautan berhasil disalin ke clipboard!');
+                        incrementShareCount();
+                    } catch (err) {
+                        alert('Gagal menyalin link.');
+                    }
+                }
+            });
+
+            sharesRef.on('value', (snapshot) => {
+                shareCountSpan.textContent = snapshot.val() || 0;
+            });
+
+            // Logika Form & Daftar Komentar
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const name = document.getElementById('name').value.trim();
+                const comment = document.getElementById('comment').value.trim();
+                if (name && comment) {
+                    commentsRef.push({
+                        name,
+                        comment,
+                        timestamp: Date.now(),
+                    });
+                    form.reset();
+                }
+            });
+
+            commentsRef.on('child_added', function (snapshot) {
+                const data = snapshot.val();
+                const key = snapshot.key;
+                const el = document.createElement('div');
+                el.style.marginBottom = '20px';
+                // Tambahkan ID unik ke elemen komentar untuk mempermudah penghapusan
+                el.id = `comment-${key}`;
+                const time = new Date(data.timestamp).toLocaleString('id-ID');
+                el.innerHTML = `
+                    <div style="padding: 10px; background: #fff; border: 1px solid #ddd; border-radius: 6px; text-align: left;">
+                        <strong>${data.name}</strong> <small style="color: gray;">(${time})</small>
+                        <p style="margin: 5px 0;">${data.comment}</p>
+                        ${isAdmin ? `<button onclick="deleteComment('${key}')">Hapus</button>` : ""}
+                    </div>
+                `;
+                commentsList.prepend(el);
+            });
+
+            // Fungsi hapus komentar yang di-expose ke window
+            window.deleteComment = function (commentKey) {
+                if (confirm("Yakin ingin menghapus komentar ini?")) {
+                    commentsRef.child(commentKey).remove();
+                }
+            };
+
+            // Listener untuk menghapus elemen komentar dari UI tanpa reload halaman
+            commentsRef.on('child_removed', function (snapshot) {
+                const key = snapshot.key;
+                const commentElement = document.getElementById(`comment-${key}`);
+                if (commentElement) {
+                    commentElement.remove();
+                }
+            });
+
+            // === MULAI KODE BARU UNTUK MEMUAT JADWAL & PENGUMUMAN ===
+
+            // Referensi ke database
             const jadwalRef = db.ref('jadwalKajian');
             const pengumumanRef = db.ref('pengumuman');
-            const articlesRef = db.ref('articles');
-            const tanggalRef = db.ref('infoSitus/rentangTanggal');
+
+            // Wadah di HTML
             const jadwalUstad1Container = document.getElementById('jadwal-ustad1');
             const jadwalUstad2Container = document.getElementById('jadwal-ustad2');
             const jadwalUstad3Container = document.getElementById('jadwal-ustad3');
             const pengumumanContainer = document.getElementById('pengumuman-container');
-            const articlesContainer = document.getElementById('articles-container');
+
+
+            // === MULAI KODE BARU UNTUK MEMUAT RENTANG TANGGAL ===
+
+            // Referensi ke database untuk tanggal
+            const tanggalRef = db.ref('infoSitus/rentangTanggal');
+
+            // Wadah di HTML
             const rentangTanggalKajianElem = document.getElementById('rentangTanggalKajian');
 
-            if(rentangTanggalKajianElem) tanggalRef.on('value', (s) => { rentangTanggalKajianElem.textContent = s.exists() ? s.val() : 'Jadwal Kajian Rutin'; });
-            if(jadwalUstad1Container) {
-                jadwalRef.on('value', (s) => {
-                    const c = [jadwalUstad1Container, jadwalUstad2Container, jadwalUstad3Container]; c.forEach(x => x.innerHTML = '');
-                    if(s.exists()){ s.forEach((cs) => { const j = cs.val(); const h = `<li class="timeline-item"><div class="timeline-item-content"><span class="timeline-tag tag-dark">${j.jenis}</span><span class="timeline-tag tag-red">${j.waktu}</span><div><span class="timeline-tag tag-green">${j.lokasi}</span></div></div></li>`; if (j.ustadzId === 'ustad1') jadwalUstad1Container.innerHTML += h; else if (j.ustadzId === 'ustad2') jadwalUstad2Container.innerHTML += h; else if (j.ustadzId === 'ustad3') jadwalUstad3Container.innerHTML += h; }); }
-                    else { c.forEach(x => x.innerHTML = '<li style="color: white; list-style:none;">Belum ada jadwal.</li>'); }
-                });
-            }
-            if(pengumumanContainer){
-                pengumumanRef.on('value', (s) => {
-                    pengumumanContainer.innerHTML = '';
-                    if(s.exists()){ s.forEach((cs) => { const p = cs.val(); pengumumanContainer.innerHTML += `<li class="timeline-item"><div class="timeline-item-content" style="background:white; border-color:#ddd;"><div class="pengumuman-content"><img src="${p.flyerUrl}" alt="Flyer" style="width:120px;height:auto;border-radius:5px;margin-right:20px;" class="pengumuman-flyer"><div class="pengumuman-details"><strong style="font-size:1.1em; color:#114ed7;">${p.judul}</strong><p style="color:#555;margin:5px 0 10px;">Pemateri: <strong>${p.pemateri}</strong></p><span class="timeline-tag tag-green">${p.waktu}</span><span class="timeline-tag tag-red">${p.lokasi}</span></div></div></div></li>`; }); }
-                    else { pengumumanContainer.innerHTML = '<li style="list-style:none;">Belum ada pengumuman.</li>'; }
-                });
-            }
-            if(articlesContainer){
-                articlesRef.orderByChild('timestamp').limitToLast(5).on('value', s => {
-                    articlesContainer.innerHTML = '';
-                    if(s.exists()){ const articles = []; s.forEach(c => articles.push({key: c.key, ...c.val()})); articles.reverse().forEach(a => { const snippet = a.content.length > 150 ? a.content.substring(0, 150) + '...' : a.content; articlesContainer.innerHTML += `<div class="article-card"><h3 class="article-title">${a.title}</h3><p class="article-snippet">${snippet}</p><a href="artikel.html?id=${a.key}" class="read-more-btn">Baca Selengkapnya <i class="fa-solid fa-arrow-right"></i></a></div>`; }); }
-                    else { articlesContainer.innerHTML = '<p style="text-align:center;">Belum ada artikel.</p>'; }
-                });
-            }
-
-            const askBtn = document.getElementById('ask-question-btn');
-            const modal = document.getElementById('questionModal');
-            const closeBtn = document.getElementById('modalCloseBtn');
-            const questionForm = document.getElementById('questionForm');
-            const questionsRef = db.ref('pertanyaanMasuk');
-            
-            askBtn.addEventListener('click', () => modal.classList.add('visible'));
-            const closeModal = () => modal.classList.remove('visible');
-            closeBtn.addEventListener('click', closeModal);
-            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-            questionForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const name = document.getElementById('questionName').value.trim();
-                const question = document.getElementById('questionText').value.trim();
-                if (!name || !question) return alert('Nama dan Pertanyaan harus diisi.');
-                const btn = e.target.querySelector('button');
-                btn.disabled = true; btn.textContent = 'Mengirim...';
-                questionsRef.push({ nama: name, pertanyaan: question, timestamp: Date.now(), status: 'baru' })
-                    .then(() => { alert('Pertanyaan berhasil dikirim!'); questionForm.reset(); closeModal(); })
-                    .catch((err) => alert('Gagal mengirim.'))
-                    .finally(() => { btn.disabled = false; btn.textContent = 'Kirim Pertanyaan'; });
+            // Fungsi untuk memuat teks tanggal
+            tanggalRef.on('value', (snapshot) => {
+                if (snapshot.exists()) {
+                    rentangTanggalKajianElem.textContent = snapshot.val();
+                } else {
+                    rentangTanggalKajianElem.textContent = 'Jadwal Kajian Rutin'; // Teks default jika belum diatur
+                }
             });
+
+            // === AKHIR KODE BARU ===
+
+            // Fungsi untuk memuat jadwal kajian
+            jadwalRef.on('value', (snapshot) => {
+                // Kosongkan semua kontainer dulu
+                jadwalUstad1Container.innerHTML = '<li>Memuat jadwal...</li>';
+                jadwalUstad2Container.innerHTML = '<li>Memuat jadwal...</li>';
+                jadwalUstad3Container.innerHTML = '<li>Memuat jadwal...</li>';
+
+                if (snapshot.exists()) {
+                    // Hapus pesan 'Memuat...'
+                    jadwalUstad1Container.innerHTML = '';
+                    jadwalUstad2Container.innerHTML = '';
+                    jadwalUstad3Container.innerHTML = '';
+
+                    snapshot.forEach((childSnapshot) => {
+                        const jadwal = childSnapshot.val();
+                        const itemHtml = `
+                <li class="timeline-item">
+                    <div class="timeline-item-content">
+                        <span class="timeline-tag tag-dark">${jadwal.jenis}</span>
+                        <span class="timeline-tag tag-red">${jadwal.waktu}</span>
+                        <div><span class="timeline-tag tag-green">${jadwal.lokasi}</span></div>
+                    </div>
+                </li>
+            `;
+                        // Masukkan ke kontainer ustadz yang sesuai
+                        if (jadwal.ustadzId === 'ustad1') {
+                            jadwalUstad1Container.innerHTML += itemHtml;
+                        } else if (jadwal.ustadzId === 'ustad2') {
+                            jadwalUstad2Container.innerHTML += itemHtml;
+                        } else if (jadwal.ustadzId === 'ustad3') {
+                            jadwalUstad3Container.innerHTML += itemHtml;
+                        }
+                    });
+                } else {
+                    jadwalUstad1Container.innerHTML = '<li style="color: white;">Belum ada jadwal.</li>';
+                    jadwalUstad2Container.innerHTML = '<li style="color: white;">Belum ada jadwal.</li>';
+                    jadwalUstad3Container.innerHTML = '<li style="color: white;">Belum ada jadwal.</li>';
+                }
+            });
+
+            // Fungsi untuk memuat pengumuman
+            pengumumanRef.on('value', (snapshot) => {
+                pengumumanContainer.innerHTML = '<li>Memuat pengumuman...</li>';
+                if (snapshot.exists()) {
+                    pengumumanContainer.innerHTML = ''; // Kosongkan
+                    snapshot.forEach((childSnapshot) => {
+                        const pengumuman = childSnapshot.val();
+                        const itemHtml = `
+                <li class="timeline-item">
+                    <div class="timeline-item-content">
+                        <div class="pengumuman-content">
+                            <img src="${pengumuman.flyerUrl}" alt="Flyer ${pengumuman.judul}" class="pengumuman-flyer">
+                            <div class="pengumuman-details">
+                                <span class="timeline-tag tag-dark">${pengumuman.judul}</span>
+                                <span class="timeline-tag tag-blue">Pemateri: ${pengumuman.pemateri}</span>
+                                <div><span class="timeline-tag tag-green">${pengumuman.waktu}</span></div>
+                                <div><span class="timeline-tag tag-red">${pengumuman.lokasi}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            `;
+                        pengumumanContainer.innerHTML += itemHtml;
+                    });
+                } else {
+                    pengumumanContainer.innerHTML = '<li>Belum ada pengumuman.</li>';
+                }
+            });
+
+            // ... (di dalam event listener DOMContentLoaded)
+
+            // Referensi ke database
+            // ... (referensi jadwalRef dan pengumumanRef yang sudah ada)
+            const articlesRef = db.ref('articles');
+
+            // Wadah di HTML
+            // ... (wadah jadwal dan pengumuman yang sudah ada)
+            const articlesContainer = document.getElementById('articles-container');
+
+            // Fungsi untuk memuat artikel
+            articlesRef.orderByChild('timestamp').limitToLast(5).on('value', (snapshot) => { // limitToLast(5) untuk 5 artikel terbaru
+                articlesContainer.innerHTML = '<p>Memuat artikel...</p>';
+                if (snapshot.exists()) {
+                    articlesContainer.innerHTML = ''; // Kosongkan
+
+                    const articles = [];
+                    snapshot.forEach(child => {
+                        articles.push({ key: child.key, ...child.val() });
+                    });
+
+                    // Dibalik agar yang terbaru di atas
+                    articles.reverse().forEach(article => {
+                        // Membuat ringkasan, potong sekitar 150 karakter
+                        const snippet = article.content.length > 150
+                            ? article.content.substring(0, 150) + '...'
+                            : article.content;
+
+                        const articleHtml = `
+                <div class="article-card">
+                    <h3 class="article-title">${article.title}</h3>
+                    <p class="article-snippet">${snippet}</p>
+                    <a href="artikel.html?id=${article.key}" class="read-more-btn">Baca Selengkapnya <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            `;
+                        articlesContainer.innerHTML += articleHtml;
+                    });
+
+                } else {
+                    articlesContainer.innerHTML = '<p>Belum ada artikel yang dipublikasikan.</p>';
+                }
+            });
+
+            // ... (sisa kode JavaScript Anda yang lain)
+
+            // === AKHIR KODE BARU ===
+            
+            // --- Logika Modal Tanya Jawab ---
+const askBtn = document.getElementById('ask-question-btn');
+const modal = document.getElementById('questionModal');
+const closeBtn = document.getElementById('modalCloseBtn');
+const questionForm = document.getElementById('questionForm');
+const questionsRef = db.ref('pertanyaanMasuk');
+
+askBtn.addEventListener('click', () => modal.classList.add('visible'));
+const closeModal = () => modal.classList.remove('visible');
+closeBtn.addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+});
+questionForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('questionName').value.trim();
+    const question = document.getElementById('questionText').value.trim();
+    if (!name || !question) {
+        alert('Nama dan Pertanyaan harus diisi.');
+        return;
+    }
+    const submitButton = questionForm.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.textContent = 'Mengirim...';
+
+    questionsRef.push({
+            nama: name,
+            pertanyaan: question,
+            timestamp: Date.now(),
+            status: 'baru'
+        })
+        .then(() => {
+            alert('Pertanyaan Anda telah berhasil terkirim. Syukron!');
+            questionForm.reset();
+            closeModal();
+        })
+        .catch((error) => {
+            alert('Maaf, terjadi kesalahan. Silakan coba lagi.');
+        })
+        .finally(() => {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Kirim Pertanyaan';
+        });
+});
         });
     </script>
 </body>
+
 </html>
