@@ -1036,8 +1036,8 @@ articlesRef.orderByChild('timestamp').limitToLast(5).on('value', (snapshot) => {
         // Dibalik agar yang terbaru di atas
         articles.reverse().forEach(article => {
             // Membuat ringkasan, potong sekitar 150 karakter
-            const snippet = article.content.length > 150 
-                ? article.content.substring(0, 150) + '...' 
+            const snippet = article.content.length > 100 
+                ? article.content.substring(0, 100) + '...' 
                 : article.content;
 
             const articleHtml = `
