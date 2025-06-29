@@ -489,6 +489,53 @@
             padding-top: 20px;
             padding-bottom: 20px;
         }
+        
+        /* === MULAI STYLE BARU UNTUK SECTION ARTIKEL === */
+.article-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: box-shadow 0.3s ease;
+}
+
+.article-card:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.article-title {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 10px 0;
+}
+
+.article-snippet {
+    font-size: 0.95em;
+    color: #555;
+    line-height: 1.6;
+    margin: 0 0 15px 0;
+}
+
+.read-more-btn {
+    display: inline-block;
+    background-color: #114ed7;
+    color: white;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 0.9em;
+    transition: background-color 0.3s;
+}
+
+.read-more-btn:hover {
+    background-color: #0038a8;
+}
+/* === AKHIR STYLE BARU UNTUK SECTION ARTIKEL === */
+        
     </style>
 </head>
 
@@ -591,6 +638,14 @@
     </ul>
         </div>
     </section>
+    
+    <section class="section-white">
+    <div class="container">
+        <h2 style="color: #114ed7;"><strong>Tanya Jawab & Artikel</strong></h2>
+        <div id="articles-container">
+            </div>
+    </div>
+</section>
 
     <section class="section-grey section-about">
         <div class="container">
@@ -949,6 +1004,52 @@ pengumumanRef.on('value', (snapshot) => {
         pengumumanContainer.innerHTML = '<li>Belum ada pengumuman.</li>';
     }
 });
+
+// ... (di dalam event listener DOMContentLoaded)
+
+// Referensi ke database
+// ... (referensi jadwalRef dan pengumumanRef yang sudah ada)
+const articlesRef = db.ref('articles');
+
+// Wadah di HTML
+// ... (wadah jadwal dan pengumuman yang sudah ada)
+const articlesContainer = document.getElementById('articles-container');
+
+// Fungsi untuk memuat artikel
+articlesRef.orderByChild('timestamp').limitToLast(5).on('value', (snapshot) => { // limitToLast(5) untuk 5 artikel terbaru
+    articlesContainer.innerHTML = '<p>Memuat artikel...</p>';
+    if (snapshot.exists()) {
+        articlesContainer.innerHTML = ''; // Kosongkan
+        
+        const articles = [];
+        snapshot.forEach(child => {
+            articles.push({ key: child.key, ...child.val() });
+        });
+        
+        // Dibalik agar yang terbaru di atas
+        articles.reverse().forEach(article => {
+            // Membuat ringkasan, potong sekitar 150 karakter
+            const snippet = article.content.length > 150 
+                ? article.content.substring(0, 150) + '...' 
+                : article.content;
+
+            const articleHtml = `
+                <div class="article-card">
+                    <h3 class="article-title">${article.title}</h3>
+                    <p class="article-snippet">${snippet}</p>
+                    <a href="artikel.html?id=${article.key}" class="read-more-btn">Baca Selengkapnya <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            `;
+            articlesContainer.innerHTML += articleHtml;
+        });
+
+    } else {
+        articlesContainer.innerHTML = '<p>Belum ada artikel yang dipublikasikan.</p>';
+    }
+});
+
+// ... (sisa kode JavaScript Anda yang lain)
+
 // === AKHIR KODE BARU ===
         });
     </script>
