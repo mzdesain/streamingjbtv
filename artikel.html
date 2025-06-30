@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <title>Memuat Artikel... - JBTV</title>
+    <title>Artikel Islami - JBTV</title>
     <meta name="description" content="Artikel Islami dari JBTV." id="meta-description">
 
     <meta property="og:title" content="JBTV - Artikel Islami" id="og-title" />
@@ -14,13 +14,13 @@
     <meta property="og:image" content="https://i.postimg.cc/L4bXV47w/Thumbnail-Website.png" id="og-image" />
     <meta property="og:url" content="https://jbtv-id.netlify.app" id="og-url" />
     <meta property="og:type" content="article" />
-
     <meta name="twitter:card" content="summary_large_image" />
 
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
     <style>
+        /* --- Variabel Warna & Gaya Dasar Body --- */
         :root {
             --color-bg-white: #ffffff;
             --color-bg-grey: #f7f7f7;
@@ -37,6 +37,7 @@
             color: var(--color-text);
         }
 
+        /* --- Layout & Konten Artikel --- */
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -64,7 +65,7 @@
         #article-content {
             font-size: 1.1em;
             line-height: 1.8;
-            white-space: pre-wrap;
+            white-space: pre-wrap; /* Agar format paragraf dan baris baru terjaga */
             word-wrap: break-word;
             color: #333;
             font-style: normal;
@@ -82,14 +83,7 @@
             text-decoration: underline;
         }
 
-        footer {
-            background-color: var(--color-dark);
-            color: white;
-            text-align: center;
-            padding: 20px;
-            font-size: 0.9em;
-        }
-
+        /* --- Gaya untuk Tombol Share --- */
         .share-container { margin-top: 40px; padding-top: 20px; border-top: 2px solid #eee; }
         .share-container h3 { margin: 0 0 15px 0; font-size: 1.2em; color: #333; }
         .share-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -102,8 +96,17 @@
         .share-btn.telegram { background-color: #2AABEE; }
         .share-btn.copy-link { background-color: #6c757d; }
         .native-share-btn { background-color: #007bff; }
+        
+        /* --- Gaya Footer --- */
+        footer {
+            background-color: var(--color-dark);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
     </style>
-</head>
+    </head>
 
 <body>
     <div class="container" id="article-container">
@@ -127,7 +130,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // === KONFIGURASI FIREBASE (INI YANG DIPERBAIKI) ===
+            // --- Inisialisasi Firebase ---
             const firebaseConfig = {
                 apiKey: "AIzaSyAowVtnXTVstFSc3kSBTm5tXJkEvp31V2Y",
                 authDomain: "streamingjbtv.firebaseapp.com",
@@ -141,67 +144,84 @@
             firebase.initializeApp(firebaseConfig);
             const db = firebase.database();
             
+            // --- Ambil ID Artikel dari URL ---
+            // Contoh URL: artikel.html?id=-Mxyz123abc
             const urlParams = new URLSearchParams(window.location.search);
             const articleId = urlParams.get('id');
 
-            // Ambil elemen HTML sekali saja
+            // --- Ambil Elemen HTML untuk diisi konten ---
+            // Disimpan dalam variabel agar tidak perlu query berulang kali
             const titleEl = document.getElementById('article-title');
             const timestampEl = document.getElementById('article-timestamp');
             const contentEl = document.getElementById('article-content');
 
+            // --- Logika Utama: Ambil dan Tampilkan Data Artikel ---
             if (articleId) {
+                // Jika ada ID di URL, ambil data dari Firebase
                 const articleRef = db.ref('articles/' + articleId);
                 articleRef.on('value', (snapshot) => {
                     if (snapshot.exists()) {
+                        // Jika artikel dengan ID tersebut ditemukan
                         const article = snapshot.val();
                         
-                        // Update meta tags dan konten halaman
-                        updateMetaTags(article);
+                        // 1. Perbarui konten halaman (judul, isi, tanggal)
                         updatePageContent(article);
-                        
-                        // Buat tombol share
+                        // 2. Perbarui meta tags untuk SEO dan share
+                        updateMetaTags(article);
+                        // 3. Buat tombol-tombol untuk bagikan
                         generateShareButtons(article.title);
+                        
                     } else {
-                        // Handle jika artikel tidak ditemukan
+                        // Jika artikel dengan ID tersebut TIDAK ditemukan
                         titleEl.textContent = 'Artikel Tidak Ditemukan';
                         contentEl.textContent = 'Maaf, artikel yang Anda cari tidak ada atau mungkin telah dihapus.';
                     }
                 });
             } else {
-                 // Handle jika tidak ada ID di URL
+                 // Jika tidak ada ID sama sekali di URL
                 titleEl.textContent = 'Kesalahan';
                 contentEl.textContent = 'Tidak ada ID artikel yang diberikan. Silakan kembali ke halaman utama dan pilih artikel.';
             }
 
-            // Fungsi untuk meng-update konten di body
+            // --- Fungsi-fungsi Pembantu ---
+
+            // Fungsi untuk mengisi konten utama di body
             function updatePageContent(article) {
                 titleEl.textContent = article.title;
                 contentEl.textContent = article.content;
                 const date = new Date(article.timestamp);
+                // Format tanggal menjadi format Indonesia yang mudah dibaca
                 const formattedDate = date.toLocaleDateString('id-ID', {
                     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
                 });
                 timestampEl.textContent = `Dipublikasikan pada: ${formattedDate}`;
             }
 
-            // Fungsi untuk meng-update meta tags
+            // Fungsi untuk memperbarui meta tags di <head>
             function updateMetaTags(article) {
+                // Buat ringkasan dari 150 karakter pertama untuk deskripsi
                 const descriptionSnippet = article.content.substring(0, 150) + '...';
+                // Update judul tab browser
                 document.title = article.title + ' - JBTV';
+                // Update meta description
                 document.getElementById('meta-description').setAttribute('content', descriptionSnippet);
+                // Update meta Open Graph (untuk Facebook, WhatsApp, dll)
                 document.getElementById('og-title').setAttribute('content', article.title);
                 document.getElementById('og-description').setAttribute('content', descriptionSnippet);
                 document.getElementById('og-url').setAttribute('content', window.location.href);
             }
             
-            // Fungsi untuk membuat tombol share
+            // Fungsi untuk membuat semua tombol "Bagikan"
             function generateShareButtons(articleTitle) {
                 const shareContainer = document.getElementById('share-container-wrapper');
                 const shareUrl = window.location.href;
                 const shareText = `Baca artikel menarik dari JB TV: "${articleTitle}"\n\n${shareUrl}`;
+                
                 shareContainer.innerHTML = '<h3>Bagikan Artikel Ini:</h3>';
                 const buttonWrapper = document.createElement('div');
                 buttonWrapper.className = 'share-buttons';
+
+                // Cek apakah browser mendukung Web Share API (fitur share bawaan HP)
                 if (navigator.share) {
                     const nativeShareButton = document.createElement('button');
                     nativeShareButton.className = 'native-share-btn';
@@ -215,6 +235,7 @@
                     };
                     buttonWrapper.appendChild(nativeShareButton);
                 } else {
+                    // Jika tidak didukung, tampilkan tombol manual untuk setiap medsos
                     const socialButtons = [
                         { class: 'whatsapp', icon: 'fab fa-whatsapp', text: 'WhatsApp', href: `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}` },
                         { class: 'facebook', icon: 'fab fa-facebook', text: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}` },
@@ -230,6 +251,8 @@
                         buttonWrapper.appendChild(btn);
                     });
                 }
+                
+                // Tambahkan tombol "Salin Tautan" sebagai opsi terakhir
                 const copyBtn = document.createElement('button');
                 copyBtn.className = 'share-btn copy-link';
                 copyBtn.innerHTML = '<i class="fa-solid fa-copy"></i> Salin Tautan';
@@ -241,9 +264,10 @@
                     });
                 };
                 buttonWrapper.appendChild(copyBtn);
+
                 shareContainer.appendChild(buttonWrapper);
             }
         });
     </script>
-</body>
+    </body>
 </html>
