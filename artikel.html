@@ -65,10 +65,15 @@
         #article-content {
             font-size: 1.1em;
             line-height: 1.8;
-            white-space: pre-wrap; /* Agar format paragraf dan baris baru terjaga */
+            /* [DIHAPUS] white-space: pre-wrap; tidak lagi diperlukan karena format berasal dari tag HTML */
             word-wrap: break-word;
             color: #333;
-            font-style: normal;
+        }
+        
+        /* [BARU] Gaya untuk konten yang diformat dari editor */
+        #article-content p, 
+        #article-content div {
+            margin-bottom: 1em; /* Memberi jarak antar paragraf/div */
         }
 
         .back-link {
@@ -145,42 +150,33 @@
             const db = firebase.database();
             
             // --- Ambil ID Artikel dari URL ---
-            // Contoh URL: artikel.html?id=-Mxyz123abc
             const urlParams = new URLSearchParams(window.location.search);
             const articleId = urlParams.get('id');
 
             // --- Ambil Elemen HTML untuk diisi konten ---
-            // Disimpan dalam variabel agar tidak perlu query berulang kali
             const titleEl = document.getElementById('article-title');
             const timestampEl = document.getElementById('article-timestamp');
             const contentEl = document.getElementById('article-content');
 
             // --- Logika Utama: Ambil dan Tampilkan Data Artikel ---
             if (articleId) {
-                // Jika ada ID di URL, ambil data dari Firebase
                 const articleRef = db.ref('articles/' + articleId);
                 articleRef.on('value', (snapshot) => {
                     if (snapshot.exists()) {
-                        // Jika artikel dengan ID tersebut ditemukan
                         const article = snapshot.val();
                         
-                        // 1. Perbarui konten halaman (judul, isi, tanggal)
                         updatePageContent(article);
-                        // 2. Perbarui meta tags untuk SEO dan share
                         updateMetaTags(article);
-                        // 3. Buat tombol-tombol untuk bagikan
                         generateShareButtons(article.title);
                         
                     } else {
-                        // Jika artikel dengan ID tersebut TIDAK ditemukan
                         titleEl.textContent = 'Artikel Tidak Ditemukan';
-                        contentEl.textContent = 'Maaf, artikel yang Anda cari tidak ada atau mungkin telah dihapus.';
+                        contentEl.innerHTML = '<p>Maaf, artikel yang Anda cari tidak ada atau mungkin telah dihapus.</p>';
                     }
                 });
             } else {
-                 // Jika tidak ada ID sama sekali di URL
-                titleEl.textContent = 'Kesalahan';
-                contentEl.textContent = 'Tidak ada ID artikel yang diberikan. Silakan kembali ke halaman utama dan pilih artikel.';
+                 titleEl.textContent = 'Kesalahan';
+                 contentEl.innerHTML = '<p>Tidak ada ID artikel yang diberikan. Silakan kembali ke halaman utama dan pilih artikel.</p>';
             }
 
             // --- Fungsi-fungsi Pembantu ---
@@ -188,9 +184,10 @@
             // Fungsi untuk mengisi konten utama di body
             function updatePageContent(article) {
                 titleEl.textContent = article.title;
-                contentEl.textContent = article.content;
+                // [DIUBAH] Gunakan .innerHTML agar tag HTML (bold, italic, dll.) dirender oleh browser
+                contentEl.innerHTML = article.content; 
+                
                 const date = new Date(article.timestamp);
-                // Format tanggal menjadi format Indonesia yang mudah dibaca
                 const formattedDate = date.toLocaleDateString('id-ID', {
                     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
                 });
@@ -199,13 +196,16 @@
 
             // Fungsi untuk memperbarui meta tags di <head>
             function updateMetaTags(article) {
-                // Buat ringkasan dari 150 karakter pertama untuk deskripsi
-                const descriptionSnippet = article.content.substring(0, 150) + '...';
-                // Update judul tab browser
+                // [DIUBAH] Buat snippet deskripsi dengan cara yang lebih aman:
+                // 1. Hapus dulu semua tag HTML dari konten.
+                // 2. Ambil 150 karakter pertama dari teks bersih tersebut.
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = article.content;
+                const plainTextContent = tempDiv.textContent || tempDiv.innerText || "";
+                const descriptionSnippet = plainTextContent.substring(0, 150) + '...';
+
                 document.title = article.title + ' - JBTV';
-                // Update meta description
                 document.getElementById('meta-description').setAttribute('content', descriptionSnippet);
-                // Update meta Open Graph (untuk Facebook, WhatsApp, dll)
                 document.getElementById('og-title').setAttribute('content', article.title);
                 document.getElementById('og-description').setAttribute('content', descriptionSnippet);
                 document.getElementById('og-url').setAttribute('content', window.location.href);
@@ -221,7 +221,6 @@
                 const buttonWrapper = document.createElement('div');
                 buttonWrapper.className = 'share-buttons';
 
-                // Cek apakah browser mendukung Web Share API (fitur share bawaan HP)
                 if (navigator.share) {
                     const nativeShareButton = document.createElement('button');
                     nativeShareButton.className = 'native-share-btn';
@@ -235,7 +234,6 @@
                     };
                     buttonWrapper.appendChild(nativeShareButton);
                 } else {
-                    // Jika tidak didukung, tampilkan tombol manual untuk setiap medsos
                     const socialButtons = [
                         { class: 'whatsapp', icon: 'fab fa-whatsapp', text: 'WhatsApp', href: `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}` },
                         { class: 'facebook', icon: 'fab fa-facebook', text: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}` },
@@ -252,7 +250,6 @@
                     });
                 }
                 
-                // Tambahkan tombol "Salin Tautan" sebagai opsi terakhir
                 const copyBtn = document.createElement('button');
                 copyBtn.className = 'share-btn copy-link';
                 copyBtn.innerHTML = '<i class="fa-solid fa-copy"></i> Salin Tautan';
