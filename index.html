@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    
+
     <title>JBTV - Kajian & Artikel Islami</title>
 
     <meta property="og:title" content="JBTV - Kajian & Artikel Islami" />
@@ -113,7 +113,6 @@
             border-top: 0px solid #00008B;
         }
 
-        /* Animasi berhenti saat cursor di atasnya */
         .news-ticker:hover .streaming-info {
             animation-play-state: paused;
         }
@@ -170,8 +169,7 @@
             vertical-align: middle;
             will-change: transform;
         }
-        
-        /* Animasi Kedip dan Teks Berjalan */
+
         @keyframes blink {
             50% {
                 opacity: 0.3;
@@ -182,11 +180,12 @@
             0% {
                 transform: translateX(0%);
             }
+
             100% {
                 transform: translateX(-100%);
             }
         }
-        
+
         /* --- Gaya untuk Tombol Aksi (Like, Komen, Share) --- */
         .post-actions {
             display: flex;
@@ -217,13 +216,12 @@
         .action-btn i {
             font-size: 1.2em;
         }
-        
-        /* Area Komentar (Awalnya tersembunyi) */
+
         #comments-wrapper {
             display: none;
             margin-top: 20px;
         }
-        
+
         h4 {
             font-size: 0.8em;
             text-align: center;
@@ -287,8 +285,7 @@
             border-radius: 8px;
             border: 1px solid #5d8bf2;
         }
-        
-        /* Gaya untuk Tag di dalam Timeline */
+
         .timeline-tag {
             display: inline-block;
             padding: 5px 12px;
@@ -303,308 +300,105 @@
         .tag-red { background-color: var(--color-red); color: white; }
         .tag-green { background-color: var(--color-green); color: white; margin-top: 10px; }
         .tag-blue { background-color: var(--color-blue); color: white; }
+        .pengumuman-content { display: flex; gap: 20px; align-items: flex-start; }
+        .pengumuman-flyer { width: 120px; height: auto; border-radius: 5px; object-fit: cover; box-shadow: #333; }
+        .pengumuman-details { flex: 1; }
 
-        /* Gaya untuk Konten Pengumuman */
-        .pengumuman-content {
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-        }
-
-        .pengumuman-flyer {
-            width: 120px;
-            height: auto;
-            border-radius: 5px;
-            object-fit: cover;
-            box-shadow: #333;
-        }
-
-        .pengumuman-details {
-            flex: 1;
-        }
-        
-        /* Gaya Responsif untuk Pengumuman di HP */
         @media (max-width: 600px) {
-            .pengumuman-content {
-                flex-direction: column;
-            }
-
-            .pengumuman-flyer {
-                width: 100%;
-                max-width: 250px;
-            }
-        }
-        
-        /* --- Gaya untuk Dropdown Pemilihan Ustadz --- */
-        .timeline-dropdown-wrapper {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-            margin-left: auto;
-            margin-right: auto;
+            .pengumuman-content { flex-direction: column; }
+            .pengumuman-flyer { width: 100%; max-width: 250px; }
         }
 
-        .custom-dropdown {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background-color: #ffffff;
-            color: #333;
-            padding: 12px 12px 12px 12px;
-            font-size: 0.8em;
-            font-weight: 600;
-            border: 2px solid #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-            background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="16" height="16" fill="gray" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 5.5l6 6 6-6" stroke="gray" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 16px;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
-
-        .custom-dropdown:hover {
-            border-color: #ddd;
-        }
-
-        /* --- Gaya untuk Tombol WhatsApp Melayang --- */
-        .wa-float-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            z-index: 9999;
-            align-items: flex-end;
-        }
-
-        .wa-float {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 16px;
-            color: #fff;
-            border-radius: 50px;
-            font-weight: bold;
-            text-decoration: none;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-            font-size: 14px;
-        }
-
+        .timeline-dropdown-wrapper { display: flex; justify-content: center; margin-bottom: 30px; margin-left: auto; margin-right: auto; }
+        .custom-dropdown { appearance: none; -webkit-appearance: none; -moz-appearance: none; background-color: #ffffff; color: #333; padding: 12px 12px 12px 12px; font-size: 0.8em; font-weight: 600; border: 2px solid #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="16" height="16" fill="gray" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 5.5l6 6 6-6" stroke="gray" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; transition: border-color 0.3s, box-shadow 0.3s; cursor: pointer; }
+        .custom-dropdown:hover { border-color: #ddd; }
+        .wa-float-container { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 8px; z-index: 9999; align-items: flex-end; }
+        .wa-float { display: flex; align-items: center; gap: 8px; padding: 10px 16px; color: #fff; border-radius: 50px; font-weight: bold; text-decoration: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); transition: transform 0.3s ease; font-size: 14px; }
         .wa-float:hover { transform: scale(1.05); }
         .wa-ikhwan { background-color: #25D366; }
         .wa-akhwat { background-color: #128C7E; }
-
-        .wa-label {
-            background-color: #333;
-            color: white;
-            padding: 4px 10px;
-            font-size: 12px;
-            border-radius: 12px;
-            margin-right: 5px;
-            opacity: 0.8;
-        }
-
-        /* --- Gaya untuk Section 'Tentang' dan Footer --- */
-        .section-about p {
-            font-size: 0.9em;
-            max-width: 700px;
-            margin: 25px auto;
-            margin-top: -20px;
-            text-align: center;
-            font-style: normal;
-            font-weight: normal;
-            color: #fffff;
-        }
-
-        footer {
-            background-color: var(--color-dark);
-            color: white;
-            text-align: center;
-            padding: 0;
-            font-size: 0.9em;
-            font-style: normal;
-            font-weight: normal;
-        }
+        .wa-label { background-color: #333; color: white; padding: 4px 10px; font-size: 12px; border-radius: 12px; margin-right: 5px; opacity: 0.8; }
+        .section-about p { font-size: 0.9em; max-width: 700px; margin: 25px auto; margin-top: -20px; text-align: center; font-style: normal; font-weight: normal; color: #fffff; }
+        footer { background-color: var(--color-dark); color: white; text-align: center; padding: 0; font-size: 0.9em; font-style: normal; font-weight: normal; }
+        footer .container { padding-top: 20px; padding-bottom: 20px; }
         
-        footer .container {
-            padding-top: 20px;
-            padding-bottom: 20px;
+        /* --- [DIUBAH] Gaya untuk Layout Grid Artikel dengan Snippet --- */
+        #articles-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
         }
-        
-        /* --- Gaya untuk Kartu Artikel --- */
-        .article-card {
-            background-color: #ffffff;
-            border: 1px solid #e0e0e0;
+
+        .article-grid-item {
+            background-color: var(--color-bg-white);
             border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            transition: box-shadow 0.3s ease;
-        }
-
-        .article-card:hover {
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .article-title {
-            font-size: 1.2em;
-            font-weight: 600;
-            color: #114ed7;
-            margin: 0 0 10px 0;
-        }
-
-        .article-snippet {
-            font-size: 0.8em;
-            font-style: normal color: #333;
-            line-height: 1.6;
-            margin: 0 0 15px 0;
-        }
-
-        .read-more-btn {
-            display: inline-block;
-            background-color: #114ed7;
-            color: white;
-            padding: 8px 15px;
             text-decoration: none;
-            border-radius: 5px;
-            font-weight: 500;
-            font-size: 0.9em;
-            transition: background-color 0.3s;
-        }
-
-        .read-more-btn:hover {
-            background-color: #0038a8;
-        }
-        
-        .section-grey .article-snippet {
-            color: #333;
-            font-style: x-small;
-        }
-
-        /* --- Gaya untuk Tombol dan Modal (Pop-up) Tanya Jawab --- */
-        .ask-question-float {
-            position: fixed;
-            left: 20px;
-            bottom: 20px;
-            right: auto;
-            width: auto;
-            height: auto;
-            padding: 10px 18px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 15px;
-            font-weight: 500;
-            background-color: var(--color-primary);
-            color: white;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            z-index: 10000;
-            transition: transform 0.3s ease;
-        }
-
-        .ask-question-float:hover {
-            transform: scale(1.1);
-        }
-
-        .modal-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            z-index: 10001;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
-        }
-
-        .modal-backdrop.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 500px;
-            position: relative;
-            transform: scale(0.9);
-            transition: transform 0.3s;
-        }
-
-        .modal-backdrop.visible .modal-content {
-            transform: scale(1);
-        }
-
-        .modal-close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 28px;
-            color: #aaa;
-            cursor: pointer;
-            border: none;
-            background: none;
-        }
-
-        .modal-content h3 {
-            margin-top: 0;
-            color: #114ed7;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .modal-form {
+            color: var(--color-text);
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            overflow: hidden; /* Mencegah konten keluar dari border-radius */
         }
 
-        .modal-form input,
-        .modal-form textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1em;
-            box-sizing: border-box;
+        .article-grid-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+        
+        .article-grid-content {
+            padding: 25px;
+            flex-grow: 1; /* Membuat konten mengisi ruang yang tersedia */
+            display: flex;
+            flex-direction: column;
         }
 
-        .modal-form textarea {
-            height: 120px;
-            resize: vertical;
+        .article-grid-item h3 {
+            font-size: 1.2em;
+            color: #114ed7;
+            margin: 0 0 10px 0;
+            text-align: left;
+        }
+        
+        .article-grid-snippet {
+            font-size: 0.9em;
+            color: #555;
+            line-height: 1.6;
+            margin: 0 0 15px 0;
+            flex-grow: 1; /* Memastikan snippet mengisi ruang sebelum tombol */
         }
 
-        .modal-form button {
-            padding: 12px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s;
+        .article-grid-footer {
+            margin-top: auto; /* Mendorong footer ke bawah */
+            padding: 15px 25px;
+            background-color: #f9f9f9;
+            text-align: right;
+            border-top: 1px solid #eee;
         }
 
-        .modal-form button:hover {
-            background-color: #0056b3;
+        .article-grid-item .read-more-link {
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--color-primary);
+            text-decoration: none;
         }
+        /* --- [AKHIR DIUBAH] --- */
 
+        .ask-question-float { position: fixed; left: 20px; bottom: 20px; right: auto; width: auto; height: auto; padding: 10px 18px; border-radius: 50px; display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; background-color: var(--color-primary); color: white; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); cursor: pointer; z-index: 10000; transition: transform 0.3s ease; }
+        .ask-question-float:hover { transform: scale(1.1); }
+        .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); z-index: 10001; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
+        .modal-backdrop.visible { opacity: 1; visibility: visible; }
+        .modal-content { background-color: white; padding: 30px; border-radius: 8px; width: 90%; max-width: 500px; position: relative; transform: scale(0.9); transition: transform 0.3s; }
+        .modal-backdrop.visible .modal-content { transform: scale(1); }
+        .modal-close-btn { position: absolute; top: 10px; right: 15px; font-size: 28px; color: #aaa; cursor: pointer; border: none; background: none; }
+        .modal-content h3 { margin-top: 0; color: #114ed7; display: flex; align-items: center; gap: 10px; }
+        .modal-form { display: flex; flex-direction: column; gap: 15px; }
+        .modal-form input, .modal-form textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em; box-sizing: border-box; }
+        .modal-form textarea { height: 120px; resize: vertical; }
+        .modal-form button { padding: 12px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 1em; cursor: pointer; transition: background-color 0.3s; }
+        .modal-form button:hover { background-color: #0056b3; }
     </style>
-    </head>
+</head>
 
 
 <body>
@@ -654,7 +448,7 @@
                 <span id="shareCount">0</span>
             </button>
         </div>
-        
+
         <div id="comments-wrapper">
             <section class="section-white">
                 <div class="container">
@@ -676,7 +470,8 @@
     <section class="section-grey">
         <div class="container">
             <h2><strong>Jadwal Kajian</h2>
-            <h4 id="rentangTanggalKajian" style="color: #ffffff; font-style: oblique; font-size: 0.8;">Belum ada tanggal kajian</h4>
+            <h4 id="rentangTanggalKajian" style="color: #ffffff; font-style: oblique; font-size: 0.8;">Belum ada tanggal
+                kajian</h4>
 
             <div class="timeline-container">
                 <div class="timeline-nav timeline-dropdown-wrapper">
@@ -686,15 +481,13 @@
                         <option value="ustad3">Ust. Ahmad Marwazi Manar, S.H., M.A.</option>
                     </select>
                 </div>
-                
+
                 <div id="ustad1" class="timeline-content active">
                     <ul class="timeline" id="jadwal-ustad1"></ul>
                 </div>
-                
                 <div id="ustad2" class="timeline-content">
                     <ul class="timeline" id="jadwal-ustad2"></ul>
                 </div>
-                
                 <div id="ustad3" class="timeline-content">
                     <ul class="timeline" id="jadwal-ustad3"></ul>
                 </div>
@@ -724,10 +517,12 @@
     </section>
     <div class="wa-float-container">
         <div class="wa-label">Group WA</div>
-        <a href="https://chat.whatsapp.com/KIDegAern9GF0Z1wzkxoJ2" target="_blank" class="wa-float wa-ikhwan" title="Gabung Grup Ikhwan">
+        <a href="https://chat.whatsapp.com/KIDegAern9GF0Z1wzkxoJ2" target="_blank" class="wa-float wa-ikhwan"
+            title="Gabung Grup Ikhwan">
             <i class="fab fa-whatsapp"></i> Ikhwan
         </a>
-        <a href="https://chat.whatsapp.com/Kmd1of6VpRi9kWxrnNXUdH" target="_blank" class="wa-float wa-akhwat" title="Gabung Grup Akhawat">
+        <a href="https://chat.whatsapp.com/Kmd1of6VpRi9kWxrnNXUdH" target="_blank" class="wa-float wa-akhwat"
+            title="Gabung Grup Akhawat">
             <i class="fab fa-whatsapp"></i> Akhwat
         </a>
     </div>
@@ -742,7 +537,8 @@
             <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
             <h3><i class="fa-solid fa-paper-plane"></i> Ajukan Pertanyaan</h3>
             <p style="font-size: 0.8em; color: #555; margin-top: -10px; margin-bottom: 20px;">
-                Pertanyaan Anda akan kami sampaikan kepada Ustadz. Jawaban akan dipublikasikan sebagai artikel jika relevan.
+                Pertanyaan Anda akan kami sampaikan kepada Ustadz. Jawaban akan dipublikasikan sebagai artikel jika
+                relevan.
             </p>
             <form id="questionForm" class="modal-form">
                 <input type="text" id="questionName" placeholder="Nama Anda (Boleh disamarkan)" required>
@@ -751,14 +547,13 @@
             </form>
         </div>
     </div>
-    
+
     <footer>
         <div class="container">
             &copy; 2025 JBTV | By: Muzanni
         </div>
     </footer>
     <script>
-        // Fungsi untuk mengaktifkan tab jadwal sesuai pilihan dropdown
         function openDropdownTab(evt) {
             const selectedValue = evt.target.value;
             const tabcontent = document.getElementsByClassName("timeline-content");
@@ -768,16 +563,13 @@
             document.getElementById(selectedValue).style.display = "block";
         }
 
-        // Event listener ini akan menjalankan semua kode di dalamnya setelah halaman web selesai dimuat
         document.addEventListener("DOMContentLoaded", function () {
-            
-            // Atur dropdown dan tab jadwal kajian ke pilihan default saat halaman dimuat
+
             if (document.getElementById("ustadzDropdown")) {
                 document.getElementById("ustadzDropdown").value = "ustad1";
                 document.getElementById("ustad1").style.display = "block";
             }
-
-            // --- Konfigurasi Koneksi ke Firebase ---
+            
             const firebaseConfig = {
                 apiKey: "AIzaSyAowVtnXTVstFSc3kSBTm5tXJkEvp31V2Y",
                 authDomain: "streamingjbtv.firebaseapp.com",
@@ -789,22 +581,18 @@
                 measurementId: "G-PBGDKCMQJT"
             };
 
-            // --- Inisialisasi Firebase ---
             firebase.initializeApp(firebaseConfig);
             const db = firebase.database();
-
-            // --- Logika untuk Jam Real-time ---
             const liveTimeEl = document.getElementById('live-time');
             function updateDateTime() {
                 const now = new Date();
-                const padZero = (num) => (num < 10 ? '0' + num : num); // Menambahkan nol di depan angka tunggal
+                const padZero = (num) => (num < 10 ? '0' + num : num);
                 const timeString = `${padZero(now.getHours())}:${padZero(now.getMinutes())}:${padZero(now.getSeconds())} Wita`;
                 liveTimeEl.textContent = timeString;
             }
-            updateDateTime(); // Panggil sekali agar jam langsung muncul
-            setInterval(updateDateTime, 1000); // Ulangi setiap detik
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
 
-            // --- Logika untuk Teks Berjalan yang Berganti-ganti ---
             const streamingInfoEl = document.querySelector('.streaming-info');
             const messages = [
                 "Selamat datang di JBTV. Saksikan siaran langsung kajian Islam dan dapatkan informasi jadwal terbaru.",
@@ -816,37 +604,29 @@
             function runMarquee() {
                 streamingInfoEl.innerHTML = messages[currentMessageIndex];
                 streamingInfoEl.style.animation = 'none';
-                void streamingInfoEl.offsetWidth; // Memicu reflow browser untuk mereset animasi
+                void streamingInfoEl.offsetWidth; 
                 streamingInfoEl.style.animation = '';
                 streamingInfoEl.style.animationName = 'marquee';
                 streamingInfoEl.style.animationIterationCount = '1';
             }
-
-            // Saat animasi selesai, ganti pesan dan jalankan lagi
             streamingInfoEl.addEventListener('animationend', () => {
                 currentMessageIndex = (currentMessageIndex + 1) % messages.length;
                 runMarquee();
             });
-            runMarquee(); // Mulai animasi pertama kali
+            runMarquee();
 
-            // --- Logika Interaksi (Penonton, Suka, Komen, Share) ---
-            // Membuat data interaksi unik untuk setiap video berdasarkan URL-nya
             const videoIframe = document.querySelector('.video-container iframe');
             if (!videoIframe) {
                 console.error("Iframe video tidak ditemukan!");
-                return; // Hentikan eksekusi jika iframe tidak ada
+                return;
             }
             const videoSrc = videoIframe.src;
-            const videoId = btoa(videoSrc); // Encode URL menjadi ID yang aman untuk Firebase
-
-            // Arahkan semua referensi (likes, comments, dll.) ke path spesifik video ini
+            const videoId = btoa(videoSrc); 
             const videoInteractionsRef = db.ref('video_interactions/' + videoId);
             const commentsRef = videoInteractionsRef.child('comments');
             const likesRef = videoInteractionsRef.child('likes');
             const sharesRef = videoInteractionsRef.child('shares');
-            const presenceRef = videoInteractionsRef.child('presence'); 
-
-            // Ambil semua elemen UI untuk interaksi
+            const presenceRef = videoInteractionsRef.child('presence');
             const viewersCountSpan = document.getElementById('viewersCount');
             const likeBtn = document.getElementById('likeBtn');
             const likeCountSpan = document.getElementById('likeCount');
@@ -857,41 +637,33 @@
             const commentsWrapper = document.getElementById('comments-wrapper');
             const form = document.getElementById('commentForm');
             const commentsList = document.getElementById('commentsList');
-            const isAdmin = window.location.search.includes('admin=true'); // Cek jika ada parameter admin di URL
+            const isAdmin = window.location.search.includes('admin=true');
 
-            // --- Logika Jumlah Penonton (Real-time Presence) ---
             const amOnline = db.ref('.info/connected');
             amOnline.on('value', (snapshot) => {
                 if (snapshot.val()) {
                     const myRef = presenceRef.push();
-                    myRef.onDisconnect().remove(); // Hapus data saat koneksi terputus
+                    myRef.onDisconnect().remove();
                     myRef.set(true);
                 }
             });
 
             presenceRef.on('value', (snapshot) => {
-                const viewers = snapshot.numChildren(); // Hitung jumlah penonton
-                viewersCountSpan.textContent = viewers;
+                viewersCountSpan.textContent = snapshot.numChildren();
             });
-
-            // Logika Tombol Komentar (Menampilkan/menyembunyikan area komentar)
             commentBtn.addEventListener('click', () => {
                 const isVisible = commentsWrapper.style.display === 'block';
                 commentsWrapper.style.display = isVisible ? 'none' : 'block';
             });
-            commentsRef.on('value', (snapshot) => { // Update jumlah komentar
+            commentsRef.on('value', (snapshot) => {
                 commentCountSpan.textContent = snapshot.exists() ? snapshot.numChildren() : 0;
             });
-
-            // Logika Tombol Suka
             likeBtn.addEventListener('click', () => {
                 likesRef.transaction((currentLikes) => (currentLikes || 0) + 1);
             });
-            likesRef.on('value', (snapshot) => { // Update jumlah suka
+            likesRef.on('value', (snapshot) => {
                 likeCountSpan.textContent = snapshot.val() || 0;
             });
-
-            // Logika Tombol Bagikan
             shareBtn.addEventListener('click', async () => {
                 const shareData = {
                     title: 'JB TV - Kajian & Artikel Islami',
@@ -901,12 +673,12 @@
                 const incrementShareCount = () => {
                     sharesRef.transaction((currentShares) => (currentShares || 0) + 1);
                 };
-                if (navigator.share) { // Gunakan Web Share API jika didukung
+                if (navigator.share) { 
                     try {
                         await navigator.share(shareData);
                         incrementShareCount();
                     } catch (err) { console.error('Gagal membagikan:', err); }
-                } else { // Jika tidak, salin ke clipboard
+                } else { 
                     try {
                         await navigator.clipboard.writeText(window.location.href);
                         alert('Tautan berhasil disalin ke clipboard!');
@@ -914,11 +686,9 @@
                     } catch (err) { alert('Gagal menyalin link.'); }
                 }
             });
-            sharesRef.on('value', (snapshot) => { // Update jumlah share
+            sharesRef.on('value', (snapshot) => {
                 shareCountSpan.textContent = snapshot.val() || 0;
             });
-
-            // --- Logika Form dan Daftar Komentar ---
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
                 const name = document.getElementById('name').value.trim();
@@ -928,13 +698,12 @@
                     form.reset();
                 }
             });
-
             commentsRef.on('child_added', function (snapshot) {
                 const data = snapshot.val();
                 const key = snapshot.key;
                 const el = document.createElement('div');
                 el.style.marginBottom = '20px';
-                el.id = `comment-${key}`; // ID unik untuk setiap elemen komentar
+                el.id = `comment-${key}`;
                 const time = new Date(data.timestamp).toLocaleString('id-ID');
                 el.innerHTML = `
                         <div style="padding: 10px; background: #fff; border: 1px solid #ddd; border-radius: 6px; text-align: left;">
@@ -943,37 +712,30 @@
                             ${isAdmin ? `<button onclick="deleteComment('${key}')">Hapus</button>` : ""}
                         </div>
                     `;
-                commentsList.prepend(el); // Tampilkan komentar baru di paling atas
+                commentsList.prepend(el);
             });
-
-            // Fungsi Hapus Komentar (hanya bisa diakses jika ada parameter admin di URL)
             window.deleteComment = function (commentKey) {
                 if (confirm("Yakin ingin menghapus komentar ini?")) {
                     commentsRef.child(commentKey).remove();
                 }
             };
-            
-            // Hapus elemen komentar dari tampilan setelah dihapus dari database
             commentsRef.on('child_removed', function (snapshot) {
                 const key = snapshot.key;
                 const commentElement = document.getElementById(`comment-${key}`);
                 if (commentElement) { commentElement.remove(); }
             });
 
-            // --- Logika untuk Memuat Data dari Firebase (Jadwal, Pengumuman, Artikel) ---
             const jadwalRef = db.ref('jadwalKajian');
             const pengumumanRef = db.ref('pengumuman');
             const articlesRef = db.ref('articles');
             const tanggalRef = db.ref('infoSitus/rentangTanggal');
-
             const jadwalUstad1Container = document.getElementById('jadwal-ustad1');
             const jadwalUstad2Container = document.getElementById('jadwal-ustad2');
             const jadwalUstad3Container = document.getElementById('jadwal-ustad3');
             const pengumumanContainer = document.getElementById('pengumuman-container');
             const articlesContainer = document.getElementById('articles-container');
             const rentangTanggalKajianElem = document.getElementById('rentangTanggalKajian');
-            
-            // Fungsi untuk memuat teks rentang tanggal kajian
+
             tanggalRef.on('value', (snapshot) => {
                 if (snapshot.exists()) {
                     rentangTanggalKajianElem.textContent = snapshot.val();
@@ -981,8 +743,6 @@
                     rentangTanggalKajianElem.textContent = 'Jadwal Kajian Rutin';
                 }
             });
-
-            // Fungsi untuk memuat dan menampilkan jadwal kajian
             jadwalRef.on('value', (snapshot) => {
                 jadwalUstad1Container.innerHTML = '<li>Memuat jadwal...</li>';
                 jadwalUstad2Container.innerHTML = '<li>Memuat jadwal...</li>';
@@ -994,8 +754,8 @@
                     snapshot.forEach((childSnapshot) => {
                         const jadwal = childSnapshot.val();
                         const itemHtml = `<li class="timeline-item"><div class="timeline-item-content"><span class="timeline-tag tag-dark">${jadwal.jenis}</span><span class="timeline-tag tag-red">${jadwal.waktu}</span><div><span class="timeline-tag tag-green">${jadwal.lokasi}</span></div></div></li>`;
-                        if (jadwal.ustadzId === 'ustad1') { jadwalUstad1Container.innerHTML += itemHtml; } 
-                        else if (jadwal.ustadzId === 'ustad2') { jadwalUstad2Container.innerHTML += itemHtml; } 
+                        if (jadwal.ustadzId === 'ustad1') { jadwalUstad1Container.innerHTML += itemHtml; }
+                        else if (jadwal.ustadzId === 'ustad2') { jadwalUstad2Container.innerHTML += itemHtml; }
                         else if (jadwal.ustadzId === 'ustad3') { jadwalUstad3Container.innerHTML += itemHtml; }
                     });
                 } else {
@@ -1004,8 +764,6 @@
                     jadwalUstad3Container.innerHTML = '<li style="color: white;">Belum ada jadwal.</li>';
                 }
             });
-
-            // Fungsi untuk memuat dan menampilkan pengumuman
             pengumumanRef.on('value', (snapshot) => {
                 pengumumanContainer.innerHTML = '<li>Memuat pengumuman...</li>';
                 if (snapshot.exists()) {
@@ -1020,34 +778,54 @@
                 }
             });
 
-            // Fungsi untuk memuat dan menampilkan artikel terbaru
-            articlesRef.orderByChild('timestamp').limitToLast(5).on('value', (snapshot) => {
-                articlesContainer.innerHTML = '<p style="color:white;">Memuat artikel...</p>';
+            // --- [DIUBAH] Logika untuk memuat artikel dengan snippet ---
+            articlesRef.orderByChild('timestamp').limitToLast(6).on('value', (snapshot) => {
+                articlesContainer.innerHTML = '<p style="color:white; grid-column: 1 / -1;">Memuat artikel...</p>';
                 if (snapshot.exists()) {
                     articlesContainer.innerHTML = '';
                     const articles = [];
                     snapshot.forEach(child => { articles.push({ key: child.key, ...child.val() }); });
-                    articles.reverse().forEach(article => { // Dibalik agar yang terbaru di atas
-                        const snippet = article.content.length > 150 ? article.content.substring(0, 150) + '...' : article.content;
-                        const articleHtml = `<div class="article-card"><h3 class="article-title">${article.title}</h3><p class="article-snippet">${snippet}</p><a href="artikel.html?id=${article.key}" class="read-more-btn">Baca Selengkapnya <i class="fa-solid fa-arrow-right"></i></a></div>`;
+                    articles.reverse().forEach(article => {
+                        
+                        // 1. Ambil konten HTML dan bersihkan tag-nya untuk membuat teks biasa
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = article.content;
+                        const plainTextContent = tempDiv.textContent || tempDiv.innerText || "";
+                        
+                        // 2. Buat snippet dari teks biasa tersebut
+                        const snippet = plainTextContent.substring(0, 100) + (plainTextContent.length > 100 ? '...' : '');
+
+                        // 3. Buat template HTML baru yang menyertakan snippet
+                        const articleHtml = `
+                            <div class="article-grid-item">
+                                <div class="article-grid-content">
+                                    <h3>${article.title}</h3>
+                                    <p class="article-grid-snippet" style="color: black;">${snippet}</p>
+                                </div>
+                                <div class="article-grid-footer">
+                                    <a href="artikel.html?id=${article.key}" class="read-more-link">
+                                        Baca Selengkapnya &rarr;
+                                    </a>
+                                </div>
+                            </div>`;
                         articlesContainer.innerHTML += articleHtml;
                     });
                 } else {
-                    articlesContainer.innerHTML = '<p style="color:white;">Belum ada artikel yang dipublikasikan.</p>';
+                    articlesContainer.innerHTML = '<p style="color:white; grid-column: 1 / -1;">Belum ada artikel yang dipublikasikan.</p>';
                 }
             });
+            // --- [AKHIR DIUBAH] ---
 
-            // --- Logika untuk Modal (Pop-up) Tanya Jawab ---
             const askBtn = document.getElementById('ask-question-btn');
             const modal = document.getElementById('questionModal');
             const closeBtn = document.getElementById('modalCloseBtn');
             const questionForm = document.getElementById('questionForm');
             const questionsRef = db.ref('pertanyaanMasuk');
 
-            askBtn.addEventListener('click', () => modal.classList.add('visible')); // Tampilkan modal
-            const closeModal = () => modal.classList.remove('visible'); // Sembunyikan modal
+            askBtn.addEventListener('click', () => modal.classList.add('visible'));
+            const closeModal = () => modal.classList.remove('visible');
             closeBtn.addEventListener('click', closeModal);
-            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); }); // Tutup jika klik di luar konten
+            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
             questionForm.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -1070,12 +848,13 @@
                     .catch((error) => {
                         alert('Maaf, terjadi kesalahan. Silakan coba lagi.');
                     })
-                    .finally(() => { // Kembalikan tombol ke keadaan semula
+                    .finally(() => { 
                         submitButton.disabled = false;
                         submitButton.textContent = 'Kirim Pertanyaan';
                     });
             });
         });
     </script>
-    </body>
+</body>
+
 </html>
