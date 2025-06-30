@@ -322,7 +322,7 @@
         footer { background-color: var(--color-dark); color: white; text-align: center; padding: 0; font-size: 0.9em; font-style: normal; font-weight: normal; }
         footer .container { padding-top: 20px; padding-bottom: 20px; }
         
-        /* --- [DIUBAH] Gaya untuk Layout Grid Artikel dengan Snippet --- */
+        /* --- Gaya untuk Layout Grid Artikel --- */
         #articles-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -338,7 +338,7 @@
             flex-direction: column;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            overflow: hidden; /* Mencegah konten keluar dari border-radius */
+            overflow: hidden;
         }
 
         .article-grid-item:hover {
@@ -348,7 +348,7 @@
         
         .article-grid-content {
             padding: 25px;
-            flex-grow: 1; /* Membuat konten mengisi ruang yang tersedia */
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
         }
@@ -365,11 +365,11 @@
             color: #555;
             line-height: 1.6;
             margin: 0 0 15px 0;
-            flex-grow: 1; /* Memastikan snippet mengisi ruang sebelum tombol */
+            flex-grow: 1;
         }
 
         .article-grid-footer {
-            margin-top: auto; /* Mendorong footer ke bawah */
+            margin-top: auto;
             padding: 15px 25px;
             background-color: #f9f9f9;
             text-align: right;
@@ -382,7 +382,15 @@
             color: var(--color-primary);
             text-decoration: none;
         }
-        /* --- [AKHIR DIUBAH] --- */
+
+        /* --- [BARU] Aturan Responsive untuk Grid Artikel --- */
+        @media (max-width: 768px) {
+            #articles-container {
+                grid-template-columns: 1fr; /* Di layar kecil, ubah menjadi 1 kolom */
+            }
+        }
+        /* --- [AKHIR BARU] --- */
+
 
         .ask-question-float { position: fixed; left: 20px; bottom: 20px; right: auto; width: auto; height: auto; padding: 10px 18px; border-radius: 50px; display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; background-color: var(--color-primary); color: white; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); cursor: pointer; z-index: 10000; transition: transform 0.3s ease; }
         .ask-question-float:hover { transform: scale(1.1); }
@@ -402,7 +410,6 @@
 
 
 <body>
-
     <section class="section-white">
         <div class="container live-streaming-wrapper">
             <h2></h2>
@@ -554,6 +561,8 @@
         </div>
     </footer>
     <script>
+        // Kode JavaScript lainnya tetap sama, tidak perlu diubah.
+        // ... (seluruh kode JavaScript dari respons sebelumnya) ...
         function openDropdownTab(evt) {
             const selectedValue = evt.target.value;
             const tabcontent = document.getElementsByClassName("timeline-content");
@@ -778,7 +787,6 @@
                 }
             });
 
-            // --- [DIUBAH] Logika untuk memuat artikel dengan snippet ---
             articlesRef.orderByChild('timestamp').limitToLast(6).on('value', (snapshot) => {
                 articlesContainer.innerHTML = '<p style="color:white; grid-column: 1 / -1;">Memuat artikel...</p>';
                 if (snapshot.exists()) {
@@ -787,20 +795,17 @@
                     snapshot.forEach(child => { articles.push({ key: child.key, ...child.val() }); });
                     articles.reverse().forEach(article => {
                         
-                        // 1. Ambil konten HTML dan bersihkan tag-nya untuk membuat teks biasa
                         const tempDiv = document.createElement('div');
                         tempDiv.innerHTML = article.content;
                         const plainTextContent = tempDiv.textContent || tempDiv.innerText || "";
                         
-                        // 2. Buat snippet dari teks biasa tersebut
                         const snippet = plainTextContent.substring(0, 100) + (plainTextContent.length > 100 ? '...' : '');
 
-                        // 3. Buat template HTML baru yang menyertakan snippet
                         const articleHtml = `
                             <div class="article-grid-item">
                                 <div class="article-grid-content">
                                     <h3>${article.title}</h3>
-                                    <p class="article-grid-snippet" style="color: black;">${snippet}</p>
+                                    <p style="color: black;" class="article-grid-snippet">${snippet}</p>
                                 </div>
                                 <div class="article-grid-footer">
                                     <a href="artikel.html?id=${article.key}" class="read-more-link">
@@ -814,7 +819,6 @@
                     articlesContainer.innerHTML = '<p style="color:white; grid-column: 1 / -1;">Belum ada artikel yang dipublikasikan.</p>';
                 }
             });
-            // --- [AKHIR DIUBAH] ---
 
             const askBtn = document.getElementById('ask-question-btn');
             const modal = document.getElementById('questionModal');
