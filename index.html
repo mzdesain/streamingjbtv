@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
     <title>JBTV - Kajian & Artikel Islami</title>
     <meta property="og:title" content="JBTV - Kajian & Artikel Islami" />
     <meta property="og:description" content="Siaran langsung dan info kajian rutin dari JBTV." />
@@ -12,6 +14,8 @@
     <meta name="twitter:card" content="summary_large_image" />
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+    
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
     <style>
         /* Semua CSS Anda tetap sama */
         :root {--color-bg-white: #ffffff;--color-bg-grey: #f7f7f7;--color-text: #333;--color-primary: #007bff;--color-dark: #343a40;--color-green: #28a745;--color-red: #dc3545;--color-blue: #17a2b8;--timeline-line-color: #e0e0e0;}
@@ -25,7 +29,7 @@
         .section-grey h4 { color: #d1d1d1; }
         .live-streaming-wrapper { text-align: center; }
         .video-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #000; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .video-container iframe, .video-container video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
         .news-ticker { display: flex; align-items: center; background-color: #114ed7; color: white; padding: 5px 10px; border-radius: 4px; margin: 25px auto; overflow: hidden; }
         .news-ticker:hover .streaming-info { animation-play-state: paused; }
         .ticker-prefix { flex-shrink: 0; display: flex; align-items: center; padding-right: 10px; margin-right: 10px; border-right: 1px solid rgba(255, 255, 255, 0.4); }
@@ -89,6 +93,13 @@
         .modal-form textarea { height: 120px; resize: vertical; }
         .modal-form button { padding: 12px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 1em; cursor: pointer; transition: background-color 0.3s; }
         .modal-form button:hover { background-color: #0056b3; }
+        
+        /* Penambahan Baru: CSS untuk Video.js agar rapi */
+        .vjs-big-play-centered .vjs-big-play-button {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
     </style>
 </head>
 
@@ -97,28 +108,34 @@
         <div class="container live-streaming-wrapper">
 
             <div id="video-player-container" style="display: none;">
-                <div class="video-container">
+                
+                <div id="facebook-player-wrapper" class="video-container" style="display: none;">
                     <iframe id="facebook-live-iframe" src="" frameborder="0" allowfullscreen></iframe>
                 </div>
-                
-                    <div class="post-actions" style="display: none;">
-        <button class="action-btn" id="viewersBtn" title="Sedang menonton"><i class="fa-solid fa-eye"></i> <span id="viewersCount">0</span></button>
-        <button class="action-btn" id="likeBtn"><i class="fa-solid fa-thumbs-up"></i> <span id="likeCount">0</span></button>
-        <button class="action-btn" id="commentBtn"><i class="fa-solid fa-comment"></i> <span id="commentCount">0</span></button>
-        <button class="action-btn" id="shareBtn"><i class="fa-solid fa-share"></i> <span id="shareCount">0</span></button>
-    </div>
 
-    <div id="comments-wrapper" style="display: none;">
-        <div class="container">
-            <h2>Komentar</h2>
-            <form id="commentForm">
-                <input type="text" id="name" placeholder="Nama Anda" required>
-                <textarea id="comment" placeholder="Tulis komentar..." required></textarea>
-                <button type="submit">Kirim Komentar</button>
-            </form>
-            <div id="commentsList"></div>
-        </div>
-    </div>
+                <div id="iptv-player-wrapper" class="video-container" style="display: none;">
+                    <video id="iptv-player" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="100%" height="100%" data-setup="{}">
+                        <p class="vjs-no-js">
+                            Untuk melihat video ini, tolong aktifkan JavaScript, dan pertimbangkan untuk upgrade ke web browser yang
+                            <a href="https://videojs.com/html5-video-support/" target="_blank">mendukung HTML5 video</a>
+                        </p>
+                    </video>
+                </div>
+                
+                <div class="post-actions" style="display: none;">
+                    <button class="action-btn" id="viewersBtn" title="Sedang menonton"><i class="fa-solid fa-eye"></i> <span id="viewersCount">0</span></button>
+                    <button class="action-btn" id="likeBtn"><i class="fa-solid fa-thumbs-up"></i> <span id="likeCount">0</span></button>
+                    <button class="action-btn" id="commentBtn"><i class="fa-solid fa-comment"></i> <span id="commentCount">0</span></button>
+                    <button class="action-btn" id="shareBtn"><i class="fa-solid fa-share"></i> <span id="shareCount">0</span></button>
+                </div>
+
+                <div id="comments-wrapper" style="display: none;">
+                    <div class="container">
+                        <h2>Komentar</h2>
+                        <form id="commentForm"><input type="text" id="name" placeholder="Nama Anda" required><textarea id="comment" placeholder="Tulis komentar..." required></textarea><button type="submit">Kirim Komentar</button></form>
+                        <div id="commentsList"></div>
+                    </div>
+                </div>
                 
                 <p style="font-size: 0.9em; margin-top: -10px; margin-bottom: 20px;">Klik ikon volume pada video jika tidak ada suaranya!</p>
             </div>
@@ -128,127 +145,48 @@
             </div>
 
             <div class="news-ticker">
-                <div class="ticker-prefix">
-                    <div class="date-time-section"><span id="live-time">00:00:00</span></div>
-                </div>
-                <div class="marquee-section">
-                    <p class="streaming-info"></p>
-                </div>
+                <div class="ticker-prefix"><div class="date-time-section"><span id="live-time">00:00:00</span></div></div>
+                <div class="marquee-section"><p class="streaming-info"></p></div>
             </div>
         </div>
     </section>
     
-    <section class="section-grey">
-        <div class="container">
-            <h2><strong>Jadwal Kajian</strong></h2>
-            <h4 id="rentangTanggalKajian" style="color: #ffffff; font-style: oblique; font-size: 0.9em; margin-top: -25px; margin-bottom: 20px;">Memuat info tanggal...</h4>
-            <div class="timeline-container">
-                <div class="timeline-nav timeline-dropdown-wrapper">
-                    <select id="ustadzDropdown" onchange="openDropdownTab(event)" class="custom-dropdown">
-                        <option value="ustad1">TGH. Suharni Abdul Manan, Lc.</option>
-                        <option value="ustad2">Ust. Zamakhsyari Dhofir, Lc., M.A.</option>
-                        <option value="ustad3">Ust. Ahmad Marwazi Manar, S.H., M.A.</option>
-                    </select>
-                </div>
-                <div id="ustad1" class="timeline-content active">
-                    <ul class="timeline" id="jadwal-ustad1"></ul>
-                </div>
-                <div id="ustad2" class="timeline-content">
-                    <ul class="timeline" id="jadwal-ustad2"></ul>
-                </div>
-                <div id="ustad3" class="timeline-content">
-                    <ul class="timeline" id="jadwal-ustad3"></ul>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="section-white">
-        <div class="container">
-            <h2 style="color:  #114ed7;"><strong>Pengumuman</strong></h2>
-            <ul class="timeline" id="pengumuman-container"></ul>
-        </div>
-    </section>
-    <section class="section-grey">
-        <div class="container">
-            <h2 style="color: #ffffff;"><strong>Artikel Islami</strong></h2>
-            <div id="articles-container"></div>
-        </div>
-    </section>
-    <section class="section-white section-about">
-        <div class="container">
-            <h2 style="color: #114ed7;"><strong>Tentang</strong></h2>
-            <p><strong>JB TV</strong> adalah saluran media dakwah di bawah naungan Pondok Pesantren Jamaluddin, Bagik Nyaka. Tujuan kami adalah menyebarkan ilmu syar'i secara luas dan mudah diakses oleh umat.</p>
-        </div>
-    </section>
-    <div class="wa-float-container">
-        <div class="wa-label">Group WA</div>
-        <a href="https://chat.whatsapp.com/KIDegAern9GF0Z1wzkxoJ2" target="_blank" class="wa-float wa-ikhwan" title="Gabung Grup Ikhwan"><i class="fab fa-whatsapp"></i> Ikhwan</a>
-        <a href="https://chat.whatsapp.com/Kmd1of6VpRi9kWxrnNXUdH" target="_blank" class="wa-float wa-akhwat" title="Gabung Grup Akhawat"><i class="fab fa-whatsapp"></i> Akhwat</a>
-    </div>
-    <div class="ask-question-float" id="ask-question-btn" title="Ajukan Pertanyaan">
-        <i class="fa-solid fa-comments"></i>
-        <span>Tanya Ustadz</span>
-    </div>
-    <div class="modal-backdrop" id="questionModal">
-        <div class="modal-content">
-            <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
-            <h3><i class="fa-solid fa-paper-plane"></i> Ajukan Pertanyaan</h3>
-            <p style="font-size: 0.8em; color: #555; margin-top: -10px; margin-bottom: 20px;">Pertanyaan Anda akan kami sampaikan kepada Ustadz. Jawaban akan dipublikasikan sebagai artikel jika relevan.</p>
-            <form id="questionForm" class="modal-form">
-                <input type="text" id="questionName" placeholder="Nama Anda (Boleh disamarkan)" required>
-                <textarea id="questionText" placeholder="Tulis pertanyaan Anda di sini..." required></textarea>
-                <button type="submit">Kirim Pertanyaan</button>
-            </form>
-        </div>
-    </div>
-    <footer>
-        <div class="container">
-            &copy; 2025 JBTV | By: Muzanni
-        </div>
-    </footer>
+    <section class="section-grey"><div class="container"><h2><strong>Jadwal Kajian</strong></h2><h4 id="rentangTanggalKajian" style="color: #ffffff; font-style: oblique; font-size: 0.9em; margin-top: -25px; margin-bottom: 20px;">Memuat info tanggal...</h4><div class="timeline-container"><div class="timeline-nav timeline-dropdown-wrapper"><select id="ustadzDropdown" onchange="openDropdownTab(event)" class="custom-dropdown"><option value="ustad1">TGH. Suharni Abdul Manan, Lc.</option><option value="ustad2">Ust. Zamakhsyari Dhofir, Lc., M.A.</option><option value="ustad3">Ust. Ahmad Marwazi Manar, S.H., M.A.</option></select></div><div id="ustad1" class="timeline-content active"><ul class="timeline" id="jadwal-ustad1"></ul></div><div id="ustad2" class="timeline-content"><ul class="timeline" id="jadwal-ustad2"></ul></div><div id="ustad3" class="timeline-content"><ul class="timeline" id="jadwal-ustad3"></ul></div></div></div></section>
+    <section class="section-white"><div class="container"><h2 style="color:  #114ed7;"><strong>Pengumuman</strong></h2><ul class="timeline" id="pengumuman-container"></ul></div></section>
+    <section class="section-grey"><div class="container"><h2 style="color: #ffffff;"><strong>Artikel Islami</strong></h2><div id="articles-container"></div></div></section>
+    <section class="section-white section-about"><div class="container"><h2 style="color: #114ed7;"><strong>Tentang</strong></h2><p><strong>JB TV</strong> adalah saluran media dakwah di bawah naungan Pondok Pesantren Jamaluddin, Bagik Nyaka. Tujuan kami adalah menyebarkan ilmu syar'i secara luas dan mudah diakses oleh umat.</p></div></section>
+    <div class="wa-float-container"><div class="wa-label">Group WA</div><a href="https://chat.whatsapp.com/KIDegAern9GF0Z1wzkxoJ2" target="_blank" class="wa-float wa-ikhwan" title="Gabung Grup Ikhwan"><i class="fab fa-whatsapp"></i> Ikhwan</a><a href="https://chat.whatsapp.com/Kmd1of6VpRi9kWxrnNXUdH" target="_blank" class="wa-float wa-akhwat" title="Gabung Grup Akhawat"><i class="fab fa-whatsapp"></i> Akhwat</a></div>
+    <div class="ask-question-float" id="ask-question-btn" title="Ajukan Pertanyaan"><i class="fa-solid fa-comments"></i><span>Tanya Ustadz</span></div>
+    <div class="modal-backdrop" id="questionModal"><div class="modal-content"><button class="modal-close-btn" id="modalCloseBtn">&times;</button><h3><i class="fa-solid fa-paper-plane"></i> Ajukan Pertanyaan</h3><p style="font-size: 0.8em; color: #555; margin-top: -10px; margin-bottom: 20px;">Pertanyaan Anda akan kami sampaikan kepada Ustadz. Jawaban akan dipublikasikan sebagai artikel jika relevan.</p><form id="questionForm" class="modal-form"><input type="text" id="questionName" placeholder="Nama Anda (Boleh disamarkan)" required><textarea id="questionText" placeholder="Tulis pertanyaan Anda di sini..." required></textarea><button type="submit">Kirim Pertanyaan</button></form></div></div>
+    <footer><div class="container">&copy; 2025 JBTV | By: Muzanni</div></footer>
 
     <script>
-        function openDropdownTab(evt) {
-            const selectedValue = evt.target.value;
-            const tabcontent = document.getElementsByClassName("timeline-content");
-            for (let i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            document.getElementById(selectedValue).style.display = "block";
-        }
+        function openDropdownTab(evt) { const selectedValue = evt.target.value; const tabcontent = document.getElementsByClassName("timeline-content"); for (let i = 0; i < tabcontent.length; i++) { tabcontent[i].style.display = "none"; } document.getElementById(selectedValue).style.display = "block"; }
 
         document.addEventListener("DOMContentLoaded", function () {
+            if (document.getElementById("ustadzDropdown")) { document.getElementById("ustadzDropdown").value = "ustad1"; document.getElementById("ustad1").style.display = "block"; }
             
-            if (document.getElementById("ustadzDropdown")) {
-                document.getElementById("ustadzDropdown").value = "ustad1";
-                document.getElementById("ustad1").style.display = "block";
-            }
-            
-            const firebaseConfig = {
-                apiKey: "AIzaSyAowVtnXTVstFSc3kSBTm5tXJkEvp31V2Y",
-                authDomain: "streamingjbtv.firebaseapp.com",
-                databaseURL: "https://streamingjbtv-default-rtdb.asia-southeast1.firebasedatabase.app",
-                projectId: "streamingjbtv",
-                storageBucket: "streamingjbtv.appspot.com",
-                messagingSenderId: "191301318558",
-                appId: "1:191301318558:web:f32dada7468d8a4486088f",
-                measurementId: "G-PBGDKCMQJT"
-            };
-
+            const firebaseConfig = { apiKey: "AIzaSyAowVtnXTVstFSc3kSBTm5tXJkEvp31V2Y", authDomain: "streamingjbtv.firebaseapp.com", databaseURL: "https://streamingjbtv-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "streamingjbtv", storageBucket: "streamingjbtv.appspot.com", messagingSenderId: "191301318558", appId: "1:191301318558:web:f32dada7468d8a4486088f", measurementId: "G-PBGDKCMQJT" };
             firebase.initializeApp(firebaseConfig);
             const db = firebase.database();
             
-            // --- [LOGIKA BARU & GABUNGAN] UNTUK PLAYER DINAMIS DAN INTERAKSI ---
+            // === [MODIFIKASI TOTAL] LOGIKA PLAYER DINAMIS ===
             const liveStreamRef = db.ref('live_stream');
             const playerContainer = document.getElementById('video-player-container');
             const offlineMessage = document.getElementById('offline-message');
+            
+            // Player Wrappers
+            const facebookPlayerWrapper = document.getElementById('facebook-player-wrapper');
+            const iptvPlayerWrapper = document.getElementById('iptv-player-wrapper');
+
+            // Player Elements
             const videoIframe = document.getElementById('facebook-live-iframe');
-            const mainLiveTitle = document.getElementById('main-live-title');
+            let iptvPlayer = null; // Variabel untuk menampung instance Video.js
+            
             const postActions = document.querySelector('.post-actions');
             const commentsWrapper = document.getElementById('comments-wrapper');
             const commentsList = document.getElementById('commentsList');
             const commentForm = document.getElementById('commentForm');
-
             let activeListeners = {};
 
             function clearActiveListeners() {
@@ -263,8 +201,14 @@
 
             function showOfflineState() {
                 clearActiveListeners();
+                
+                // Hancurkan player IPTV jika ada
+                if (iptvPlayer) {
+                    iptvPlayer.dispose();
+                    iptvPlayer = null;
+                }
+                
                 if (playerContainer) playerContainer.style.display = 'none';
-                if (mainLiveTitle) mainLiveTitle.style.display = 'none';
                 if (postActions) postActions.style.display = 'none';
                 if (commentsWrapper) commentsWrapper.style.display = 'none';
                 if (offlineMessage) {
@@ -275,87 +219,55 @@
 
             liveStreamRef.on('value', (snapshot) => {
                 clearActiveListeners();
+                 // Selalu hancurkan player lama setiap ada update data
+                if (iptvPlayer) {
+                    iptvPlayer.dispose();
+                    iptvPlayer = null;
+                }
+                facebookPlayerWrapper.style.display = 'none';
+                iptvPlayerWrapper.style.display = 'none';
                 
-                if (snapshot.exists() && snapshot.val().is_live && snapshot.val().current_video_url) {
+                if (snapshot.exists() && snapshot.val().is_live) {
                     const liveData = snapshot.val();
-                    const videoUrl = liveData.current_video_url;
+                    const iptvUrl = liveData.iptv_url;
+                    const facebookUrl = liveData.facebook_url;
                     
-                    const embedUrl = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(videoUrl)}&show_text=false&width=560`;
-                    if (videoIframe.src !== embedUrl) videoIframe.src = embedUrl;
+                    let isStreamActive = false;
+                    let videoIdForInteraction = '';
 
-                    if (playerContainer) playerContainer.style.display = 'block';
-                    if (mainLiveTitle) mainLiveTitle.style.display = 'block';
-                    if (postActions) postActions.style.display = 'flex';
-                    if (offlineMessage) offlineMessage.style.display = 'none';
-                    
-                    const videoId = btoa(videoUrl);
-                    const videoInteractionsRef = db.ref('video_interactions/' + videoId);
+                    // Prioritas 1: IPTV
+                    if (iptvUrl) {
+                        iptvPlayerWrapper.style.display = 'block';
+                        // Inisialisasi Video.js
+                        iptvPlayer = videojs('iptv-player', {
+                            autoplay: true,
+                            muted: true, // Autoplay seringkali butuh muted di browser modern
+                            sources: [{ src: iptvUrl, type: 'application/x-mpegURL' }]
+                        });
+                        isStreamActive = true;
+                        videoIdForInteraction = btoa(iptvUrl);
+                    } 
+                    // Prioritas 2: Facebook
+                    else if (facebookUrl) {
+                        facebookPlayerWrapper.style.display = 'block';
+                        const embedUrl = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(facebookUrl)}&show_text=false&width=560`;
+                        if (videoIframe.src !== embedUrl) videoIframe.src = embedUrl;
+                        isStreamActive = true;
+                        videoIdForInteraction = btoa(facebookUrl);
+                    }
 
-                    const commentsRef = videoInteractionsRef.child('comments');
-                    const likesRef = videoInteractionsRef.child('likes');
-                    const sharesRef = videoInteractionsRef.child('shares');
-                    const presenceRef = videoInteractionsRef.child('presence');
+                    if (isStreamActive) {
+                        playerContainer.style.display = 'block';
+                        postActions.style.display = 'flex';
+                        offlineMessage.style.display = 'none';
+                        
+                        // Setup interaksi (like, comment, dll) menggunakan videoIdForInteraction
+                        setupInteractions(videoIdForInteraction);
 
-                    const viewersCountSpan = document.getElementById('viewersCount');
-                    const likeBtn = document.getElementById('likeBtn');
-                    const likeCountSpan = document.getElementById('likeCount');
-                    const commentBtn = document.getElementById('commentBtn');
-                    const commentCountSpan = document.getElementById('commentCount');
-                    const shareBtn = document.getElementById('shareBtn');
-                    const shareCountSpan = document.getElementById('shareCount');
+                    } else {
+                        showOfflineState();
+                    }
 
-                    const amOnline = db.ref('.info/connected');
-                    const presenceFunc = amOnline.on('value', (snap) => {
-                        if (snap.val()) {
-                            const myRef = presenceRef.push();
-                            myRef.onDisconnect().remove();
-                            myRef.set(true);
-                        }
-                    });
-                    const presenceCountFunc = presenceRef.on('value', (snap) => { if(viewersCountSpan) viewersCountSpan.textContent = snap.numChildren(); });
-                    activeListeners['presence'] = { ref: amOnline, event: 'value', func: presenceFunc };
-                    activeListeners['presenceCount'] = { ref: presenceRef, event: 'value', func: presenceCountFunc };
-
-                    likeBtn.onclick = () => likesRef.transaction((current) => (current || 0) + 1);
-                    const likesFunc = likesRef.on('value', (snap) => { if(likeCountSpan) likeCountSpan.textContent = snap.val() || 0; });
-                    activeListeners['likes'] = { ref: likesRef, event: 'value', func: likesFunc };
-
-                    shareBtn.onclick = async () => {
-                        try {
-                            await navigator.share({ title: 'JB TV Live', text: 'Saksikan siaran langsung kajian!', url: window.location.href });
-                            sharesRef.transaction((current) => (current || 0) + 1);
-                        } catch (err) { console.log("Batal berbagi."); }
-                    };
-                    const sharesFunc = sharesRef.on('value', (snap) => { if(shareCountSpan) shareCountSpan.textContent = snap.val() || 0; });
-                    activeListeners['shares'] = { ref: sharesRef, event: 'value', func: sharesFunc };
-                    
-                    commentBtn.onclick = () => {
-                        const isVisible = commentsWrapper.style.display === 'block';
-                        commentsWrapper.style.display = isVisible ? 'none' : 'block';
-                    };
-                    
-                    commentForm.onsubmit = (e) => {
-                        e.preventDefault();
-                        const name = document.getElementById('name').value.trim();
-                        const comment = document.getElementById('comment').value.trim();
-                        if (name && comment) {
-                            commentsRef.push({ name, comment, timestamp: Date.now() });
-                            commentForm.reset();
-                        }
-                    };
-
-                    const commentCountFunc = commentsRef.on('value', (snap) => { if(commentCountSpan) commentCountSpan.textContent = snap.exists() ? snap.numChildren() : 0; });
-                    
-                    commentsList.innerHTML = '';
-                    const commentAddedFunc = commentsRef.orderByChild('timestamp').on('child_added', (snap) => {
-                        const data = snap.val();
-                        const el = document.createElement('div');
-                        el.innerHTML = `<strong>${data.name}</strong> <small style="color:gray;">(${new Date(data.timestamp).toLocaleTimeString('id-ID')})</small><p style="margin:5px 0 0 0;">${data.comment}</p>`;
-                        commentsList.prepend(el);
-                    });
-                    
-                    activeListeners['commentCount'] = { ref: commentsRef, event: 'value', func: commentCountFunc };
-                    activeListeners['commentAdded'] = { ref: commentsRef, event: 'child_added', func: commentAddedFunc };
                 } else {
                     showOfflineState();
                 }
@@ -365,38 +277,60 @@
                 if (offlineMessage) offlineMessage.querySelector('p').textContent = "Gagal terhubung ke server.";
             });
 
-            const liveTimeEl = document.getElementById('live-time');
-            function updateDateTime() {
-                const now = new Date();
-                const padZero = (num) => (num < 10 ? '0' + num : num);
-                const timeString = `${padZero(now.getHours())}:${padZero(now.getMinutes())}:${padZero(now.getSeconds())} Wita`;
-                if(liveTimeEl) liveTimeEl.textContent = timeString;
-            }
-            updateDateTime();
-            setInterval(updateDateTime, 1000);
+            function setupInteractions(videoId) {
+                if (!videoId) return;
+                
+                const videoInteractionsRef = db.ref('video_interactions/' + videoId);
+                const commentsRef = videoInteractionsRef.child('comments');
+                const likesRef = videoInteractionsRef.child('likes');
+                const sharesRef = videoInteractionsRef.child('shares');
+                const presenceRef = videoInteractionsRef.child('presence');
 
-            const streamingInfoEl = document.querySelector('.streaming-info');
-            const messages = [
-                "Selamat datang di JBTV. Saksikan siaran langsung kajian Islam dan dapatkan informasi jadwal terbaru.",
-                "Kami menyediakan siaran langsung dari youtube dan facebook yang bisa anda tonton di sini.",
-                "Dukung dakwah JBTV dengan donasi terbaik Anda."
-            ];
-            let currentMessageIndex = 0;
-            function runMarquee() {
-                if (!streamingInfoEl) return;
-                streamingInfoEl.innerHTML = messages[currentMessageIndex];
-                streamingInfoEl.style.animation = 'none';
-                void streamingInfoEl.offsetWidth; 
-                streamingInfoEl.style.animation = '';
-                streamingInfoEl.style.animationName = 'marquee';
-                streamingInfoEl.style.animationIterationCount = '1';
+                const viewersCountSpan = document.getElementById('viewersCount');
+                const likeBtn = document.getElementById('likeBtn');
+                const likeCountSpan = document.getElementById('likeCount');
+                const commentBtn = document.getElementById('commentBtn');
+                const commentCountSpan = document.getElementById('commentCount');
+                const shareBtn = document.getElementById('shareBtn');
+                const shareCountSpan = document.getElementById('shareCount');
+
+                const amOnline = db.ref('.info/connected');
+                const presenceFunc = amOnline.on('value', (snap) => { if (snap.val()) { const myRef = presenceRef.push(); myRef.onDisconnect().remove(); myRef.set(true); } });
+                const presenceCountFunc = presenceRef.on('value', (snap) => { if(viewersCountSpan) viewersCountSpan.textContent = snap.numChildren(); });
+                activeListeners['presence'] = { ref: amOnline, event: 'value', func: presenceFunc };
+                activeListeners['presenceCount'] = { ref: presenceRef, event: 'value', func: presenceCountFunc };
+                
+                likeBtn.onclick = () => likesRef.transaction((current) => (current || 0) + 1);
+                const likesFunc = likesRef.on('value', (snap) => { if(likeCountSpan) likeCountSpan.textContent = snap.val() || 0; });
+                activeListeners['likes'] = { ref: likesRef, event: 'value', func: likesFunc };
+
+                shareBtn.onclick = async () => { try { await navigator.share({ title: 'JB TV Live', text: 'Saksikan siaran langsung kajian!', url: window.location.href }); sharesRef.transaction((current) => (current || 0) + 1); } catch (err) { console.log("Batal berbagi."); } };
+                const sharesFunc = sharesRef.on('value', (snap) => { if(shareCountSpan) shareCountSpan.textContent = snap.val() || 0; });
+                activeListeners['shares'] = { ref: sharesRef, event: 'value', func: sharesFunc };
+                
+                commentBtn.onclick = () => { const isVisible = commentsWrapper.style.display === 'block'; commentsWrapper.style.display = isVisible ? 'none' : 'block'; };
+                
+                commentForm.onsubmit = (e) => { e.preventDefault(); const name = document.getElementById('name').value.trim(); const comment = document.getElementById('comment').value.trim(); if (name && comment) { commentsRef.push({ name, comment, timestamp: Date.now() }); commentForm.reset(); } };
+                
+                const commentCountFunc = commentsRef.on('value', (snap) => { if(commentCountSpan) commentCountSpan.textContent = snap.exists() ? snap.numChildren() : 0; });
+                
+                commentsList.innerHTML = '';
+                const commentAddedFunc = commentsRef.orderByChild('timestamp').on('child_added', (snap) => { const data = snap.val(); const el = document.createElement('div'); el.innerHTML = `<strong>${data.name}</strong> <small style="color:gray;">(${new Date(data.timestamp).toLocaleTimeString('id-ID')})</small><p style="margin:5px 0 0 0;">${data.comment}</p>`; commentsList.prepend(el); });
+                
+                activeListeners['commentCount'] = { ref: commentsRef, event: 'value', func: commentCountFunc };
+                activeListeners['commentAdded'] = { ref: commentsRef, event: 'child_added', func: commentAddedFunc };
             }
-            streamingInfoEl.addEventListener('animationend', () => {
-                currentMessageIndex = (currentMessageIndex + 1) % messages.length;
-                runMarquee();
-            });
+
+            // SISA KODE JavaScript TETAP SAMA
+            const liveTimeEl = document.getElementById('live-time');
+            function updateDateTime() { const now = new Date(); const padZero = (num) => (num < 10 ? '0' + num : num); const timeString = `${padZero(now.getHours())}:${padZero(now.getMinutes())}:${padZero(now.getSeconds())} Wita`; if(liveTimeEl) liveTimeEl.textContent = timeString; }
+            updateDateTime(); setInterval(updateDateTime, 1000);
+            const streamingInfoEl = document.querySelector('.streaming-info');
+            const messages = [ "Selamat datang di JBTV. Saksikan siaran langsung kajian Islam dan dapatkan informasi jadwal terbaru.", "Kami menyediakan siaran langsung dari youtube dan facebook yang bisa anda tonton di sini.", "Dukung dakwah JBTV dengan donasi terbaik Anda." ];
+            let currentMessageIndex = 0;
+            function runMarquee() { if (!streamingInfoEl) return; streamingInfoEl.innerHTML = messages[currentMessageIndex]; streamingInfoEl.style.animation = 'none'; void streamingInfoEl.offsetWidth; streamingInfoEl.style.animation = ''; streamingInfoEl.style.animationName = 'marquee'; streamingInfoEl.style.animationIterationCount = '1'; }
+            streamingInfoEl.addEventListener('animationend', () => { currentMessageIndex = (currentMessageIndex + 1) % messages.length; runMarquee(); });
             runMarquee();
-            
             const jadwalRef = db.ref('jadwalKajian');
             const pengumumanRef = db.ref('pengumuman');
             const articlesRef = db.ref('articles');
@@ -407,92 +341,20 @@
             const pengumumanContainer = document.getElementById('pengumuman-container');
             const articlesContainer = document.getElementById('articles-container');
             const rentangTanggalKajianElem = document.getElementById('rentangTanggalKajian');
-
-            tanggalRef.on('value', (snapshot) => {
-                if (rentangTanggalKajianElem) rentangTanggalKajianElem.textContent = snapshot.exists() ? snapshot.val() : 'Jadwal Kajian Rutin';
-            });
-            
-            jadwalRef.on('value', (snapshot) => {
-                if(jadwalUstad1Container) jadwalUstad1Container.innerHTML = ''; if(jadwalUstad2Container) jadwalUstad2Container.innerHTML = ''; if(jadwalUstad3Container) jadwalUstad3Container.innerHTML = '';
-                if (snapshot.exists()) {
-                    snapshot.forEach((childSnapshot) => {
-                        const jadwal = childSnapshot.val();
-                        const itemHtml = `<li class="timeline-item"><div class="timeline-item-content"><span class="timeline-tag tag-dark">${jadwal.jenis}</span><span class="timeline-tag tag-red">${jadwal.waktu}</span><div><span class="timeline-tag tag-green">${jadwal.lokasi}</span></div></div></li>`;
-                        if (jadwal.ustadzId === 'ustad1' && jadwalUstad1Container) jadwalUstad1Container.innerHTML += itemHtml;
-                        else if (jadwal.ustadzId === 'ustad2' && jadwalUstad2Container) jadwalUstad2Container.innerHTML += itemHtml;
-                        else if (jadwal.ustadzId === 'ustad3' && jadwalUstad3Container) jadwalUstad3Container.innerHTML += itemHtml;
-                    });
-                } else {
-                    if (jadwalUstad1Container) jadwalUstad1Container.innerHTML = '<li style="color: white; list-style:none;">Belum ada jadwal.</li>';
-                    if (jadwalUstad2Container) jadwalUstad2Container.innerHTML = '<li style="color: white; list-style:none;">Belum ada jadwal.</li>';
-                    if (jadwalUstad3Container) jadwalUstad3Container.innerHTML = '<li style="color: white; list-style:none;">Belum ada jadwal.</li>';
-                }
-            });
-
-            pengumumanRef.orderByChild('timestamp').on('value', (snapshot) => {
-                if (!pengumumanContainer) return;
-                pengumumanContainer.innerHTML = '';
-                if (snapshot.exists()) {
-                    const items = []; snapshot.forEach(child => items.push(child.val()));
-                    items.reverse().forEach(pengumuman => {
-                        const itemHtml = `<li class="timeline-item"><div class="timeline-item-content" style="background-color: #f8f9fa; border: 1px solid #dee2e6;"><div class="pengumuman-content"><img src="${pengumuman.flyerUrl}" alt="Flyer ${pengumuman.judul}" class="pengumuman-flyer"><div class="pengumuman-details"><span class="timeline-tag tag-dark">${pengumuman.judul}</span><span class="timeline-tag tag-blue" style="color:white;">Pemateri: ${pengumuman.pemateri}</span><div><span class="timeline-tag tag-green">${pengumuman.waktu}</span></div><div><span class="timeline-tag tag-red">${pengumuman.lokasi}</span></div></div></div></div></li>`;
-                        pengumumanContainer.innerHTML += itemHtml;
-                    })
-                } else {
-                    pengumumanContainer.innerHTML = '<li style="list-style:none; color: #333;">Belum ada pengumuman.</li>';
-                }
-            });
-
-            articlesRef.orderByChild('timestamp').limitToLast(6).on('value', (snapshot) => {
-                if (!articlesContainer) return;
-                articlesContainer.innerHTML = '';
-                if (snapshot.exists()) {
-                    const articles = []; snapshot.forEach(child => { articles.push({ key: child.key, ...child.val() }); });
-                    articles.reverse().forEach(article => {
-                        const tempDiv = document.createElement('div'); tempDiv.innerHTML = article.content;
-                        const plainTextContent = tempDiv.textContent || tempDiv.innerText || "";
-                        const snippet = plainTextContent.substring(0, 100) + (plainTextContent.length > 100 ? '...' : '');
-                        const articleHtml = `<a href="artikel.html?id=${article.key}" class="article-grid-item">
-                                <div class="article-grid-content"><h3>${article.title}</h3><p style="color: black;" class="article-grid-snippet">${snippet}</p></div>
-                                <div class="article-grid-footer"><span class="read-more-link">Baca Selengkapnya &rarr;</span></div>
-                            </a>`;
-                        articlesContainer.innerHTML += articleHtml;
-                    });
-                } else {
-                    articlesContainer.innerHTML = '<p style="color:white; grid-column: 1 / -1;">Belum ada artikel yang dipublikasikan.</p>';
-                }
-            });
-            
+            tanggalRef.on('value', (snapshot) => { if (rentangTanggalKajianElem) rentangTanggalKajianElem.textContent = snapshot.exists() ? snapshot.val() : 'Jadwal Kajian Rutin'; });
+            jadwalRef.on('value', (snapshot) => { if(jadwalUstad1Container) jadwalUstad1Container.innerHTML = ''; if(jadwalUstad2Container) jadwalUstad2Container.innerHTML = ''; if(jadwalUstad3Container) jadwalUstad3Container.innerHTML = ''; if (snapshot.exists()) { snapshot.forEach((childSnapshot) => { const jadwal = childSnapshot.val(); const itemHtml = `<li class="timeline-item"><div class="timeline-item-content"><span class="timeline-tag tag-dark">${jadwal.jenis}</span><span class="timeline-tag tag-red">${jadwal.waktu}</span><div><span class="timeline-tag tag-green">${jadwal.lokasi}</span></div></div></li>`; if (jadwal.ustadzId === 'ustad1' && jadwalUstad1Container) jadwalUstad1Container.innerHTML += itemHtml; else if (jadwal.ustadzId === 'ustad2' && jadwalUstad2Container) jadwalUstad2Container.innerHTML += itemHtml; else if (jadwal.ustadzId === 'ustad3' && jadwalUstad3Container) jadwalUstad3Container.innerHTML += itemHtml; }); } else { if (jadwalUstad1Container) jadwalUstad1Container.innerHTML = '<li style="color: white; list-style:none;">Belum ada jadwal.</li>'; if (jadwalUstad2Container) jadwalUstad2Container.innerHTML = '<li style="color: white; list-style:none;">Belum ada jadwal.</li>'; if (jadwalUstad3Container) jadwalUstad3Container.innerHTML = '<li style="color: white; list-style:none;">Belum ada jadwal.</li>'; } });
+            pengumumanRef.orderByChild('timestamp').on('value', (snapshot) => { if (!pengumumanContainer) return; pengumumanContainer.innerHTML = ''; if (snapshot.exists()) { const items = []; snapshot.forEach(child => items.push(child.val())); items.reverse().forEach(pengumuman => { const itemHtml = `<li class="timeline-item"><div class="timeline-item-content" style="background-color: #f8f9fa; border: 1px solid #dee2e6;"><div class="pengumuman-content"><img src="${pengumuman.flyerUrl}" alt="Flyer ${pengumuman.judul}" class="pengumuman-flyer"><div class="pengumuman-details"><span class="timeline-tag tag-dark">${pengumuman.judul}</span><span class="timeline-tag tag-blue" style="color:white;">Pemateri: ${pengumuman.pemateri}</span><div><span class="timeline-tag tag-green">${pengumuman.waktu}</span></div><div><span class="timeline-tag tag-red">${pengumuman.lokasi}</span></div></div></div></div></li>`; pengumumanContainer.innerHTML += itemHtml; }) } else { pengumumanContainer.innerHTML = '<li style="list-style:none; color: #333;">Belum ada pengumuman.</li>'; } });
+            articlesRef.orderByChild('timestamp').limitToLast(6).on('value', (snapshot) => { if (!articlesContainer) return; articlesContainer.innerHTML = ''; if (snapshot.exists()) { const articles = []; snapshot.forEach(child => { articles.push({ key: child.key, ...child.val() }); }); articles.reverse().forEach(article => { const tempDiv = document.createElement('div'); tempDiv.innerHTML = article.content; const plainTextContent = tempDiv.textContent || tempDiv.innerText || ""; const snippet = plainTextContent.substring(0, 100) + (plainTextContent.length > 100 ? '...' : ''); const articleHtml = `<a href="artikel.html?id=${article.key}" class="article-grid-item"> <div class="article-grid-content"><h3>${article.title}</h3><p style="color: black;" class="article-grid-snippet">${snippet}</p></div> <div class="article-grid-footer"><span class="read-more-link">Baca Selengkapnya &rarr;</span></div> </a>`; articlesContainer.innerHTML += articleHtml; }); } else { articlesContainer.innerHTML = '<p style="color:white; grid-column: 1 / -1;">Belum ada artikel yang dipublikasikan.</p>'; } });
             const askBtn = document.getElementById('ask-question-btn');
             const modal = document.getElementById('questionModal');
             const closeBtn = document.getElementById('modalCloseBtn');
             const questionForm = document.getElementById('questionForm');
             const questionsRef = db.ref('pertanyaanMasuk');
-
             if(askBtn) askBtn.addEventListener('click', () => modal.classList.add('visible'));
             const closeModal = () => { if(modal) modal.classList.remove('visible'); }
             if(closeBtn) closeBtn.addEventListener('click', closeModal);
             if(modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-
-            if(questionForm) questionForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const name = document.getElementById('questionName').value.trim();
-                const question = document.getElementById('questionText').value.trim();
-                if (!name || !question) return alert('Nama dan Pertanyaan harus diisi.');
-                
-                const submitButton = questionForm.querySelector('button[type="submit"]');
-                submitButton.disabled = true; submitButton.textContent = 'Mengirim...';
-
-                questionsRef.push({ nama: name, pertanyaan: question, timestamp: Date.now(), status: 'baru' })
-                    .then(() => {
-                        alert('Pertanyaan Anda telah berhasil terkirim. Syukron!');
-                        questionForm.reset(); closeModal();
-                    })
-                    .catch((error) => alert('Maaf, terjadi kesalahan. Silakan coba lagi.'))
-                    .finally(() => { 
-                        submitButton.disabled = false; submitButton.textContent = 'Kirim Pertanyaan';
-                    });
-            });
+            if(questionForm) questionForm.addEventListener('submit', (e) => { e.preventDefault(); const name = document.getElementById('questionName').value.trim(); const question = document.getElementById('questionText').value.trim(); if (!name || !question) return alert('Nama dan Pertanyaan harus diisi.'); const submitButton = questionForm.querySelector('button[type="submit"]'); submitButton.disabled = true; submitButton.textContent = 'Mengirim...'; questionsRef.push({ nama: name, pertanyaan: question, timestamp: Date.now(), status: 'baru' }) .then(() => { alert('Pertanyaan Anda telah berhasil terkirim. Syukron!'); questionForm.reset(); closeModal(); }) .catch((error) => alert('Maaf, terjadi kesalahan. Silakan coba lagi.')) .finally(() => {  submitButton.disabled = false; submitButton.textContent = 'Kirim Pertanyaan'; }); });
         });
     </script>
 </body>
