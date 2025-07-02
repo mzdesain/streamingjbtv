@@ -30,6 +30,24 @@
         .live-streaming-wrapper { text-align: center; }
         .video-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #000; }
         .video-container iframe, .video-container video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        
+        .video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* Ini untuk rasio 16:9, standar video */
+  height: 0;
+  overflow: hidden;
+  background-color: #000;
+}
+
+/* Aturan ini akan bekerja karena ada kelas vjs-fill di tag video */
+.video-container .video-js {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
         .news-ticker { display: flex; align-items: center; background-color: #114ed7; color: white; padding: 5px 10px; border-radius: 4px; margin: 25px auto; overflow: hidden; }
         .news-ticker:hover .streaming-info { animation-play-state: paused; }
         .ticker-prefix { flex-shrink: 0; display: flex; align-items: center; padding-right: 10px; margin-right: 10px; border-right: 1px solid rgba(255, 255, 255, 0.4); }
@@ -113,14 +131,10 @@
                     <iframe id="facebook-live-iframe" src="" frameborder="0" allowfullscreen></iframe>
                 </div>
 
-                <div id="iptv-player-wrapper" class="video-container" style="display: none;">
-                    <video id="iptv-player" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="100%" height="100%" data-setup="{}">
-                        <p class="vjs-no-js">
-                            Untuk melihat video ini, tolong aktifkan JavaScript, dan pertimbangkan untuk upgrade ke web browser yang
-                            <a href="https://videojs.com/html5-video-support/" target="_blank">mendukung HTML5 video</a>
-                        </p>
-                    </video>
-                </div>
+                <div id="iptv-player-wrapper" class="video-container">
+    <video id="iptv-player" class="video-js vjs-default-skin vjs-big-play-centered vjs-fill" controls preload="auto">
+    </video>
+</div>
                 
                 <div class="post-actions" style="display: none;">
                     <button class="action-btn" id="viewersBtn" title="Sedang menonton"><i class="fa-solid fa-eye"></i> <span id="viewersCount">0</span></button>
@@ -355,6 +369,7 @@
             if(closeBtn) closeBtn.addEventListener('click', closeModal);
             if(modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
             if(questionForm) questionForm.addEventListener('submit', (e) => { e.preventDefault(); const name = document.getElementById('questionName').value.trim(); const question = document.getElementById('questionText').value.trim(); if (!name || !question) return alert('Nama dan Pertanyaan harus diisi.'); const submitButton = questionForm.querySelector('button[type="submit"]'); submitButton.disabled = true; submitButton.textContent = 'Mengirim...'; questionsRef.push({ nama: name, pertanyaan: question, timestamp: Date.now(), status: 'baru' }) .then(() => { alert('Pertanyaan Anda telah berhasil terkirim. Syukron!'); questionForm.reset(); closeModal(); }) .catch((error) => alert('Maaf, terjadi kesalahan. Silakan coba lagi.')) .finally(() => {  submitButton.disabled = false; submitButton.textContent = 'Kirim Pertanyaan'; }); });
+            
         });
     </script>
 </body>
