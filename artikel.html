@@ -20,28 +20,40 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
     <style>
-        /* --- Variabel Warna & Gaya Dasar Body --- */
+        /* === [DESAIN BARU] Palet Warna Biru Islami & Font === */
+        @import url('https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Nunito+Sans:wght@400;600&display=swap');
+
         :root {
-            --color-bg-white: #ffffff;
-            --color-bg-grey: #f7f7f7;
-            --color-text: #333;
-            --color-primary: #007bff;
-            --color-dark: #343a40;
+            /* Palet Warna Biru Islami Baru */
+            --color-primary: #0D47A1;      /* Biru Nila (Indigo) - Teduh dan Dalam */
+            --color-primary-light: #1565C0;/* Varian Biru lebih terang */
+            --color-accent: #C5B358;       /* Emas lembut sebagai aksen */
+            --color-bg-white: #FDFDFB;     /* Latar belakang putih hangat (off-white) */
+            --color-bg-grey: #f5f5f5;      /* Latar belakang abu-abu sangat terang */
+            --color-text: #333333;         /* Warna teks asli */
+            --color-dark: #263238;         /* Warna gelap (abu-abu tua kebiruan) */
+            --color-green: #28a745;        
+            --color-red: #dc3545;          
+
+            /* Font Baru */
+            --font-heading: 'Lora', serif;
+            --font-body: 'Nunito Sans', sans-serif;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            font-family: var(--font-body);
             margin: 0;
             padding: 0;
             background-color: var(--color-bg-grey);
             color: var(--color-text);
         }
 
-        /* --- Layout & Konten Artikel --- */
+        /* --- Layout & Konten Artikel (Ukuran dan Spasi Tetap Sama) --- */
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 40px 20px;
+            background-color: var(--color-bg-white); /* Memberi latar pada container agar kontras */
         }
 
         .article-header {
@@ -51,8 +63,9 @@
         }
 
         #article-title {
+            font-family: var(--font-heading); /* Font Judul Baru */
             font-size: 2em;
-            color: #114ed7;
+            color: var(--color-primary); /* Warna Biru Baru */
             margin: 0;
         }
 
@@ -65,21 +78,19 @@
         #article-content {
             font-size: 1.1em;
             line-height: 1.8;
-            /* [DIHAPUS] white-space: pre-wrap; tidak lagi diperlukan karena format berasal dari tag HTML */
             word-wrap: break-word;
-            color: #333;
+            color: var(--color-text);
         }
         
-        /* [BARU] Gaya untuk konten yang diformat dari editor */
         #article-content p, 
         #article-content div {
-            margin-bottom: 1em; /* Memberi jarak antar paragraf/div */
+            margin-bottom: 1em; 
         }
 
         .back-link {
             display: inline-block;
             margin-bottom: 30px;
-            color: var(--color-primary);
+            color: var(--color-primary-light); /* Warna Biru Baru */
             text-decoration: none;
             font-weight: 500;
         }
@@ -90,7 +101,7 @@
 
         /* --- Gaya untuk Tombol Share --- */
         .share-container { margin-top: 40px; padding-top: 20px; border-top: 2px solid #eee; }
-        .share-container h3 { margin: 0 0 15px 0; font-size: 1.2em; color: #333; }
+        .share-container h3 { font-family:var(--font-heading); margin: 0 0 15px 0; font-size: 1.2em; color: var(--color-text); }
         .share-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
         .share-btn, .native-share-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 15px; border-radius: 5px; color: white; text-decoration: none; font-size: 0.9em; font-weight: 500; border: none; cursor: pointer; transition: opacity 0.3s; }
         .share-btn:hover, .native-share-btn:hover { opacity: 0.85; }
@@ -100,7 +111,7 @@
         .share-btn.twitter { background-color: #1DA1F2; }
         .share-btn.telegram { background-color: #2AABEE; }
         .share-btn.copy-link { background-color: #6c757d; }
-        .native-share-btn { background-color: #007bff; }
+        .native-share-btn { background-color: var(--color-primary); } /* Warna Biru Baru */
         
         /* --- Gaya Footer --- */
         footer {
@@ -175,8 +186,8 @@
                     }
                 });
             } else {
-                 titleEl.textContent = 'Kesalahan';
-                 contentEl.innerHTML = '<p>Tidak ada ID artikel yang diberikan. Silakan kembali ke halaman utama dan pilih artikel.</p>';
+               titleEl.textContent = 'Kesalahan';
+               contentEl.innerHTML = '<p>Tidak ada ID artikel yang diberikan. Silakan kembali ke halaman utama dan pilih artikel.</p>';
             }
 
             // --- Fungsi-fungsi Pembantu ---
@@ -184,7 +195,6 @@
             // Fungsi untuk mengisi konten utama di body
             function updatePageContent(article) {
                 titleEl.textContent = article.title;
-                // [DIUBAH] Gunakan .innerHTML agar tag HTML (bold, italic, dll.) dirender oleh browser
                 contentEl.innerHTML = article.content; 
                 
                 const date = new Date(article.timestamp);
@@ -196,9 +206,6 @@
 
             // Fungsi untuk memperbarui meta tags di <head>
             function updateMetaTags(article) {
-                // [DIUBAH] Buat snippet deskripsi dengan cara yang lebih aman:
-                // 1. Hapus dulu semua tag HTML dari konten.
-                // 2. Ambil 150 karakter pertama dari teks bersih tersebut.
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = article.content;
                 const plainTextContent = tempDiv.textContent || tempDiv.innerText || "";
